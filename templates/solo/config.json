@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "language": "zh-CN",
+  "sourceOfTruth": "solo/",
+  "managedBlocks": {
+    "agents": false,
+    "readme": false,
+    "changelog": false
+  },
+  "externalEnhancements": {
+    "enabled": false,
+    "allowReviewer": true,
+    "allowAdvisor": true,
+    "allowGenerator": true
+  },
+  "project": {
+    "type": "unknown",
+    "hasUI": null,
+    "techStack": []
+  }
+}
