@@ -35,13 +35,7 @@ SoloSpec 不硬依赖 BMAD、Spec Kit、OpenSpec、Superpowers、gstack、taste 
 
 这些顶级 Skill 的方法论可被吸收为内部专家模块，但最终流程、目录、章节、门禁、写入规则由 SoloSpec 统一控制。
 
-外部 Skill 未来可以作为 Reviewer、Advisor 或 Generator，但不能绕过 SoloSpec 写入规则。
-
-- Reviewer：只输出审查意见。
-- Advisor：只输出方案建议。
-- Generator：可生成设计稿、线稿、截图、代码片段等原始产物。
-
-Generator 产生的文件必须交给 SoloSpec artifact-writer 接收、改名、登记并放入 `solo/` 对应目录。外部 Skill 不得自行决定目录、章节或事实源。
+外部 Skill 未来可以作为 Reviewer、Advisor 或 Generator，但不能绕过 SoloSpec 写入规则。具体边界见 `docs/03-skill-execution-rules.md` 和 `docs/04-template-contract.md`。
 
 ### 3.4 先确认，后推进
 
@@ -88,9 +82,12 @@ SoloSpec 自动路由到四类分支：
 
 不同分支会裁剪阶段，但核心阶段如下：
 
+新项目的前置阶段写 `project/`，只沉淀已确认项目结论；功能迭代和 Bug 修复从 `specs/NNN-*` 开始。只有进入 SDD/TDD 后，新项目 MVP、功能迭代和 Bug 修复才使用统一的 `specs/` 文档结构。
+
 调研不是一次性前置做完，而是嵌入各阶段的“够用核实”：
 
-- brainstorm 阶段调研用户、痛点、替代方案和竞品方向。
+- brainstorm 阶段先发散多个候选方案；如果方案依赖外部事实，再调研用户、痛点、替代方案和竞品方向。
+- scope 阶段把用户采纳的方向收敛为目标、范围、非目标和成功标准。
 - ux 阶段调研交互模式、信息架构、视觉参考和可用性风险。
 - architecture 阶段调研框架、SDK、API、版本、部署和兼容性。
 - implementation 阶段只补局部实现不确定性，不重新做大范围方案调研。
@@ -100,7 +97,8 @@ SoloSpec 自动路由到四类分支：
 | 阶段 | 产物 | 是否硬门禁 |
 |---|---|---|
 | intake | 意图复述、假设、分支判断 | 是 |
-| brainstorm | 用户、场景、痛点、替代方案、反例 | 是 |
+| brainstorm | 问题重述、发散问题、候选方案池、可组合点、不建议方向 | 是 |
+| scope | 用户采纳方案、目标、范围、非目标、成功标准 | 是 |
 | staged-research | 当前阶段所需调研、事实核实、来源 | 是 |
 | prd | 目标、范围、非目标、成功指标 | 是 |
 | ux | 用户流、信息架构、线稿或高保真策略 | 有 UI 时是 |
@@ -118,7 +116,7 @@ SoloSpec 将顶级 Skill 的强项吸收为内部专家模块。
 
 | 模块 | 借鉴来源 | 职责 |
 |---|---|---|
-| founder-review | BMAD、gstack office-hours | 挑战想法、验证痛点、收敛 MVP |
+| founder-review | BMAD、gstack office-hours | 发散候选方案、挑战想法、验证痛点、收敛 MVP |
 | staged-research | BMAD、anysearch/firecrawl 思路 | 按阶段调研用户、竞品、设计、技术和最佳实践 |
 | prd | BMAD | 需求、边界、成功指标 |
 | ux-design | taste、gstack design-review | 用户流、线稿、高保真、状态清单、反 AI 味 |
@@ -128,7 +126,7 @@ SoloSpec 将顶级 Skill 的强项吸收为内部专家模块。
 | qa | gstack QA | 真实浏览器/API 验证、截图和日志证据 |
 | archive | piao-workflow、OpenSpec | 归档、踩坑、发布记录、状态恢复 |
 
-专家模块只能产出结构化建议，最终写入由 SoloSpec 的 artifact-writer 统一完成。
+专家模块只能产出结构化结果或待登记资产，最终写入由 SoloSpec 的 artifact-writer 统一完成。
 
 ## 7. 成功标准
 

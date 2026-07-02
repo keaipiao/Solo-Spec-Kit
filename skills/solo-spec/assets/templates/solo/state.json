@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "branch": "new-project",
+  "currentSpec": null,
+  "currentStage": "intake",
+  "gate": {
+    "status": "waiting_user",
+    "requires": "确认分支和目标"
+  },
+  "lastAction": {
+    "summary": "",
+    "artifacts": []
+  },
+  "updatedAt": "YYYY-MM-DDTHH:mm:ss+08:00"
+}

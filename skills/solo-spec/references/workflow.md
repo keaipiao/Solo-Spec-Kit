@@ -1,0 +1,130 @@
+# SoloSpec Workflow
+
+## New Project
+
+```text
+intake
+→ brainstorm
+→ scope
+→ prd
+→ ux
+→ architecture
+→ create-mvp-spec
+→ spec
+→ design
+→ plan
+→ tdd-plan
+→ implementation
+→ qa
+→ ship/archive
+```
+
+Rules:
+
+- `brainstorm` produces options in the conversation and writes no process file for new projects.
+- `scope` writes `solo/project/brief.md`.
+- `prd` writes `solo/project/prd.md`.
+- `ux` writes `solo/project/ux.md` and `solo/project/design-system.md`.
+- `architecture` writes `solo/project/architecture.md` and ADRs when needed.
+- `create-mvp-spec` creates `solo/specs/001-mvp/` and asset subdirectories.
+- `spec` writes `solo/specs/001-mvp/spec.md`.
+- `design` writes `solo/specs/001-mvp/design.md`.
+- `plan` writes `solo/specs/001-mvp/plan.md`.
+- `project/` stores confirmed project conclusions only; it does not store brainstorm process records.
+- `implementation` may create a minimal app scaffold when none exists, but only within the adopted architecture and current plan.
+- `qa` writes execution records, screenshots/logs, discovered bugs, fixes, and regression evidence.
+- `ship/archive` writes `archive.md` and updates project `release.md`, `quality.md`, or `pitfalls.md` only when the completed MVP changes those baselines.
+
+## Iteration
+
+```text
+intake
+→ read-context
+→ brainstorm
+→ scope
+→ spec
+→ design
+→ architecture
+→ tdd-plan
+→ implementation
+→ qa
+→ archive
+```
+
+Rules:
+
+- Read `solo/project/`, `solo/state.json`, relevant `solo/specs/*`, and relevant code before writing.
+- Create `solo/specs/NNN-kebab-case-name/`.
+- `brainstorm` writes `brainstorm.md`.
+- `scope` writes `proposal.md`.
+- `spec` writes `spec.md`.
+- `design` writes `design.md` and iteration assets when UI exists.
+- `architecture` writes `plan.md` and ADRs when needed.
+- `tdd-plan` writes `tasks.md` and test plan content in `qa.md`.
+- `implementation` follows `tasks.md`, records actual commands and changed files, and can create only the minimal missing scaffold required by the plan.
+- `qa` verifies real behavior, records evidence in `qa.md`, and closes bugs in the current spec before archive.
+
+## Bugfix
+
+```text
+intake
+→ reproduce
+→ root-cause
+→ regression-test
+→ fix
+→ verify
+→ archive
+```
+
+Rules:
+
+- No reproduction, no fix.
+- No root cause, no fix.
+- Write or identify a regression test before implementation.
+- Current-iteration bugs update current `qa.md`, `tasks.md`, and `archive.md`.
+- New-session bugs first try to attach to a related iteration.
+- If the bug cannot be attached or spans multiple iterations, create `solo/specs/NNN-bugfix-title/`.
+
+## Implementation And QA Rules
+
+- Do not skip tests in implementation. If no test tool exists, create the smallest test runner compatible with the accepted architecture.
+- For time-dependent behavior, use controllable time or explicit state-advance functions in tests; use real waiting only as supplemental QA.
+- QA-discovered bugs stay in the current spec: update `qa.md`, add regression coverage, fix minimally, rerun tests, then update `tasks.md`.
+- Archive promotes only reusable lessons or changed baselines to `project/pitfalls.md`, `project/quality.md`, or `project/release.md`.
+
+## Adopt Existing
+
+```text
+intake
+→ inventory
+→ classify
+→ create-solo
+→ summarize-project
+→ propose-adoption-plan
+→ user-confirm
+→ write-managed-blocks
+```
+
+Rules:
+
+- Default to read-only inspection of existing code and docs.
+- Do not move, rename, format, or refactor existing business files.
+- Generate `solo/project/brief.md`, `architecture.md`, `quality.md`, and `pitfalls.md`.
+- Write managed blocks to external files only after user confirmation.
+
+## Gates
+
+Hard gates:
+
+- branch confirmation
+- brainstorm options and user selection
+- scope boundary
+- PRD range
+- UI direction when UI exists
+- architecture and external dependency decisions
+- executable spec
+- TDD task plan
+- QA result
+- release/archive
+
+Only explicit approval passes a gate.

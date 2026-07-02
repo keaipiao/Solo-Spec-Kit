@@ -21,7 +21,6 @@ SoloSpec 的最终分发形态是接入用户已有或新建项目。
 │   ├── config.json
 │   ├── project/
 │   │   ├── brief.md
-│   │   ├── research.md
 │   │   ├── prd.md
 │   │   ├── ux.md
 │   │   ├── design-system.md
@@ -35,7 +34,8 @@ SoloSpec 的最终分发形态是接入用户已有或新建项目。
 │   │       └── global-mockups/
 │   ├── specs/
 │   │   └── 001-iteration-name/
-│   │       ├── proposal.md
+│   │       ├── brainstorm.md  # 仅迭代前置阶段按需生成
+│   │       ├── proposal.md    # 仅迭代收敛阶段按需生成
 │   │       ├── spec.md
 │   │       ├── design.md
 │   │       ├── plan.md
@@ -59,42 +59,19 @@ SoloSpec 的最终分发形态是接入用户已有或新建项目。
 
 ## 3. 事实源规则
 
-### 3.1 `solo/` 是完整事实源
+`solo/` 是完整事实源。外部文件只允许写托管块或摘要索引，不能成为唯一事实源。
 
-所有完整规格、阶段产物、设计稿索引、QA 证据、踩坑、ADR，都必须写入 `solo/`。
-
-外部文件只能写摘要或托管入口，不能成为唯一事实源。
-
-### 3.2 外部托管块只做桥接
-
-SoloSpec 可在以下文件写入托管块：
-
-```text
-AGENTS.md / CLAUDE.md
-README.md
-CHANGELOG.md
-docs/ 中用户指定的索引文件
-```
-
-托管块必须使用明确边界：
-
-```md
-<!-- solo-spec:start -->
-本项目使用 SoloSpec 流程，完整事实源见 `solo/`。
-继续流程前读取 `solo/state.json`。
-<!-- solo-spec:end -->
-```
-
-卸载时删除托管块和 `solo/` 即可。
+托管块模板和卸载规则见 `docs/04-template-contract.md`。
 
 ## 4. 项目级文档
 
 项目级文档位于 `solo/project/`，描述所有功能共享的长期事实。
 
+调研不是项目级固定文档。每个阶段需要调研时，只把已确认结论写入当前阶段文档：产品方向写入 `brief.md` 或 `prd.md`，UX / 视觉依据写入 `ux.md` 或 `design-system.md`，技术事实写入 `architecture.md` 或 ADR。
+
 | 文件 | 内容 |
 |---|---|
-| brief.md | 项目一句话、目标用户、核心场景、约束 |
-| research.md | 已确认的阶段化调研结论：用户痛点、竞品、市场、设计、技术 |
+| brief.md | 项目一句话、目标用户、核心场景、初步依据、约束 |
 | prd.md | 产品需求、MVP、范围、非目标、成功指标 |
 | ux.md | 全局用户流、信息架构、全局页面地图 |
 | design-system.md | 设计语言、颜色、字体、组件、文案规则 |
@@ -105,20 +82,25 @@ docs/ 中用户指定的索引文件
 
 纯后端或 CLI 项目可在 `ux.md`、`design-system.md` 中写“不适用”，不删除文件。
 
-## 5. 迭代级规格
+## 5. 规格目录
 
-每次迭代、变更或里程碑对应一个 `solo/specs/NNN-iteration-name/`。
+每次迭代、变更、Bug 修复或 MVP 里程碑对应一个 `solo/specs/NNN-name/`。目录先创建 `assets/`，Markdown 按流程阶段逐步生成，不在一开始复制完整模板。
+
+新项目的 `specs/001-mvp/` 在项目级 `architecture` 通过后创建，直接从 SDD/TDD 文件开始，不生成 `brainstorm.md` 和 `proposal.md`。新项目的发散过程不落盘，只把确认后的结论写入 `solo/project/`。
+
+功能迭代可以保留自己的不确定内容、取舍过程和用户选择，因为这些内容只影响该迭代，不会成为项目级长期事实。
 
 | 文件 | 内容 |
 |---|---|
-| proposal.md | 为什么做，解决谁的什么问题，价值和机会 |
+| brainstorm.md | 功能迭代的发散方案池、取舍、用户采纳记录；新项目 MVP 不生成 |
+| proposal.md | 功能迭代收敛后的提案：为什么做、做什么、不做什么、价值和边界；新项目 MVP 不生成 |
 | spec.md | 做什么，用户故事、场景、验收标准、非目标 |
 | design.md | UX/UI、状态规划、数据流、交互、边界 |
 | plan.md | 技术实现方案、影响文件、风险、回滚边界 |
 | tasks.md | TDD 任务，红灯测试、最小实现、验证命令 |
-| qa.md | 测试计划和结果、浏览器/API 验证、截图证据 |
+| qa.md | 测试计划、QA 执行记录、浏览器/API 验证、截图证据 |
 | archive.md | 完成摘要、变更、遗留问题、后续建议 |
-| assets/ | 该功能专属线稿、高保真、截图、参考资料 |
+| assets/ | 该迭代专属线稿、高保真、截图、参考资料 |
 
 ## 6. 资产放置规则
 
@@ -141,14 +123,14 @@ docs/ 中用户指定的索引文件
 
 - 某次迭代新增或修改页面的 SVG 线稿。
 - 某次迭代新增或修改页面的 HTML 高保真稿。
-- 某个功能的移动端/桌面端截图证据。
-- 某个功能专用竞品截图和资料。
+- 某次迭代的移动端/桌面端截图证据。
+- 某次迭代专用竞品截图和资料。
 
-功能完成后，如果沉淀出全局组件、token 或文案规则，再同步到 `solo/project/design-system.md`。
+迭代完成后，如果沉淀出全局组件、token 或文案规则，在归档阶段更新 `solo/project/design-system.md`。
 
 ## 7. 命名规范
 
-### 7.1 功能目录
+### 7.1 迭代目录
 
 格式：
 

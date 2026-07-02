@@ -1,0 +1,4 @@
+interface:
+  display_name: "SoloSpec"
+  short_description: "中文独立开发者的 AI 编程规格化与 TDD 门禁工作流"
+  default_prompt: "Use $solo-spec to turn my idea into gated SoloSpec documents, specs, TDD tasks, and QA evidence."

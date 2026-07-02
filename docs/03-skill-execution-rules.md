@@ -73,7 +73,9 @@ solo/state.json
 solo/config.json
 ```
 
-外部 Skill、专家模块、评审模块只能输出建议，不得直接写文件。
+外部 Skill、专家模块、评审模块不得直接写文件。若生成设计稿、截图、代码片段等原始产物，必须交给 artifact-writer 接收后落入 `solo/`。
+
+不要在 intake 阶段复制整棵模板树。先创建目录和状态文件，进入哪个阶段才实例化对应 Markdown 模板，避免未确认的占位内容污染事实源。
 
 ## 6. 外部增强规则
 
@@ -93,13 +95,14 @@ solo/config.json
 | Advisor | 给出方案、取舍、风险建议 | 绕过 SoloSpec 阶段门禁 |
 | Generator | 生成线稿、HTML 高保真、截图、代码片段等原始产物 | 自行决定目录、章节、文件命名、事实源 |
 
-例如 taste 生成的页面稿可以作为 Generator 产物，但必须由 SoloSpec 接收后写入：
+例如 taste 生成的页面稿可以作为 Generator 产物，但必须由 SoloSpec 接收后按阶段写入：
 
 ```text
+solo/project/assets/global-mockups/
 solo/specs/NNN-iteration-name/assets/mockups/
 ```
 
-并在该迭代的 `design.md` 中登记路径、适用页面、状态覆盖和验收标准。
+项目级设计基调、全局视觉参考登记到 `project/design-system.md`；具体页面或组件稿登记到当前规格的 `design.md`，写清路径、适用页面、状态覆盖和验收标准。
 
 如果外部增强和 SoloSpec 规则冲突，SoloSpec 规则优先。
 
@@ -108,34 +111,45 @@ solo/specs/NNN-iteration-name/assets/mockups/
 ```text
 intake
 → brainstorm
-→ product-research
+→ scope
 → prd
 → ux
 → architecture
+→ create-mvp-spec
 → spec
+→ design
+→ plan
 → tdd-plan
 → implementation
 → qa
 → ship/archive
 ```
 
-新项目先写项目级文档，再生成第一个 MVP spec。
+新项目先建立项目级结论文档，再进入统一 SDD/TDD 包。项目级文档只沉淀确认后的结论，不保留 brainstorm 过程、未采纳方案或临时不确定项。
 
 默认创建：
 
 ```text
 solo/project/
-solo/specs/001-mvp/
 solo/state.json
 solo/config.json
 ```
+
+`solo/specs/001-mvp/` 在项目级 `architecture` 通过后创建。进入 `specs/001-mvp/` 后，`spec.md`、`design.md`、`plan.md`、`tasks.md`、`qa.md`、`archive.md` 使用和迭代相同的 SDD/TDD 模板。
+
+调研不是独立前置阶段。`brainstorm` 只做产品方向所需的轻量调研判断；UX、架构、实现阶段如果依赖外部事实，再按 `docs/05-state-machine.md` 的调研触发规则执行阶段化调研。
+
+`brainstorm` 必须给出多个可选方向，等待用户选择、组合或否定；新项目不保存 brainstorm 过程文档。用户确认方向后，产品依据和边界在 `scope` 阶段沉淀到 `project/brief.md`，不要创建独立调研文档。
+
+架构阶段必须按需求自动扩展技术层，不得被模板默认行限制。PRD、UX 或用户约束触发后端、鉴权、权限、数据库、缓存、队列、搜索、AI、外部 API、可观测性或安全审计时，必须主动加入对应层并说明技术选择；未触发的可选层不要为了“完整”写进技术栈表。触发判断是内部检查清单，不写入用户项目的 `architecture.md`。
 
 ## 8. 迭代流程
 
 ```text
 intake
 → read-context
-→ iteration-scope
+→ brainstorm
+→ scope
 → spec
 → design
 → architecture
@@ -153,6 +167,8 @@ intake
 - 用户项目中相关代码和文档
 
 再创建新的 `solo/specs/NNN-iteration-name/`。
+
+迭代的 `brainstorm` 用来发散本次改动的多种方案，写入 `brainstorm.md`。`scope` 用来确认采纳方案、范围、非目标和验收边界，写入 `proposal.md`，不重写项目级 PRD。
 
 ## 9. Bug 修复流程
 
@@ -175,7 +191,9 @@ intake
 - 没有复现，不修。
 - 没有根因，不修。
 - 修复前先写或明确回归测试。
-- 修复后更新对应 spec 的 `qa.md` 或创建 `solo/specs/NNN-bugfix-title/`。
+- 当前迭代执行中发现的 Bug，更新当前迭代的 `qa.md`、`tasks.md`、`archive.md`。
+- 新会话中提出的 Bug，先归属到相关迭代；能归属则追加修复记录，不能归属才创建 `solo/specs/NNN-bugfix-title/`。
+- 已归档迭代只追加 Bug 修复记录和新验证证据，不改写原归档结论。
 
 ## 10. 老项目接入流程
 
@@ -219,7 +237,36 @@ solo/config.json
 
 禁止只写“补测试”“实现接口”“完善页面”这类不可执行任务。
 
-## 12. UI/UX 规则
+如果当前项目没有可运行脚手架，implementation 阶段可以创建满足 `plan.md` 的最小工程，但必须遵守：
+
+- 只创建当前规格需要的最小运行环境。
+- 不为了演示引入未被架构采纳的框架或依赖。
+- 新增运行命令、测试命令和入口文件必须写回 `tasks.md` 完成记录。
+- 无外部依赖也能满足需求时，优先无依赖实现。
+
+计时、轮询、进度、重试、过期、排队等时间相关行为，必须抽成可控时间或状态推进函数测试，不只依赖真实等待或人工浏览器观察。
+
+## 12. QA 规则
+
+QA 阶段必须真实验证，不只复述计划。
+
+必须写入当前规格 `qa.md`：
+
+- 自动化测试命令和结果。
+- 浏览器 / API QA 场景、证据和截图路径。
+- QA 发现并修复的问题、根因、修复范围、回归测试。
+- 未验证项和原因。
+
+QA 发现 Bug 时，不切换到新分支。先在当前规格内处理：
+
+1. 在 `qa.md` 记录问题、根因和证据。
+2. 在 `tasks.md` 追加或更新对应完成记录。
+3. 补回归测试，再做最小修复。
+4. 重新执行相关测试和必要浏览器 / API QA。
+
+如果 Bug 暴露出跨迭代复用的坑，archive 阶段再晋升到 `project/pitfalls.md`。
+
+## 13. UI/UX 规则
 
 涉及 UI 时，`design.md` 必须包含：
 
@@ -232,7 +279,7 @@ solo/config.json
 
 迭代新增或修改页面的线稿和高保真稿必须放在该迭代的 `assets/` 下。
 
-## 13. 恢复会话
+## 14. 恢复会话
 
 用户输入：
 
@@ -248,7 +295,7 @@ solo/config.json
 4. 如果正在等待用户确认，重新展示需要确认的内容。
 5. 不自动跨过门禁。
 
-## 14. 完成标准
+## 15. 完成标准
 
 SoloSpec 不能用“应该好了”作为完成依据。
 
