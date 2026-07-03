@@ -62,7 +62,7 @@
 
 - 把“等待确认 / 等待用户选择”改成“已确认”。
 - 保留被确认的范围、方案、文案、技术方案或 QA 结果。
-- 同步更新 `solo/state.json`：`gate.status` 改为 `passed`，`gate.requires` 改为 `none` 或下一阶段 ASCII 门禁短码。
+- 同步更新 `solo/state.json`：`gate.status` 改为 `passed`，`gate.requires` 改为 `none` 或下一阶段 ASCII 门禁短码；如果已经没有下一门禁，必须写 `none`，不得保留刚通过的门禁短码。
 - 进入下一阶段前先完成这次回写，避免已归档文档仍显示旧门禁状态。
 
 ## 5. 文件写入规则

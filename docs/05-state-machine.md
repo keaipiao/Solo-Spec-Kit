@@ -33,6 +33,7 @@
 - 每次更新后立即解析验证；失败时停在当前阶段修复状态文件。
 - 长说明写入对应 Markdown 产物，`state.json` 只放短摘要和产物路径。
 - `gate.requires` 优先使用 ASCII 短码；中文门禁说明写在当前阶段 Markdown 和阶段完成消息中。
+- 当 `gate.status` 为 `passed` 且没有下一门禁时，`gate.requires` 必须是 `none`。
 
 ## 3. 全局状态转换规则
 

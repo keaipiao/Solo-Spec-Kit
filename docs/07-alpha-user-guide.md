@@ -73,7 +73,7 @@ SoloSpec 只使用四个顶层分支：
 
 侧聊、解释问题、补充背景不算确认。单独发起 `/solo 继续` 是恢复命令，不等同于通过当前门禁。
 
-门禁通过后，SoloSpec 必须先把刚确认的文档从“等待确认”改为“已确认”，并更新 `solo/state.json`，再进入下一阶段。
+门禁通过后，SoloSpec 必须先把刚确认的文档从“等待确认”改为“已确认”，并更新 `solo/state.json`，再进入下一阶段。若流程已经结束，`solo/state.json` 中的 `gate.requires` 应为 `none`。
 
 ## 6. 继续
 

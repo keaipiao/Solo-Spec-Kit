@@ -127,6 +127,7 @@ State write rules:
 - Do not hand-build JSON strings or paste unescaped user-facing text into JSON.
 - Keep long user-facing explanations in Markdown artifacts; `state.json` should store short process summaries and artifact paths.
 - Prefer ASCII slugs for `gate.requires` such as `confirm_branch_and_goal`, `confirm_architecture`, or `confirm_qa_result`; put the Chinese explanation in the stage artifact and completion message.
+- When `gate.status` is `passed` and no next gate exists, `gate.requires` must be `none`.
 - After every update, parse `solo/state.json` successfully before completing the stage.
 - If state validation fails, fix `state.json` immediately and do not advance the workflow.
 

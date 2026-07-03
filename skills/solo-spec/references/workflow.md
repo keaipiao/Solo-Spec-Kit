@@ -135,4 +135,5 @@ After approval, update the approved stage artifact before moving on:
 - Replace waiting language with confirmed language.
 - Preserve the confirmed scope, option, copy, architecture decision, task plan, or QA result.
 - Update `solo/state.json.gate.status` to `passed` or the next active gate.
+- If the workflow has no next gate, set `solo/state.json.gate.requires` to `none`; do not keep the completed gate slug.
 - Do not leave completed artifacts saying they are still waiting for user confirmation.
