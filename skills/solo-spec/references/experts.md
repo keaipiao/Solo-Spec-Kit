@@ -2,6 +2,22 @@
 
 Use these as internal thinking modes. They do not write files directly.
 
+Current status: v0.2 is contract-only. Do not call expert roles automatically from the base `/solo` workflow. Load this reference only when the user explicitly asks to evaluate expert roles, adapt an external skill output, or improve output quality beyond the base flow.
+
+Expert output must be converted by the main SoloSpec flow before writing:
+
+- Reviewer: critique an existing SoloSpec artifact and propose gate findings.
+- Advisor: suggest options, risks, tradeoffs, or section content for the current stage.
+- Generator: produce raw assets such as mockups, screenshots, logs, or test evidence.
+
+Discard any expert or external-skill output that creates its own directory structure, targets a future stage, bypasses a gate, or cannot be mapped to an existing SoloSpec file, section, or asset directory.
+
+Mapping rules:
+
+- Unconfirmed product pivots never update project baselines. In new-project brainstorm, keep them in conversation only; in iteration brainstorm, write only to the current `brainstorm.md`.
+- External assets must be copied into SoloSpec assets before use. Use kebab-case names like `taste-dashboard-overview-01.png`, then register the source, purpose, page or state, and batch in `design-system.md`, `design.md`, or `qa.md`.
+- Cross-stage suggestions stay advisory. In bugfix `regression-test`, keep regression tests and minimal fix candidates in `tasks.md` or `qa.md`, but discard framework migrations, full rewrites, and `.specify/` or other self-owned directories unless the user changes the branch to an iteration or architecture decision.
+
 ## router
 
 Trigger: `intake`.

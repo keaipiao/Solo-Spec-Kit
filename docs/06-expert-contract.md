@@ -1,5 +1,7 @@
 # 专家模块契约
 
+v0.2 只定义专家模块契约，不默认接入 `/solo` 执行流。设计方案见 `docs/08-expert-module-v02-design.md`。
+
 ## 1. 契约目标
 
 专家模块用于吸收 BMAD、Spec Kit、OpenSpec、Superpowers、gstack、taste 等顶级 Skill 的方法论，但所有输出必须服从 SoloSpec 的目录、章节、状态机和门禁。
