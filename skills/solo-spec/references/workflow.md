@@ -98,7 +98,6 @@ Rules:
 intake
 → inventory
 → classify
-→ create-solo
 → summarize-project
 → propose-adoption-plan
 → user-confirm
@@ -109,7 +108,9 @@ Rules:
 
 - Default to read-only inspection of existing code and docs.
 - Do not move, rename, format, or refactor existing business files.
-- Generate `solo/project/brief.md`, `architecture.md`, `quality.md`, and `pitfalls.md`.
+- `intake` creates the base `solo/` directories, `solo/state.json`, and `solo/config.json`.
+- Generate only `solo/project/brief.md`, `architecture.md`, `quality.md`, and `pitfalls.md` by default.
+- Write adoption suggestions into the follow-up recommendations section of `solo/project/brief.md`; do not create free-form extra docs.
 - Write managed blocks to external files only after user confirmation.
 
 ## Gates
@@ -128,3 +129,10 @@ Hard gates:
 - release/archive
 
 Only explicit approval passes a gate.
+
+After approval, update the approved stage artifact before moving on:
+
+- Replace waiting language with confirmed language.
+- Preserve the confirmed scope, option, copy, architecture decision, task plan, or QA result.
+- Update `solo/state.json.gate.status` to `passed` or the next active gate.
+- Do not leave completed artifacts saying they are still waiting for user confirmation.

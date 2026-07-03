@@ -148,14 +148,15 @@ risks:
 
 **职责**：
 
-- 写产品目标、范围、非目标、成功指标。
+- new-project：写产品目标、范围、非目标、成功指标。
+- adopt-existing：把现有项目事实收敛成接入基线摘要，不生成新的产品 PRD。
 - 把用户故事和核心流程结构化。
 - 避免把实现细节提前写成需求。
 
 **写入目标**：
 
-- `project/prd.md`
-- 必要时补 `project/brief.md`
+- new-project：`project/prd.md`，必要时补 `project/brief.md`
+- adopt-existing：`project/brief.md`
 
 **门禁**：PRD 范围必须用户确认。
 
@@ -230,6 +231,7 @@ risks:
 - 把已确认需求转为可执行规格。
 - 写用户故事、场景、验收标准、非目标、依赖。
 - 保持 proposal、spec、design、plan 的边界清晰。
+- adopt-existing：只提出后续迭代建议，写入 `project/brief.md` 后续建议章节，不创建规格目录。
 
 **借鉴来源**：Spec Kit、OpenSpec。
 
@@ -237,6 +239,7 @@ risks:
 
 - new-project MVP：`specs/001-mvp/spec.md`
 - iteration：当前迭代的 `proposal.md`、`spec.md`、`design.md`、`plan.md`
+- adopt-existing：`project/brief.md`
 
 **门禁**：可执行规格必须用户确认。
 
@@ -297,7 +300,7 @@ risks:
 - new-project：`ship/archive`
 - iteration：`archive`
 - bugfix：`archive`
-- adopt-existing：`create-solo`、`write-managed-blocks`
+- adopt-existing：`write-managed-blocks`
 
 **职责**：
 

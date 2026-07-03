@@ -33,18 +33,27 @@ SoloSpec 的最终分发形态是接入用户已有或新建项目。
 │   │       ├── references/
 │   │       └── global-mockups/
 │   ├── specs/
-│   │   └── 001-iteration-name/
-│   │       ├── brainstorm.md  # 仅迭代前置阶段按需生成
-│   │       ├── proposal.md    # 仅迭代收敛阶段按需生成
-│   │       ├── spec.md
-│   │       ├── design.md
+│   │   ├── 001-iteration-name/
+│   │   │   ├── brainstorm.md  # 仅迭代前置阶段按需生成
+│   │   │   ├── proposal.md    # 仅迭代收敛阶段按需生成
+│   │   │   ├── spec.md
+│   │   │   ├── design.md
+│   │   │   ├── plan.md
+│   │   │   ├── tasks.md
+│   │   │   ├── qa.md
+│   │   │   ├── archive.md
+│   │   │   └── assets/
+│   │   │       ├── wireframes/
+│   │   │       ├── mockups/
+│   │   │       ├── screenshots/
+│   │   │       └── references/
+│   │   └── NNN-bugfix-title/
+│   │       ├── proposal.md
 │   │       ├── plan.md
 │   │       ├── tasks.md
 │   │       ├── qa.md
 │   │       ├── archive.md
 │   │       └── assets/
-│   │           ├── wireframes/
-│   │           ├── mockups/
 │   │           ├── screenshots/
 │   │           └── references/
 │   ├── decisions/
@@ -84,23 +93,25 @@ SoloSpec 的最终分发形态是接入用户已有或新建项目。
 
 ## 5. 规格目录
 
-每次迭代、变更、Bug 修复或 MVP 里程碑对应一个 `solo/specs/NNN-name/`。目录先创建 `assets/`，Markdown 按流程阶段逐步生成，不在一开始复制完整模板。
+每次迭代、变更、独立 Bug 修复或 MVP 里程碑对应一个 `solo/specs/NNN-name/`。目录先创建 `assets/`，Markdown 按流程阶段逐步生成，不在一开始复制完整模板。
 
 新项目的 `specs/001-mvp/` 在项目级 `architecture` 通过后创建，直接从 SDD/TDD 文件开始，不生成 `brainstorm.md` 和 `proposal.md`。新项目的发散过程不落盘，只把确认后的结论写入 `solo/project/`。
 
 功能迭代可以保留自己的不确定内容、取舍过程和用户选择，因为这些内容只影响该迭代，不会成为项目级长期事实。
 
+独立 Bug 修复使用缩减规格：默认只生成 `proposal.md`、`plan.md`、`tasks.md`、`qa.md`、`archive.md` 和资产目录，不生成 `brainstorm.md`、`spec.md`、`design.md`。如果修复过程中发现本质上是产品能力调整或 UI/UX 重设，应停止 bugfix 路径，转为功能迭代。
+
 | 文件 | 内容 |
 |---|---|
-| brainstorm.md | 功能迭代的发散方案池、取舍、用户采纳记录；新项目 MVP 不生成 |
-| proposal.md | 功能迭代收敛后的提案：为什么做、做什么、不做什么、价值和边界；新项目 MVP 不生成 |
-| spec.md | 做什么，用户故事、场景、验收标准、非目标 |
-| design.md | UX/UI、状态规划、数据流、交互、边界 |
-| plan.md | 技术实现方案、影响文件、风险、回滚边界 |
+| brainstorm.md | 功能迭代的发散方案池、取舍、用户采纳记录；新项目 MVP 和 Bug 修复不生成 |
+| proposal.md | 功能迭代收敛后的提案；Bug 修复中记录复现、影响范围和修复边界；新项目 MVP 不生成 |
+| spec.md | 做什么，用户故事、场景、验收标准、非目标；Bug 修复默认不生成 |
+| design.md | UX/UI、状态规划、数据流、交互、边界；Bug 修复默认不生成 |
+| plan.md | 技术实现方案、影响文件、根因、风险、回滚边界 |
 | tasks.md | TDD 任务，红灯测试、最小实现、验证命令 |
 | qa.md | 测试计划、QA 执行记录、浏览器/API 验证、截图证据 |
 | archive.md | 完成摘要、变更、遗留问题、后续建议 |
-| assets/ | 该迭代专属线稿、高保真、截图、参考资料 |
+| assets/ | 该规格专属线稿、高保真、截图、参考资料；Bug 修复通常只使用截图和参考资料 |
 
 ## 6. 资产放置规则
 
@@ -178,13 +189,13 @@ ADR 记录跨功能或高影响决策。普通功能内部取舍写在对应 `pl
   "currentStage": "architecture",
   "gate": {
     "status": "waiting_user",
-    "requires": "用户确认技术方案"
+    "requires": "confirm_architecture"
   },
   "updatedAt": "2026-07-02T00:00:00+08:00"
 }
 ```
 
-状态文件只记录流程状态，不承载完整需求内容。完整内容必须写入对应 Markdown。
+状态文件只记录流程状态，不承载完整需求内容。`gate.requires` 使用 ASCII 短码，中文门禁说明写入阶段文档和完成消息。完整内容必须写入对应 Markdown。
 
 ## 9. 老项目接入规则
 

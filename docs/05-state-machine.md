@@ -22,17 +22,24 @@
 | currentSpec | 当前迭代目录名；项目级阶段可为 `null` |
 | currentStage | 当前阶段 |
 | gate.status | `open`、`waiting_user`、`passed`、`blocked` |
-| gate.requires | 当前等待用户确认的内容 |
+| gate.requires | 当前等待用户确认项的 ASCII 短码 |
 | lastAction.summary | 最近一次动作摘要 |
 | lastAction.artifacts | 最近一次写入或生成的产物 |
 | updatedAt | 更新时间 |
+
+`state.json` 必须始终是合法 JSON。写入规则：
+
+- 使用 JSON 解析器或序列化工具更新，不手写拼接字符串。
+- 每次更新后立即解析验证；失败时停在当前阶段修复状态文件。
+- 长说明写入对应 Markdown 产物，`state.json` 只放短摘要和产物路径。
+- `gate.requires` 优先使用 ASCII 短码；中文门禁说明写在当前阶段 Markdown 和阶段完成消息中。
 
 ## 3. 全局状态转换规则
 
 | 当前状态 | 触发 | 下一状态 | 规则 |
 |---|---|---|---|
 | 无 `solo/state.json` | `/solo <请求>` | `intake` | 先判断分支，不直接写业务代码 |
-| `waiting_user` | 用户明确“通过 / 继续 / 按这个来 / 确认” | 下一阶段 | 只在当前门禁内容上推进 |
+| `waiting_user` | 用户明确“通过 / 继续 / 按这个来 / 确认” | 下一阶段 | 先把当前阶段文档门禁区和 `state.json.gate` 回写为已通过，再推进 |
 | `waiting_user` | 用户提出修改意见 | 当前阶段 | 修改当前阶段产物，不跨阶段 |
 | `blocked` | 用户补齐阻塞信息 | 当前阶段 | 重新执行当前阶段 |
 | 任意 | `/solo 继续` | 当前阶段 | 读取状态并复述门禁，不自动越过 |
@@ -115,12 +122,11 @@ QA 阶段发现 Bug 时，仍留在当前规格内处理：先写入 `qa.md` 的
 
 | 阶段 | 读取 | 专家模块 | 写入 | 门禁 |
 |---|---|---|---|---|
-| intake | 用户请求、仓库文件树 | router | `state.json` | 是 |
+| intake | 用户请求、仓库文件树 | router | `state.json`、`config.json`、基础 `solo/` 目录 | 是 |
 | inventory | README、docs、源码结构、配置 | staged-research | `project/brief.md` 草案 | 否 |
 | classify | 代码和文档盘点 | architecture、qa | `project/architecture.md`、`project/quality.md` | 是 |
-| create-solo | 模板 | archive | `solo/` 基础目录 | 否 |
 | summarize-project | 盘点结果 | prd、architecture | `project/brief.md`、`project/pitfalls.md` | 是 |
-| propose-adoption-plan | 现状与缺口 | spec | 接入后第一批迭代建议 | 是 |
+| propose-adoption-plan | 现状与缺口 | spec | `project/brief.md` 后续建议章节 | 是 |
 | write-managed-blocks | 用户确认的托管块 | archive | AGENTS/CLAUDE/README/CHANGELOG 托管块 | 是 |
 
 老项目接入默认不改业务代码，不移动现有目录。

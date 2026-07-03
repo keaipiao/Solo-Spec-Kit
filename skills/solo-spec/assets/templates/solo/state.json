@@ -5,7 +5,7 @@
   "currentStage": "intake",
   "gate": {
     "status": "waiting_user",
-    "requires": "确认分支和目标"
+    "requires": "confirm_branch_and_goal"
   },
   "lastAction": {
     "summary": "",

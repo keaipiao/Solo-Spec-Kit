@@ -51,6 +51,8 @@ Load [references/workflow.md](references/workflow.md) after branch selection.
 - Keep changes surgical. Do not refactor unrelated code.
 - Hard gates require explicit user confirmation: `通过`, `继续`, `按这个来`, or `确认`.
 - Silence, chatting, or answering a side question is not approval to advance.
+- After a gate is approved, rewrite the just-approved artifact's gate section from waiting language to confirmed language before starting the next stage. Also set `solo/state.json.gate.status` to `passed` or to the next active gate. Finished artifacts must not keep stale "waiting for confirmation" wording.
+- Write `solo/state.json` with a JSON serializer or parser-backed edit, never by manual string concatenation. After every state update, parse it successfully with a real JSON parser before reporting the stage complete; `/solo 继续` depends on this file.
 
 ## Brainstorm And Scope
 
@@ -155,5 +157,7 @@ At the end of each stage, report:
 门禁：
 等待用户确认：
 ```
+
+`验证` must include `solo/state.json` parse validation whenever the stage updates state.
 
 Do not move to the next gated stage until the user confirms.

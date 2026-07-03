@@ -58,6 +58,13 @@
 
 沉默、闲聊、回答问题，不等于同意进入下一阶段。
 
+用户确认后，必须回写刚通过阶段的门禁区：
+
+- 把“等待确认 / 等待用户选择”改成“已确认”。
+- 保留被确认的范围、方案、文案、技术方案或 QA 结果。
+- 同步更新 `solo/state.json`：`gate.status` 改为 `passed`，`gate.requires` 改为 `none` 或下一阶段 ASCII 门禁短码。
+- 进入下一阶段前先完成这次回写，避免已归档文档仍显示旧门禁状态。
+
 ## 5. 文件写入规则
 
 只有 artifact-writer 能写入文件。
@@ -76,6 +83,10 @@ solo/config.json
 外部 Skill、专家模块、评审模块不得直接写文件。若生成设计稿、截图、代码片段等原始产物，必须交给 artifact-writer 接收后落入 `solo/`。
 
 不要在 intake 阶段复制整棵模板树。先创建目录和状态文件，进入哪个阶段才实例化对应 Markdown 模板，避免未确认的占位内容污染事实源。
+
+`solo/state.json` 是 `/solo 继续` 的恢复入口，必须用 JSON 解析器或序列化工具写入，禁止手写拼接 JSON 字符串。每次更新状态后，必须立刻用真实 JSON 解析器验证可解析；验证失败时先修复 `state.json`，不得进入下一阶段。
+
+长说明写入 Markdown 文档，`state.json` 只保存短流程状态、门禁摘要和产物路径，避免把大段用户可见内容塞进 JSON。`gate.requires` 优先使用 ASCII 短码，例如 `confirm_branch_and_goal`、`confirm_architecture`、`confirm_qa_result`；中文解释写在阶段产物和完成消息中。
 
 ## 6. 外部增强规则
 
@@ -201,7 +212,6 @@ intake
 intake
 → inventory
 → classify
-→ create-solo
 → summarize-project
 → propose-adoption-plan
 → user-confirm
@@ -209,6 +219,8 @@ intake
 ```
 
 老项目接入的目标是建立事实源，不是重构。
+
+`intake` 阶段创建基础 `solo/` 目录、`state.json` 和 `config.json`。后续阶段只补项目级事实源，不再单独执行基础目录创建阶段。
 
 默认只读代码和文档，生成：
 
@@ -220,6 +232,8 @@ solo/project/pitfalls.md
 solo/state.json
 solo/config.json
 ```
+
+接入建议写入 `project/brief.md` 的后续建议章节，不额外创建自由命名文档。只有用户确认托管块后，才写入 `AGENTS.md`、`README.md`、`CHANGELOG.md`。
 
 ## 11. TDD 规则
 
@@ -304,5 +318,6 @@ SoloSpec 不能用“应该好了”作为完成依据。
 - 写入了哪些文件。
 - 当前阶段是否通过门禁。
 - 执行了哪些验证。
+- 如果更新过 `solo/state.json`，说明 JSON 解析验证结果。
 - 如果未验证，说明原因。
 - 下一步等待用户确认什么。

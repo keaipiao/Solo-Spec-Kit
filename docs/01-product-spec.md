@@ -82,7 +82,7 @@ SoloSpec 自动路由到四类分支：
 
 不同分支会裁剪阶段，但核心阶段如下：
 
-新项目的前置阶段写 `project/`，只沉淀已确认项目结论；功能迭代和 Bug 修复从 `specs/NNN-*` 开始。只有进入 SDD/TDD 后，新项目 MVP、功能迭代和 Bug 修复才使用统一的 `specs/` 文档结构。
+新项目的前置阶段写 `project/`，只沉淀已确认项目结论；功能迭代从 `specs/NNN-*` 的前置文档开始；独立 Bug 修复从专用 bugfix 规格开始。进入 SDD/TDD 后，新项目 MVP 和功能迭代使用统一的 `specs/` 文档结构；Bug 修复默认只使用 `proposal.md`、`plan.md`、`tasks.md`、`qa.md`、`archive.md`，除非问题升级为产品迭代。
 
 调研不是一次性前置做完，而是嵌入各阶段的“够用核实”：
 

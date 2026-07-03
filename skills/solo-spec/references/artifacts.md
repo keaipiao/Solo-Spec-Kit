@@ -17,11 +17,18 @@ solo/
 │   ├── pitfalls.md
 │   └── assets/
 ├── specs/
-│   └── NNN-iteration-name/
-│       ├── brainstorm.md  # iteration pre-SDD only
-│       ├── proposal.md    # iteration pre-SDD only
-│       ├── spec.md
-│       ├── design.md
+│   ├── NNN-iteration-name/
+│   │   ├── brainstorm.md  # iteration pre-SDD only
+│   │   ├── proposal.md    # iteration pre-SDD only
+│   │   ├── spec.md
+│   │   ├── design.md
+│   │   ├── plan.md
+│   │   ├── tasks.md
+│   │   ├── qa.md
+│   │   ├── archive.md
+│   │   └── assets/
+│   └── NNN-bugfix-title/
+│       ├── proposal.md
 │       ├── plan.md
 │       ├── tasks.md
 │       ├── qa.md
@@ -58,6 +65,8 @@ Create Markdown files only when their stage starts. New-project `specs/001-mvp/`
 | `tasks.md` | TDD tasks, red tests, minimal implementation, commands |
 | `qa.md` | Test plan, QA execution records, browser/API evidence, screenshots |
 | `archive.md` | Completion summary, changes, leftovers, follow-ups |
+
+Bugfix specs use `proposal.md`, `plan.md`, `tasks.md`, `qa.md`, and `archive.md` only by default. Do not create `brainstorm.md`, `spec.md`, or `design.md` for a bugfix unless the fix has become a product iteration.
 
 ## Asset Rules
 
@@ -112,6 +121,15 @@ They are not the source of truth. Removing `solo/` and managed blocks must leave
 
 Full requirements and decisions must be in Markdown artifacts.
 
+State write rules:
+
+- Update `solo/state.json` through a JSON parser or serializer.
+- Do not hand-build JSON strings or paste unescaped user-facing text into JSON.
+- Keep long user-facing explanations in Markdown artifacts; `state.json` should store short process summaries and artifact paths.
+- Prefer ASCII slugs for `gate.requires` such as `confirm_branch_and_goal`, `confirm_architecture`, or `confirm_qa_result`; put the Chinese explanation in the stage artifact and completion message.
+- After every update, parse `solo/state.json` successfully before completing the stage.
+- If state validation fails, fix `state.json` immediately and do not advance the workflow.
+
 ## Template Use
 
 Do not copy the entire template tree at intake. Create directories first, then instantiate each Markdown template only when its stage starts.
@@ -145,6 +163,17 @@ Stage instantiation:
 | `tdd-plan` | current iteration `tasks.md`, `qa.md` test plan sections |
 | `qa` | current iteration `qa.md` verification sections |
 | `archive` | current iteration `archive.md`, project release, quality, or pitfalls when needed |
+| bugfix `reproduce` | current bugfix `proposal.md` |
+| bugfix `root-cause` | current bugfix `plan.md` |
+| bugfix `regression-test` | current bugfix `tasks.md`, `qa.md` test plan sections |
+| bugfix `verify` | current bugfix `qa.md` verification sections |
+| bugfix `archive` | current bugfix `archive.md`, project quality or pitfalls when needed |
+| adopt-existing `intake` | base `solo/` directories, `state.json`, `config.json` |
+| adopt-existing `inventory` | `project/brief.md` draft |
+| adopt-existing `classify` | `project/architecture.md`, `project/quality.md` |
+| adopt-existing `summarize-project` | `project/brief.md`, `project/pitfalls.md` |
+| adopt-existing `propose-adoption-plan` | `project/brief.md` follow-up recommendations |
+| adopt-existing `write-managed-blocks` | confirmed managed blocks only |
 
 ## Stage Write Boundaries
 

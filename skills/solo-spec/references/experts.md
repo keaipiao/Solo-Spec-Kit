@@ -46,7 +46,8 @@ Trigger: `prd`, `summarize-project`.
 
 Responsibilities:
 
-- Write goals, scope, non-goals, success metrics.
+- In new projects, write goals, scope, non-goals, and success metrics.
+- In existing-project adoption, summarize the current project baseline; do not create `project/prd.md` by default.
 - Structure user stories and core flows.
 - Avoid turning implementation details into product requirements.
 
@@ -82,6 +83,7 @@ Responsibilities:
 - Convert confirmed requirements into executable specs.
 - Write scenarios, acceptance criteria, non-goals, dependencies.
 - Keep proposal, spec, design, and plan boundaries clear.
+- In existing-project adoption, write follow-up iteration suggestions into `solo/project/brief.md`; do not create a specs directory.
 
 ## tdd
 

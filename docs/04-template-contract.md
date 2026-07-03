@@ -54,7 +54,7 @@ Bug 修复按三种路径处理：
 |---|---|---|
 | 当前迭代执行中发现的 Bug | 当前迭代的 `qa.md`、`tasks.md`、`archive.md` | 直接作为当前迭代的修复项处理，不新建目录 |
 | 新会话中提出的 Bug | 先尝试归属到相关迭代 | 能归属则追加到该迭代，不重写历史结论 |
-| 无法归属或跨多个迭代的 Bug | 新建 `solo/specs/NNN-bugfix-title/` | 使用同一套迭代模板 |
+| 无法归属或跨多个迭代的 Bug | 新建 `solo/specs/NNN-bugfix-title/` | 使用 bugfix 模板 |
 
 归属到已完成迭代时，只追加“Bug 修复记录”和新的验证证据，不改写原归档结论。
 
@@ -62,9 +62,19 @@ Bug 修复按三种路径处理：
 
 ```text
 solo/specs/NNN-bugfix-title/
+├── proposal.md
+├── plan.md
+├── tasks.md
+├── qa.md
+├── archive.md
+└── assets/
+    ├── screenshots/
+    └── references/
 ```
 
 Bugfix 不生成 `brainstorm.md`。`proposal.md` 写复现背景、影响范围和修复目标，`tasks.md` 写回归测试和修复任务。如果需要比较多种修复策略，写入 `plan.md` 的方案取舍段落。
+
+Bugfix 默认生成 `proposal.md`、`plan.md`、`tasks.md`、`qa.md`、`archive.md` 和 `assets/`。除非修复已经演变成产品迭代，否则不要补 `brainstorm.md`、`spec.md`、`design.md`。
 
 ### 2.4 老项目接入
 
@@ -160,7 +170,7 @@ QA 阶段发现 Bug 时，先在当前规格中闭环，不新建 bugfix：
 - `currentSpec`：当前迭代目录名，项目级阶段可为 `null`
 - `currentStage`：当前阶段
 - `gate.status`：`open`、`waiting_user`、`passed`、`blocked`
-- `gate.requires`：当前等待用户确认的内容
+- `gate.requires`：当前等待用户确认项的 ASCII 短码；中文说明写入阶段文档和完成消息
 
 完整内容必须写入 Markdown。
 
