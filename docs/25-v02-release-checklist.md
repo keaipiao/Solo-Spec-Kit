@@ -95,8 +95,9 @@ git diff --check
 
 v0.3 可优先处理：
 
-- 增加项目级安装脚本。
 - 增加真实项目四分支回归测试。
 - 增加复杂 UI 和后端鉴权案例。
 - 增加专家调用后的 artifact writer 自动消费样例。
 - 评估是否需要版本号文件或变更日志。
+
+项目级安装脚本已提前完成，见 `scripts/install-project-skills.ps1` 和 `docs/26-install-script-test.md`。
