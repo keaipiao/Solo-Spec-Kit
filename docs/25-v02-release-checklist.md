@@ -55,6 +55,8 @@ v0.2 达到项目级试用分发标准。
 | `docs/22-main-skill-expert-suggestion-smoke-test.md` | 主 Skill 降级烟测通过 |
 | `docs/23-blind-forward-expert-suggestion-test.md` | 独立子代理盲测通过 |
 | `docs/24-v02-distribution-installation-test.md` | v0.2 分发安装验收通过 |
+| `docs/26-install-script-test.md` | 项目级安装脚本验收通过 |
+| `docs/27-four-branch-regression-test.md` | 四分支回归测试通过 |
 
 ## 5. 用户文档
 
@@ -95,9 +97,9 @@ git diff --check
 
 v0.3 可优先处理：
 
-- 增加真实项目四分支回归测试。
 - 增加复杂 UI 和后端鉴权案例。
 - 增加专家调用后的 artifact writer 自动消费样例。
 - 评估是否需要版本号文件或变更日志。
 
 项目级安装脚本已提前完成，见 `scripts/install-project-skills.ps1` 和 `docs/26-install-script-test.md`。
+四分支回归测试已提前完成，见 `docs/27-four-branch-regression-test.md`。
