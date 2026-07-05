@@ -4,11 +4,15 @@ Use these as internal thinking modes. They do not write files directly.
 
 Current status: v0.2 is contract-only. Do not call expert roles automatically from the base `/solo` workflow. Load this reference only when the user explicitly asks to evaluate expert roles, adapt an external skill output, or improve output quality beyond the base flow.
 
+Expert modules should be standalone sibling skills when they become complex, for example `$solo-spec-product`, `$solo-spec-ux`, `$solo-spec-architecture`, `$solo-spec-tdd`, `$solo-spec-qa`, and `$solo-spec-release`. The base `$solo-spec` skill remains the orchestrator.
+
 Expert output must be converted by the main SoloSpec flow before writing:
 
 - Reviewer: critique an existing SoloSpec artifact and propose gate findings.
 - Advisor: suggest options, risks, tradeoffs, or section content for the current stage.
 - Generator: produce raw assets such as mockups, screenshots, logs, or test evidence.
+
+Use the packet shape defined in `docs/06-expert-contract.md`: `expert`, `branch`, `stage`, `mode`, `summary`, `findings`, `recommendation`, `writeTargets`, `assets`, `discarded`, `gate`, and `risks`.
 
 Discard any expert or external-skill output that creates its own directory structure, targets a future stage, bypasses a gate, or cannot be mapped to an existing SoloSpec file, section, or asset directory.
 

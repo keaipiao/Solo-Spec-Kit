@@ -1,0 +1,4 @@
+interface:
+  display_name: "SoloSpec Product"
+  short_description: "Product discovery and scope mapping for SoloSpec"
+  default_prompt: "Use $solo-spec-product to analyze product ideas, brainstorm options, and return a SoloSpec expert packet."

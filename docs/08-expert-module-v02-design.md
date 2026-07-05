@@ -4,6 +4,8 @@
 
 v0.2 只定义专家模块契约，不默认接入 `/solo` 执行流。
 
+专家模块的实体形态应是独立 Skill，而不是塞进 `solo-spec` 主 Skill。专家 Skill 架构见 `docs/09-expert-skills-architecture.md`。
+
 目标：
 
 - 把产品、调研、UX、架构、规格、TDD、QA、归档等能力拆成可组合专家。
@@ -121,14 +123,16 @@ writeTargets:
     section:
     content:
 assets:
-  - path:
+  - source:
+    target:
     registerIn:
     description:
+discarded:
+  - item:
+    reason:
 gate:
   required:
   question:
-discarded:
-  - reason:
 risks:
 ```
 
@@ -136,7 +140,7 @@ risks:
 
 - `file` 必须是 SoloSpec 允许的相对路径，例如 `project/prd.md` 或 `specs/001-mvp/tasks.md`。
 - `section` 必须是目标模板中已有章节，或由当前阶段允许新增的章节。
-- `assets.path` 必须位于 `project/assets/` 或当前 spec `assets/`。
+- `assets.source` 记录原始产物，`assets.target` 必须位于 `project/assets/` 或当前 spec `assets/`，`assets.registerIn` 记录登记文档。
 - `discarded` 记录被丢弃的外部输出及原因，防止隐性污染。
 
 ## 7. 转换和丢弃规则
@@ -210,7 +214,11 @@ v0.2 设计完成的判定标准：
 
 ## 9. 后续实施顺序
 
-1. 完成契约文档和 `references/experts.md` 精简同步。
-2. 用黑盒子代理验证三个场景：产品建议、设计稿、TDD/QA 建议。
-3. 根据黑盒结果补充丢弃规则和写入目标。
-4. 再决定是否把专家模块作为显式增强命令接入 `/solo`。
+1. 先完成权威调研并固化专家 Skill 原则，见 `docs/10-expert-skill-research.md`。
+2. 完成契约文档和 `references/experts.md` 精简同步。
+3. 用黑盒样例验证专家输出；`solo-spec-ux` 首轮测试见 `docs/11-solo-spec-ux-blackbox-test.md`，`solo-spec-product` 首轮测试见 `docs/12-solo-spec-product-blackbox-test.md`，`solo-spec-architecture` 首轮测试见 `docs/13-solo-spec-architecture-blackbox-test.md`，`solo-spec-tdd` 首轮测试见 `docs/14-solo-spec-tdd-blackbox-test.md`，`solo-spec-qa` 首轮测试见 `docs/15-solo-spec-qa-blackbox-test.md`，`solo-spec-release` 首轮测试见 `docs/16-solo-spec-release-blackbox-test.md`。
+4. 完成专家 Skill 集成烟测，见 `docs/17-expert-skills-integration-smoke-test.md`。
+5. 完成真实子代理黑盒调用测试，见 `docs/18-expert-skills-forward-test.md`。
+6. 根据黑盒结果补充丢弃规则和写入目标。
+7. 基于调研结论重写并校准 `solo-spec-ux` 独立专家 Skill，验证复杂设计能力的分发形态。
+8. 再决定是否把专家模块作为显式增强命令接入 `/solo`。

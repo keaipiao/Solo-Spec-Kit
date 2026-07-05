@@ -1,0 +1,4 @@
+interface:
+  display_name: "SoloSpec Release"
+  short_description: "Archive and release baseline mapping for SoloSpec"
+  default_prompt: "Use $solo-spec-release to map archive, release, baseline updates, and managed-block advice into a SoloSpec expert packet."

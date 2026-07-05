@@ -1,0 +1,4 @@
+interface:
+  display_name: "SoloSpec Architecture"
+  short_description: "Architecture decisions and plan mapping for SoloSpec"
+  default_prompt: "Use $solo-spec-architecture to analyze architecture decisions, dependency risks, and return a SoloSpec expert packet."

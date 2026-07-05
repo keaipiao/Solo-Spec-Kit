@@ -136,7 +136,9 @@ Do not create parallel `docs/plans/`, `docs/features/`, or `specs/` directories 
 
 For v0.1 flow validation, do not depend on expert roles. Use the main workflow and artifact rules only.
 
-[references/experts.md](references/experts.md) is optional design material for later quality enhancement. Load it only when the user explicitly asks to evaluate expert roles or improve output quality beyond the base flow.
+[references/experts.md](references/experts.md) is optional design material for later quality enhancement. Load it only when the user explicitly asks to evaluate expert roles, adapt external skill output, or improve output quality beyond the base flow.
+
+Standalone expert skills such as `$solo-spec-product`, `$solo-spec-ux`, `$solo-spec-architecture`, `$solo-spec-tdd`, `$solo-spec-qa`, and `$solo-spec-release` may be installed as optional siblings of `$solo-spec`. They must return expert packets; they do not own the workflow, create directories, write files directly, or pass gates.
 
 External skills may be used only as:
 

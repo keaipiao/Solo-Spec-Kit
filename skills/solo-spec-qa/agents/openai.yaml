@@ -1,0 +1,4 @@
+interface:
+  display_name: "SoloSpec QA"
+  short_description: "QA execution evidence and gate mapping for SoloSpec"
+  default_prompt: "Use $solo-spec-qa to map QA execution, screenshots, logs, and gate findings into a SoloSpec expert packet."

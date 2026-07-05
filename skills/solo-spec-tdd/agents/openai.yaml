@@ -1,0 +1,4 @@
+interface:
+  display_name: "SoloSpec TDD"
+  short_description: "TDD task planning and regression mapping for SoloSpec"
+  default_prompt: "Use $solo-spec-tdd to split confirmed specs into red-green tasks and return a SoloSpec expert packet."

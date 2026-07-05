@@ -1,6 +1,6 @@
 # 专家模块契约
 
-v0.2 只定义专家模块契约，不默认接入 `/solo` 执行流。设计方案见 `docs/08-expert-module-v02-design.md`。
+v0.2 只定义专家模块契约，不默认接入 `/solo` 执行流。设计方案见 `docs/08-expert-module-v02-design.md`，独立专家 Skill 架构见 `docs/09-expert-skills-architecture.md`。
 
 ## 1. 契约目标
 
@@ -31,7 +31,9 @@ v0.2 只定义专家模块契约，不默认接入 `/solo` 执行流。设计方
 
 ```text
 expert:
+branch:
 stage:
+mode: reviewer | advisor | generator
 summary:
 findings:
 recommendation:
@@ -40,9 +42,13 @@ writeTargets:
     section:
     content:
 assets:
-  - type:
-    path:
+  - source:
+    target:
+    registerIn:
     description:
+discarded:
+  - item:
+    reason:
 gate:
   required:
   question:
@@ -53,11 +59,15 @@ risks:
 
 | 字段 | 说明 |
 |---|---|
+| branch | 当前分支：`new-project`、`iteration`、`bugfix` 或 `adopt-existing` |
+| stage | 当前阶段 |
+| mode | 专家角色：`reviewer`、`advisor` 或 `generator` |
 | summary | 本模块结论 |
 | findings | 调研、审查、分析发现 |
 | recommendation | 推荐方案和理由 |
 | writeTargets | 建议写入的文件和章节 |
-| assets | 原始产物，如线稿、高保真、截图 |
+| assets | 建议登记的原始产物和 SoloSpec 目标路径 |
+| discarded | 不适合当前阶段、目录或门禁的内容及丢弃原因 |
 | gate | 是否需要用户确认 |
 | risks | 风险、假设和未确认项 |
 
@@ -297,6 +307,8 @@ risks:
 
 ### 5.10 archive
 
+独立 Skill 对应 `solo-spec-release`；`archive` 是流程内的收口角色名。
+
 **触发阶段**：
 
 - new-project：`ship/archive`
@@ -320,7 +332,9 @@ risks:
 - `project/release.md`
 - `project/quality.md`
 - `project/pitfalls.md`
-- 托管块目标文件
+- `managed-blocks/readme.md`
+- `managed-blocks/changelog.md`
+- `managed-blocks/agents.md`，仅在主流程已有匹配托管块规则时使用
 
 **门禁**：发布、托管块、归档收尾必须用户确认。
 
@@ -337,3 +351,4 @@ risks:
 | gstack QA 截图 | qa Generator | 放入当前规格 `assets/screenshots/`，登记 `qa.md` |
 | superpowers TDD 建议 | tdd Advisor | 转成 `tasks.md` |
 | gstack design-review | ux-design Reviewer | 写入 `design.md` 门禁结论 |
+| OpenSpec 归档建议 | archive Advisor | 转成当前 `archive.md`、`project/release.md`、`project/quality.md` 或 `project/pitfalls.md` |

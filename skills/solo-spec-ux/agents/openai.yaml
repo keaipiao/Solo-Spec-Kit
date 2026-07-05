@@ -1,0 +1,4 @@
+interface:
+  display_name: "SoloSpec UX"
+  short_description: "UX review and design asset mapping for SoloSpec"
+  default_prompt: "Use $solo-spec-ux to review UX, map design assets, and return a SoloSpec expert packet."
