@@ -1,6 +1,6 @@
 # 专家模块契约
 
-v0.2 只定义专家模块契约，不默认接入 `/solo` 执行流。设计方案见 `docs/08-expert-module-v02-design.md`，独立专家 Skill 架构见 `docs/09-expert-skills-architecture.md`。
+v0.2 定义专家模块契约，并以“显式增强 + 主流程建议”的方式接入 `/solo`；仍不默认自动调用专家。设计方案见 `docs/08-expert-module-v02-design.md`，独立专家 Skill 架构见 `docs/09-expert-skills-architecture.md`，接入策略见 `docs/19-expert-integration-strategy.md`。
 
 ## 1. 契约目标
 

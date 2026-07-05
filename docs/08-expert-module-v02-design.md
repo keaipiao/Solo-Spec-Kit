@@ -2,7 +2,7 @@
 
 ## 1. 阶段目标
 
-v0.2 只定义专家模块契约，不默认接入 `/solo` 执行流。
+v0.2 定义专家模块契约，并以“显式增强 + 主流程建议”的方式接入 `/solo`；仍不默认自动调用专家。
 
 专家模块的实体形态应是独立 Skill，而不是塞进 `solo-spec` 主 Skill。专家 Skill 架构见 `docs/09-expert-skills-architecture.md`。
 
@@ -221,4 +221,8 @@ v0.2 设计完成的判定标准：
 5. 完成真实子代理黑盒调用测试，见 `docs/18-expert-skills-forward-test.md`。
 6. 根据黑盒结果补充丢弃规则和写入目标。
 7. 基于调研结论重写并校准 `solo-spec-ux` 独立专家 Skill，验证复杂设计能力的分发形态。
-8. 再决定是否把专家模块作为显式增强命令接入 `/solo`。
+8. 先完成专家接入策略，见 `docs/19-expert-integration-strategy.md`。
+9. 按 `docs/20-expert-integration-e2e-test-plan.md` 执行端到端验收，报告见 `docs/21-expert-integration-e2e-test-report.md`。
+10. 已把专家模块作为显式增强能力接入 `/solo` 主 Skill：主流程可在当前阶段建议专家审查，经用户确认后消费 expert packet；仍不默认自动调用专家。
+11. 已验证主 Skill 在未安装专家 sibling 时仍可降级运行，见 `docs/22-main-skill-expert-suggestion-smoke-test.md`。
+12. 已用独立子代理执行盲测前向测试，见 `docs/23-blind-forward-expert-suggestion-test.md`。

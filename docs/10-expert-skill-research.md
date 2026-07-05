@@ -176,6 +176,8 @@ solo/
 8. 完成 QA 专家后，设计 `solo-spec-release`，用于归档、项目基线晋升、发布记录、托管块建议和收尾一致性；测试报告见 `docs/16-solo-spec-release-blackbox-test.md`。
 9. 完成首批专家后，执行整体结构、章节映射和分发复制烟测；测试报告见 `docs/17-expert-skills-integration-smoke-test.md`。
 10. 用全新子代理执行真实黑盒调用测试，并根据结果修正专家边界；测试报告见 `docs/18-expert-skills-forward-test.md`。
+11. 设计 `/solo` 消费专家输出的接入策略；方案见 `docs/19-expert-integration-strategy.md`。
+12. 按 `docs/20-expert-integration-e2e-test-plan.md` 执行端到端验收；测试报告见 `docs/21-expert-integration-e2e-test-report.md`。
 
 ## 7. 主要来源
 

@@ -197,4 +197,4 @@ skills/solo-spec-release/
 - 不写文件测试：专家 Skill 本身不直接修改用户项目。
 - 主流程兼容测试：未安装专家 Skill 时，`solo-spec` 仍能跑通。
 
-首批专家的整体烟测报告见 `docs/17-expert-skills-integration-smoke-test.md`，真实子代理黑盒调用报告见 `docs/18-expert-skills-forward-test.md`。
+首批专家的整体烟测报告见 `docs/17-expert-skills-integration-smoke-test.md`，真实子代理黑盒调用报告见 `docs/18-expert-skills-forward-test.md`。接入策略见 `docs/19-expert-integration-strategy.md`。

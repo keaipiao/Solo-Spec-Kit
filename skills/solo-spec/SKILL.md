@@ -48,6 +48,7 @@ Load [references/workflow.md](references/workflow.md) after branch selection.
 - Use templates from [assets/templates/solo/](assets/templates/solo/) only when the matching stage starts.
 - Do not instantiate future-stage Markdown files just to fill the directory tree.
 - Only write confirmed conclusions. Do not leave `TODO`, `待定`, or speculative placeholders in generated user-facing artifacts.
+- Read and write SoloSpec Markdown, JSON, and templates as UTF-8. On Windows shell commands, pass explicit UTF-8 encoding when reading Chinese files.
 - Keep changes surgical. Do not refactor unrelated code.
 - Hard gates require explicit user confirmation: `通过`, `继续`, `按这个来`, or `确认`.
 - Silence, chatting, or answering a side question is not approval to advance.
@@ -134,11 +135,24 @@ Do not create parallel `docs/plans/`, `docs/features/`, or `specs/` directories 
 
 ## Expert Modules
 
-For v0.1 flow validation, do not depend on expert roles. Use the main workflow and artifact rules only.
+Do not depend on expert skills. The base `/solo` workflow must still run when no expert skill is installed.
 
-[references/experts.md](references/experts.md) is optional design material for later quality enhancement. Load it only when the user explicitly asks to evaluate expert roles, adapt external skill output, or improve output quality beyond the base flow.
+Load [references/experts.md](references/experts.md) when the user asks to use or evaluate expert roles, adapt external skill output, or when the current stage is complex enough to suggest a specialist review.
 
 Standalone expert skills such as `$solo-spec-product`, `$solo-spec-ux`, `$solo-spec-architecture`, `$solo-spec-tdd`, `$solo-spec-qa`, and `$solo-spec-release` may be installed as optional siblings of `$solo-spec`. They must return expert packets; they do not own the workflow, create directories, write files directly, or pass gates.
+
+You may suggest an expert only for the current branch and stage:
+
+- `brainstorm` / `scope`: product expert.
+- `ux` / `design`: UX expert.
+- `architecture` / `plan` / `root-cause`: architecture expert.
+- `tdd-plan` / `regression-test`: TDD expert.
+- `qa` / `verify`: QA expert.
+- `archive` / `write-managed-blocks`: release expert.
+
+Before using an expert, explain the benefit and ask for confirmation. Keep the wording simple; do not require the user to understand expert packets or remember expert commands. Never call experts automatically by default.
+
+If an expert is unavailable, returns invalid output, or suggests content outside the current stage, continue with the base workflow and record only valid current-stage findings.
 
 External skills may be used only as:
 

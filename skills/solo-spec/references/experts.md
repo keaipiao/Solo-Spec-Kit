@@ -2,7 +2,7 @@
 
 Use these as internal thinking modes. They do not write files directly.
 
-Current status: v0.2 is contract-only. Do not call expert roles automatically from the base `/solo` workflow. Load this reference only when the user explicitly asks to evaluate expert roles, adapt an external skill output, or improve output quality beyond the base flow.
+Current status: v0.2 supports explicit enhancement. Do not call expert roles automatically from the base `/solo` workflow. Suggest them only when the current stage would benefit from specialist review, and continue with the base workflow if the user declines or the expert skill is unavailable.
 
 Expert modules should be standalone sibling skills when they become complex, for example `$solo-spec-product`, `$solo-spec-ux`, `$solo-spec-architecture`, `$solo-spec-tdd`, `$solo-spec-qa`, and `$solo-spec-release`. The base `$solo-spec` skill remains the orchestrator.
 
@@ -15,6 +15,39 @@ Expert output must be converted by the main SoloSpec flow before writing:
 Use the packet shape defined in `docs/06-expert-contract.md`: `expert`, `branch`, `stage`, `mode`, `summary`, `findings`, `recommendation`, `writeTargets`, `assets`, `discarded`, `gate`, and `risks`.
 
 Discard any expert or external-skill output that creates its own directory structure, targets a future stage, bypasses a gate, or cannot be mapped to an existing SoloSpec file, section, or asset directory.
+
+## Integration Rules
+
+Use this order when consuming an expert packet:
+
+1. Validate packet shape.
+2. Validate `branch` and `stage` against `solo/state.json`.
+3. Validate every `writeTargets.file` is under the allowed `solo/` target set.
+4. Validate every `writeTargets.section` exists in the target template or current artifact.
+5. Validate every asset target is under the current project or spec asset directory.
+6. Move invalid, broad, future-stage, or unverified content to `discarded` or stage risks.
+7. Give only valid current-stage suggestions to the Artifact Writer.
+8. Apply the normal SoloSpec gate; an expert cannot mark a gate passed.
+
+Allowed targets are current-stage files only:
+
+- Project stages: `project/*.md`, ADRs, and project assets.
+- Iteration stages: current `specs/NNN-*/brainstorm.md`, `proposal.md`, `spec.md`, `design.md`, `plan.md`, `tasks.md`, `qa.md`, `archive.md`, and current spec assets.
+- Bugfix stages: current bugfix `proposal.md`, `plan.md`, `tasks.md`, `qa.md`, `archive.md`, and current bugfix assets.
+- Managed blocks: only after the workflow reaches the confirmed managed-block stage.
+
+If a specialist review may take time, use external research, generate assets, change the stage conclusion, or affect a project baseline, ask the user before using it.
+
+Suggested stage mapping:
+
+| Stage | Optional expert | Use for |
+|---|---|---|
+| `brainstorm` / `scope` | `solo-spec-product` | options, pain points, MVP boundary |
+| `ux` / `design` | `solo-spec-ux` | flows, states, visual assets, design risks |
+| `architecture` / `plan` / `root-cause` | `solo-spec-architecture` | triggered layers, ADRs, data flow, rollback |
+| `tdd-plan` / `regression-test` | `solo-spec-tdd` | red tests, task sequence, regression checks |
+| `qa` / `verify` | `solo-spec-qa` | evidence, screenshots, logs, real verification |
+| `archive` / `write-managed-blocks` | `solo-spec-release` | archive summary, baseline promotion, managed blocks |
 
 Mapping rules:
 
