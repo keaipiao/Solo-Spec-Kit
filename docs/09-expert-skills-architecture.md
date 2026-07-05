@@ -168,13 +168,13 @@ risks:
 
 ## 7. 分发策略
 
-v0.1-alpha 只要求安装：
+v0.2 基础安装只要求安装：
 
 ```text
 skills/solo-spec/
 ```
 
-v0.2-alpha 可以选择安装：
+v0.2 增强安装可以选择安装：
 
 ```text
 skills/solo-spec/
@@ -197,4 +197,4 @@ skills/solo-spec-release/
 - 不写文件测试：专家 Skill 本身不直接修改用户项目。
 - 主流程兼容测试：未安装专家 Skill 时，`solo-spec` 仍能跑通。
 
-首批专家的整体烟测报告见 `docs/17-expert-skills-integration-smoke-test.md`，真实子代理黑盒调用报告见 `docs/18-expert-skills-forward-test.md`。接入策略见 `docs/19-expert-integration-strategy.md`。
+首批专家的整体烟测报告见 `docs/17-expert-skills-integration-smoke-test.md`，真实子代理黑盒调用报告见 `docs/18-expert-skills-forward-test.md`。接入策略见 `docs/19-expert-integration-strategy.md`，v0.2 分发安装验收见 `docs/24-v02-distribution-installation-test.md`。

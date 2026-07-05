@@ -10,7 +10,7 @@ v0.2 定义专家模块契约，并以“显式增强 + 主流程建议”的方
 
 - 把产品、调研、UX、架构、规格、TDD、QA、归档等能力拆成可组合专家。
 - 允许借鉴 Superpowers、gstack、BMAD、Spec Kit、OpenSpec、taste 等方法，但所有输出必须落回 SoloSpec 的目录、章节、状态机和门禁。
-- 保持 v0.1-alpha 主流程稳定，避免专家模块引入新目录、新阶段或绕过用户确认。
+- 保持既有主流程稳定，避免专家模块引入新目录、新阶段或绕过用户确认。
 
 非目标：
 
@@ -209,7 +209,7 @@ v0.2 设计完成的判定标准：
 - 任一专家输出都能映射到明确文件和章节。
 - 任一外部 Skill 输出都能被归类为 Reviewer、Advisor 或 Generator。
 - 出现不适配内容时，有明确丢弃规则。
-- 不需要修改 v0.1-alpha 的目录结构和主状态机。
+- 不需要修改既有目录结构和主状态机。
 - 独立子代理能根据契约判断外部输出应写入哪里、哪些内容必须丢弃。
 
 ## 9. 后续实施顺序
@@ -226,3 +226,4 @@ v0.2 设计完成的判定标准：
 10. 已把专家模块作为显式增强能力接入 `/solo` 主 Skill：主流程可在当前阶段建议专家审查，经用户确认后消费 expert packet；仍不默认自动调用专家。
 11. 已验证主 Skill 在未安装专家 sibling 时仍可降级运行，见 `docs/22-main-skill-expert-suggestion-smoke-test.md`。
 12. 已用独立子代理执行盲测前向测试，见 `docs/23-blind-forward-expert-suggestion-test.md`。
+13. 已完成 v0.2 项目级增强安装验收，见 `docs/24-v02-distribution-installation-test.md`。
