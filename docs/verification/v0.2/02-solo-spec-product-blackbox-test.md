@@ -7,7 +7,7 @@
 验证 `skills/solo-spec-product/` 能否把产品想法、头脑风暴、调研需求和范围收敛转换为 SoloSpec 标准 expert packet，并满足以下约束：
 
 - 不直接写文件。
-- 不推进 `/solo` 阶段。
+- 不推进 `solo-spec` 阶段。
 - 不通过门禁。
 - 新项目 brainstorm 不落过程文档。
 - 调研只服务当前阶段，不创建 `research.md`。

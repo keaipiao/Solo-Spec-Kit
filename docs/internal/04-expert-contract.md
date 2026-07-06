@@ -1,6 +1,6 @@
 # 专家模块契约
 
-v0.2 定义专家模块契约，并以“显式增强 + 主流程建议”的方式接入 `/solo`；仍不默认自动调用专家。设计方案见 `docs/08-expert-module-v02-design.md`，独立专家 Skill 架构见 `docs/09-expert-skills-architecture.md`，接入策略见 `docs/19-expert-integration-strategy.md`。
+v0.2 定义专家模块契约，并以“显式增强 + 主流程建议”的方式接入 `solo-spec`；仍不默认自动调用专家。设计方案见 `docs/internal/05-expert-module-v02-design.md`，独立专家 Skill 架构见 `docs/internal/06-expert-skills-architecture.md`，接入策略见 `docs/internal/08-expert-integration-strategy.md`。
 
 ## 1. 契约目标
 
@@ -340,7 +340,7 @@ risks:
 
 ## 6. 外部增强适配
 
-外部增强必须被包装成上述专家模块的一部分。
+外部增强不直接写入 SoloSpec 产物。用户指定其他 Skill 或工具时，主流程必须把输出按 Reviewer、Advisor 或 Generator 适配为当前阶段的专家契约结果，再决定是否写入。
 
 示例：
 

@@ -23,7 +23,7 @@ skills/
 └── solo-spec-release/
 ```
 
-v0.2 先以 `solo-spec-product`、`solo-spec-ux`、`solo-spec-architecture`、`solo-spec-tdd`、`solo-spec-qa` 和 `solo-spec-release` 作为验证方向，用于验证前置产品发现能力、复杂设计类能力、架构决策能力、TDD 任务拆分能力、QA 证据登记能力和归档发布收口能力如何独立成 Skill；正式落地前必须按 `docs/10-expert-skill-research.md` 重写校准。
+v0.2 先以 `solo-spec-product`、`solo-spec-ux`、`solo-spec-architecture`、`solo-spec-tdd`、`solo-spec-qa` 和 `solo-spec-release` 作为验证方向，用于验证前置产品发现能力、复杂设计类能力、架构决策能力、TDD 任务拆分能力、QA 证据登记能力和归档发布收口能力如何独立成 Skill；正式落地前必须按 `docs/internal/07-expert-skill-research.md` 重写校准。
 
 ## 3. 主 Skill 和专家 Skill 边界
 
@@ -82,7 +82,7 @@ risks:
 
 ## 6. 首批专家原型
 
-`solo-spec-product`、`solo-spec-ux`、`solo-spec-architecture`、`solo-spec-tdd`、`solo-spec-qa` 和 `solo-spec-release` 是首批独立专家 Skill 原型。正式版本必须先按 `docs/10-expert-skill-research.md` 的调研结论重写校准。
+`solo-spec-product`、`solo-spec-ux`、`solo-spec-architecture`、`solo-spec-tdd`、`solo-spec-qa` 和 `solo-spec-release` 是首批独立专家 Skill 原型。正式版本必须先按 `docs/internal/07-expert-skill-research.md` 的调研结论重写校准。
 
 `solo-spec-product` 只做：
 
@@ -92,7 +92,7 @@ risks:
 
 它不做：
 
-- 不推进 `/solo` 阶段。
+- 不推进 `solo-spec` 阶段。
 - 不创建 `research.md` 或外部产品目录。
 - 不把未确认的 pivot、目标用户或商业模式写成项目基线。
 - 不把实现细节、UI 设计、架构或 TDD 任务写成产品需求。
@@ -105,7 +105,7 @@ risks:
 
 它不做：
 
-- 不推进 `/solo` 阶段。
+- 不推进 `solo-spec` 阶段。
 - 不创建 `solo/` 目录。
 - 不直接写 `design.md`、`design-system.md` 或代码。
 - 不把设计稿留在外部临时目录当作最终产物。
@@ -118,7 +118,7 @@ risks:
 
 它不做：
 
-- 不推进 `/solo` 阶段。
+- 不推进 `solo-spec` 阶段。
 - 不直接修改依赖、配置、迁移、框架代码或业务代码。
 - 不列出所有未触发的可选架构层作为 `不适用`。
 - 不在未官方核验时断言版本、API、平台限制或安全行为。
@@ -132,7 +132,7 @@ risks:
 
 它不做：
 
-- 不推进 `/solo` 阶段。
+- 不推进 `solo-spec` 阶段。
 - 不直接写实现代码、测试代码、迁移或依赖。
 - 不跳过红灯测试。
 - 不把 QA 执行结果写成 TDD 计划。
@@ -146,7 +146,7 @@ risks:
 
 它不做：
 
-- 不推进 `/solo` 阶段。
+- 不推进 `solo-spec` 阶段。
 - 不把测试计划伪装成执行记录。
 - 不在缺少证据时宣告 QA 通过。
 - 不直接修代码、写测试、改依赖或迁移。
@@ -160,7 +160,7 @@ risks:
 
 它不做：
 
-- 不推进 `/solo` 阶段。
+- 不推进 `solo-spec` 阶段。
 - 不提交、打标签、推送、发布或部署。
 - 不在 QA 证据缺失时建议发布完成。
 - 不把未验证或临时决定晋升到项目基线。
@@ -197,4 +197,4 @@ skills/solo-spec-release/
 - 不写文件测试：专家 Skill 本身不直接修改用户项目。
 - 主流程兼容测试：未安装专家 Skill 时，`solo-spec` 仍能跑通。
 
-首批专家的整体烟测报告见 `docs/17-expert-skills-integration-smoke-test.md`，真实子代理黑盒调用报告见 `docs/18-expert-skills-forward-test.md`。接入策略见 `docs/19-expert-integration-strategy.md`，v0.2 分发安装验收见 `docs/24-v02-distribution-installation-test.md`。
+首批专家的整体烟测报告见 `docs/verification/v0.2/07-expert-skills-integration-smoke-test.md`，真实子代理黑盒调用报告见 `docs/verification/v0.2/08-expert-skills-forward-test.md`。接入策略见 `docs/internal/08-expert-integration-strategy.md`，v0.2 分发安装验收见 `docs/verification/v0.2/13-v02-distribution-installation-test.md`。

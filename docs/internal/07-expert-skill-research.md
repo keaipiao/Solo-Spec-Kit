@@ -10,7 +10,7 @@
 
 - Skill 的主流标准就是“可独立发现、按需加载、可版本化”的能力包。OpenAI、Anthropic、Agent Skills 规范都把 Skill 定义为包含 `SKILL.md`、可选脚本、参考资料、模板和资产的文件夹。
 - 顶级流程不是把所有专家知识常驻上下文，而是用渐进披露：入口 Skill 只负责路由和流程，专家 Skill 在被触发时再加载细节。
-- 设计、产品、架构、TDD、QA 的判断方式不同。强行合并会让 `/solo` 变成大而全的提示词，增加上下文污染、目录越界和门禁绕过风险。
+- 设计、产品、架构、TDD、QA 的判断方式不同。强行合并会让 `solo-spec` 变成大而全的提示词，增加上下文污染、目录越界和门禁绕过风险。
 
 因此 SoloSpec 的专家策略确定为：
 
@@ -24,7 +24,7 @@ solo-spec-qa           # 验证、浏览器 QA、证据登记
 solo-spec-release      # 归档、项目基线晋升、托管块建议
 ```
 
-`solo-spec-*` 必须独立可用；一旦接入 `/solo`，必须只输出 expert packet，由 `solo-spec` 决定是否写入标准目录。
+`solo-spec-*` 必须独立可用；一旦接入 `solo-spec`，必须只输出 expert packet，由 `solo-spec` 决定是否写入标准目录。
 
 ## 2. 来源分层
 
@@ -101,7 +101,7 @@ risks:
 每个专家 Skill 必须支持两种模式：
 
 - Standalone：用户单独调用 `$solo-spec-ux` 时，输出可读的专家建议、审查结果或设计映射建议。
-- SoloSpec integration：被 `/solo` 编排时，只输出 expert packet，不推进阶段、不写文件、不通过门禁。
+- SoloSpec integration：被 `solo-spec` 编排时，只输出 expert packet，不推进阶段、不写文件、不通过门禁。
 
 ## 4. UX 专家模块设计原则
 
@@ -163,21 +163,21 @@ solo/
 
 ## 6. 下一步执行顺序
 
-1. 把 `docs/08-expert-module-v02-design.md` 和 `docs/09-expert-skills-architecture.md` 中“直接落地 `solo-spec-ux`”的表述改成“先研究、再定稿、草稿需重写校准”。
+1. 把 `docs/internal/05-expert-module-v02-design.md` 和 `docs/internal/06-expert-skills-architecture.md` 中“直接落地 `solo-spec-ux`”的表述改成“先研究、再定稿、草稿需重写校准”。
 2. 基于本调研重写 `skills/solo-spec-ux/`，不要沿用未经验证的早期草稿。
-3. 为 `solo-spec-ux` 增加黑盒样例，测试报告见 `docs/11-solo-spec-ux-blackbox-test.md`：
+3. 为 `solo-spec-ux` 增加黑盒样例，测试报告见 `docs/verification/v0.2/01-solo-spec-ux-blackbox-test.md`：
    - taste 输出高保真图，映射到当前 spec。
    - 新项目 UX 阶段设定主题色和设计基调，写入项目级文档。
    - 迭代修改某页面设计，冲突时当前 spec 优先，归档后再晋升项目基线。
-4. 通过 UX 样例后，设计 `solo-spec-product`，因为产品专家会影响更前置的头脑风暴、调研和需求收敛；测试报告见 `docs/12-solo-spec-product-blackbox-test.md`。
-5. 完成产品专家后，设计 `solo-spec-architecture`，用于承接产品和 UX 后的架构触发判断、依赖核验、ADR、风险和回滚；测试报告见 `docs/13-solo-spec-architecture-blackbox-test.md`。
-6. 完成架构专家后，设计 `solo-spec-tdd`，用于把已确认规格和技术计划拆成红绿循环、回归测试和可执行验证；测试报告见 `docs/14-solo-spec-tdd-blackbox-test.md`。
-7. 完成 TDD 专家后，设计 `solo-spec-qa`，用于登记真实 QA 执行证据、截图日志、发现问题和门禁建议；测试报告见 `docs/15-solo-spec-qa-blackbox-test.md`。
-8. 完成 QA 专家后，设计 `solo-spec-release`，用于归档、项目基线晋升、发布记录、托管块建议和收尾一致性；测试报告见 `docs/16-solo-spec-release-blackbox-test.md`。
-9. 完成首批专家后，执行整体结构、章节映射和分发复制烟测；测试报告见 `docs/17-expert-skills-integration-smoke-test.md`。
-10. 用全新子代理执行真实黑盒调用测试，并根据结果修正专家边界；测试报告见 `docs/18-expert-skills-forward-test.md`。
-11. 设计 `/solo` 消费专家输出的接入策略；方案见 `docs/19-expert-integration-strategy.md`。
-12. 按 `docs/20-expert-integration-e2e-test-plan.md` 执行端到端验收；测试报告见 `docs/21-expert-integration-e2e-test-report.md`。
+4. 通过 UX 样例后，设计 `solo-spec-product`，因为产品专家会影响更前置的头脑风暴、调研和需求收敛；测试报告见 `docs/verification/v0.2/02-solo-spec-product-blackbox-test.md`。
+5. 完成产品专家后，设计 `solo-spec-architecture`，用于承接产品和 UX 后的架构触发判断、依赖核验、ADR、风险和回滚；测试报告见 `docs/verification/v0.2/03-solo-spec-architecture-blackbox-test.md`。
+6. 完成架构专家后，设计 `solo-spec-tdd`，用于把已确认规格和技术计划拆成红绿循环、回归测试和可执行验证；测试报告见 `docs/verification/v0.2/04-solo-spec-tdd-blackbox-test.md`。
+7. 完成 TDD 专家后，设计 `solo-spec-qa`，用于登记真实 QA 执行证据、截图日志、发现问题和门禁建议；测试报告见 `docs/verification/v0.2/05-solo-spec-qa-blackbox-test.md`。
+8. 完成 QA 专家后，设计 `solo-spec-release`，用于归档、项目基线晋升、发布记录、托管块建议和收尾一致性；测试报告见 `docs/verification/v0.2/06-solo-spec-release-blackbox-test.md`。
+9. 完成首批专家后，执行整体结构、章节映射和分发复制烟测；测试报告见 `docs/verification/v0.2/07-expert-skills-integration-smoke-test.md`。
+10. 用全新子代理执行真实黑盒调用测试，并根据结果修正专家边界；测试报告见 `docs/verification/v0.2/08-expert-skills-forward-test.md`。
+11. 设计 `solo-spec` 消费专家输出的接入策略；方案见 `docs/internal/08-expert-integration-strategy.md`。
+12. 按 `docs/verification/v0.2/09-expert-integration-e2e-test-plan.md` 执行端到端验收；测试报告见 `docs/verification/v0.2/10-expert-integration-e2e-test-report.md`。
 
 ## 7. 主要来源
 

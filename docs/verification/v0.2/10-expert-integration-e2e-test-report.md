@@ -4,7 +4,7 @@
 
 通过。
 
-本轮在全新目录执行了一条完整 iteration，验证 `/solo` 主流程可以在不默认自动调用专家的前提下消费专家 expert packet，并把合规内容写入标准 SoloSpec 文档。
+本轮在全新目录执行了一条完整 iteration，验证 `solo-spec` 主流程可以在不默认自动调用专家的前提下消费专家 expert packet，并把合规内容写入标准 SoloSpec 文档。
 
 测试未修改本仓库业务代码。测试项目位于：
 
@@ -38,7 +38,7 @@ solo-spec-release
 测试请求：
 
 ```text
-/solo 给现有 React 工具增加 CSV 导入功能，需要页面交互、错误状态、TDD 和 QA
+$solo-spec 给现有 React 工具增加 CSV 导入功能，需要页面交互、错误状态、TDD 和 QA
 ```
 
 分支：`iteration`
@@ -183,28 +183,28 @@ Playwright 成功生成有效 CSV 和无效 CSV 两张截图。
 
 | 标准 | 结果 |
 |---|---|
-| `/solo` 从 intake 到 archive 完整跑通 | 通过 |
+| `solo-spec` 从 intake 到 archive 完整跑通 | 通过 |
 | 所有专家输出都经过主流程消费 | 通过 |
 | 没有专家直接写文件 | 通过 |
 | 没有专家推进状态机或通过门禁 | 通过 |
 | 所有写入目标都在 `solo/` 标准目录内 | 通过 |
 | 新增文档章节来自模板或当前阶段规则允许 | 通过 |
 | 专家缺失时主流程可降级继续 | 通过 |
-| 用户只需要理解 `/solo` 和阶段确认 | 通过 |
+| 用户只需要理解 `$solo-spec` 和阶段确认 | 通过 |
 
 ## 10. 接入结果
 
-已把“主流程建议调用专家”的说明写入 `/solo` 主 Skill，但仍不默认自动调用专家。
+已把“主流程门禁前报告当前阶段专家状态”的说明写入 `solo-spec` 主 Skill，但仍不默认自动调用专家。
 
 当前接入层如下：
 
-- 在 `brainstorm` / `scope` 阶段提示可调用产品专家。
-- 在 `design` 阶段提示可调用 UX 专家。
-- 在 `architecture` 阶段提示可调用架构专家。
-- 在 `tdd-plan` 阶段提示可调用 TDD 专家。
-- 在 `qa` 阶段提示可调用 QA 专家。
-- 在 `archive` 阶段提示可调用 Release 专家。
+- 在 `brainstorm` / `scope` 阶段报告产品专家状态。
+- 在 `design` 阶段报告 UX 专家状态。
+- 在 `architecture` 阶段报告架构专家状态。
+- 在 `tdd-plan` 阶段报告 TDD 专家状态。
+- 在 `qa` 阶段报告 QA 专家状态。
+- 在 `archive` 阶段报告 Release 专家状态。
 
 主流程应继续保持：未安装专家时降级继续。
 
-主 Skill 降级烟测见 `docs/22-main-skill-expert-suggestion-smoke-test.md`。
+主 Skill 降级烟测见 `docs/verification/v0.2/11-main-skill-expert-suggestion-smoke-test.md`。

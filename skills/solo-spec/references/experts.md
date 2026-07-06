@@ -2,9 +2,13 @@
 
 Use these as internal thinking modes. They do not write files directly.
 
-Current status: v0.2 supports explicit enhancement. Do not call expert roles automatically from the base `/solo` workflow. Suggest them only when the current stage would benefit from specialist review, and continue with the base workflow if the user declines or the expert skill is unavailable.
+Current status: v0.2 supports explicit enhancement. Do not call expert roles automatically from the base `solo-spec` workflow. Before a mapped stage reaches its user gate, the main flow must report the current-stage expert status. It must not enumerate every installed skill. Mention only the current-stage SoloSpec expert and any other skill/tool explicitly named by the user.
+
+For mapped stages, a short summary like `未调用专家` is not enough. The main flow must name the mapped expert skill, report whether it is installed, state whether it was offered, used, skipped, unavailable, or replaced by a user-named tool, and show the allowed next choices inside the `专家增强` block. If the expert is installed, the choices are: call the expert, or skip expert review and confirm the current stage. If the expert is not installed, the choices are: skip expert review and confirm the current stage, or name another skill/tool for review.
 
 Expert modules should be standalone sibling skills when they become complex, for example `$solo-spec-product`, `$solo-spec-ux`, `$solo-spec-architecture`, `$solo-spec-tdd`, `$solo-spec-qa`, and `$solo-spec-release`. The base `$solo-spec` skill remains the orchestrator.
+
+If the mapped SoloSpec expert is available, offer to run it or skip it. If it is not available, say so and offer to continue without expert review or let the user name another skill/tool. User-named tools are external outputs and still must be converted by the main SoloSpec flow before writing.
 
 Expert output must be converted by the main SoloSpec flow before writing:
 
@@ -12,7 +16,7 @@ Expert output must be converted by the main SoloSpec flow before writing:
 - Advisor: suggest options, risks, tradeoffs, or section content for the current stage.
 - Generator: produce raw assets such as mockups, screenshots, logs, or test evidence.
 
-Use the packet shape defined in `docs/06-expert-contract.md`: `expert`, `branch`, `stage`, `mode`, `summary`, `findings`, `recommendation`, `writeTargets`, `assets`, `discarded`, `gate`, and `risks`.
+Use the packet shape defined in `docs/internal/04-expert-contract.md`: `expert`, `branch`, `stage`, `mode`, `summary`, `findings`, `recommendation`, `writeTargets`, `assets`, `discarded`, `gate`, and `risks`.
 
 Discard any expert or external-skill output that creates its own directory structure, targets a future stage, bypasses a gate, or cannot be mapped to an existing SoloSpec file, section, or asset directory.
 
@@ -36,7 +40,7 @@ Allowed targets are current-stage files only:
 - Bugfix stages: current bugfix `proposal.md`, `plan.md`, `tasks.md`, `qa.md`, `archive.md`, and current bugfix assets.
 - Managed blocks: only after the workflow reaches the confirmed managed-block stage.
 
-If a specialist review may take time, use external research, generate assets, change the stage conclusion, or affect a project baseline, ask the user before using it.
+If a specialist review may take time, use external research, generate assets, change the stage conclusion, or affect a project baseline, explain that impact in the offer before using it.
 
 Suggested stage mapping:
 

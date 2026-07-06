@@ -87,6 +87,20 @@ ProjectPath does not exist or is not a directory: E:\test\solo-spec-missing-proj
 
 实际验收结果：全部通过。
 
-## 5. 用户文档同步
+## 5. 2026-07-06 复测
 
-`README.md` 已补充脚本安装方式，同时保留手动基础安装和增强安装说明。
+文档目录重组和入口文案统一后，重新用临时项目验证安装脚本。
+
+| 验证项 | 结果 |
+|---|---|
+| `-Mode basic` | 通过，只安装 `solo-spec` |
+| `-Mode enhanced` | 通过，安装主 Skill 和六个专家 Skill |
+| 重复安装且不加 `-Force` | 通过，拒绝覆盖并提示目标已存在 |
+| 先基础安装再用 `-Mode enhanced -Force` 覆盖 | 通过，目标变为增强安装 |
+| 临时目录清理 | 通过 |
+
+复测未修改仓库文件，也未产生残留临时项目。
+
+## 6. 用户文档同步
+
+`README.md` 和 `docs/public/01-user-guide.md` 已补充脚本安装方式，同时保留基础安装和增强安装说明。

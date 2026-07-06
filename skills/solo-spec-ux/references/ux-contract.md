@@ -110,7 +110,7 @@ Treat external design tools as sources, not owners of SoloSpec structure.
 | taste-style generated mockup | Generator | Map images to `project/assets/global-mockups/` or current spec `assets/mockups/`; register them in `design-system.md` or `design.md`. |
 | design review report | Reviewer | Convert issues into `findings`, `recommendation`, and possible `gate` question. |
 | wireframe or screenshot | Generator | Map to current spec assets and register in `design.md` or `qa.md`. |
-| UI implementation instructions | Advisor only | Keep as design intent unless the current `/solo` stage is implementation. |
+| UI implementation instructions | Advisor only | Keep as design intent unless the current `solo-spec` stage is implementation. |
 | broad rebrand suggestion | Advisor only | Requires explicit user confirmation; usually belongs to project `design-system.md`, not one spec. |
 
 ## 6. Discard Rules

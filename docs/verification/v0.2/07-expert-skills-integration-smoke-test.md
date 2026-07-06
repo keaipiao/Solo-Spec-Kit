@@ -105,7 +105,7 @@ ModuleNotFoundError: No module named 'yaml'
 
 首批六个专家 Skill 已具备可选增强分发形态：
 
-- 主入口仍是 `/solo`。
+- 主入口仍是 `$solo-spec`。
 - 未安装专家 Skill 时，`solo-spec` 主流程不依赖专家。
 - 安装专家 Skill 后，专家只输出 expert packet。
 - 专家输出能映射到现有 SoloSpec 模板章节。

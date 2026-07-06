@@ -70,7 +70,7 @@ SoloSpec 的最终分发形态是接入用户已有或新建项目。
 
 `solo/` 是完整事实源。外部文件只允许写托管块或摘要索引，不能成为唯一事实源。
 
-托管块模板和卸载规则见 `docs/04-template-contract.md`。
+托管块模板和卸载规则见 `docs/internal/02-template-contract.md`。
 
 ## 4. 项目级文档
 
@@ -177,7 +177,7 @@ ADR 记录跨功能或高影响决策。普通功能内部取舍写在对应 `pl
 
 ## 8. 状态文件
 
-`solo/state.json` 用于恢复 `/solo 继续`。
+`solo/state.json` 用于恢复 `$solo-spec 继续`。
 
 建议字段：
 

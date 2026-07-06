@@ -4,7 +4,7 @@
 
 SoloSpec 是面向中文 AI 编程独立开发者的端到端流程 Skill。
 
-用户只需要通过一个入口 `/solo` 输入自己的想法、迭代诉求、Bug 或老项目接入诉求，SoloSpec 负责分流、追问、按阶段调研、生成文档、设置门禁，并在用户确认后进入下一阶段。
+用户只需要通过一个入口 `$solo-spec` 输入自己的想法、迭代诉求、Bug 或老项目接入诉求，SoloSpec 负责分流、追问、按阶段调研、生成文档、设置门禁，并在用户确认后进入下一阶段。
 
 核心目标不是多写文档，而是把 AI 编程从“想到哪做到哪”升级为“先验证、再设计、再规格化、再 TDD 实现、最后 QA 与归档”的可复用流程。
 
@@ -19,7 +19,7 @@ SoloSpec 是面向中文 AI 编程独立开发者的端到端流程 Skill。
 
 ### 3.1 一个入口
 
-公开入口只保留 `/solo`。
+公开入口只保留 `$solo-spec`。
 
 用户不需要理解 `spec`、`tdd-plan`、`qa` 等内部阶段命令。SoloSpec 自动识别意图；无法判断时，只问一个分流问题。
 
@@ -35,7 +35,7 @@ SoloSpec 不硬依赖 BMAD、Spec Kit、OpenSpec、Superpowers、gstack、taste 
 
 这些顶级 Skill 的方法论可被吸收为内部专家模块，但最终流程、目录、章节、门禁、写入规则由 SoloSpec 统一控制。
 
-外部 Skill 未来可以作为 Reviewer、Advisor 或 Generator，但不能绕过 SoloSpec 写入规则。具体边界见 `docs/03-skill-execution-rules.md` 和 `docs/04-template-contract.md`。
+外部 Skill 未来可以作为 Reviewer、Advisor 或 Generator，但不能绕过 SoloSpec 写入规则。具体边界见 `docs/internal/01-skill-execution-rules.md` 和 `docs/internal/02-template-contract.md`。
 
 ### 3.4 先确认，后推进
 
@@ -52,17 +52,19 @@ SoloSpec 不硬依赖 BMAD、Spec Kit、OpenSpec、Superpowers、gstack、taste 
 ### 4.1 唯一入口
 
 ```text
-/solo <用户自然语言描述>
+$solo-spec <用户自然语言描述>
 ```
+
+`/solo` 和 `/solo-spec` 只能作为宿主环境已配置别名时的兼容写法，公开文档以 `$solo-spec` 为准。
 
 示例：
 
 ```text
-/solo 我想做一个小红书博主用的 AI 选题工具
-/solo 给现有项目加邮箱登录
-/solo 这个接口 500 了，帮我修
-/solo 把这个老项目接入规范流程
-/solo 继续
+$solo-spec 我想做一个小红书博主用的 AI 选题工具
+$solo-spec 给现有项目加邮箱登录
+$solo-spec 这个接口 500 了，帮我修
+$solo-spec 把这个老项目接入规范流程
+$solo-spec 继续
 ```
 
 ### 4.2 内部分支
@@ -132,7 +134,7 @@ SoloSpec 将顶级 Skill 的强项吸收为内部专家模块。
 
 SoloSpec 第一版成功，应满足：
 
-- 用户只记住 `/solo` 一个入口。
+- 用户只记住 `$solo-spec` 一个入口。
 - 新项目、迭代、Bug 修复、老项目接入都能被正确分流。
 - 所有项目级和迭代级产物都落在 `solo/` 统一结构内。
 - 所有关键阶段都有明确门禁和用户确认。

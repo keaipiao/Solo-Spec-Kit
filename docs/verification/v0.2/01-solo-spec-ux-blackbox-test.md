@@ -7,7 +7,7 @@
 验证 `skills/solo-spec-ux/` 能否把外部 UX / 设计产物转换为 SoloSpec 标准 expert packet，并满足以下约束：
 
 - 不直接写文件。
-- 不推进 `/solo` 阶段。
+- 不推进 `solo-spec` 阶段。
 - 不通过门禁。
 - 不创建外部设计目录。
 - 只把可采纳内容映射到 `solo/project/` 或当前 `solo/specs/NNN-*/`。

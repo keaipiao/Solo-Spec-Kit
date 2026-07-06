@@ -7,7 +7,7 @@
 验证 `skills/solo-spec-architecture/` 能否把架构分析、依赖核验、ADR、技术计划和 Bug 根因转换为 SoloSpec 标准 expert packet，并满足以下约束：
 
 - 不直接写文件。
-- 不推进 `/solo` 阶段。
+- 不推进 `solo-spec` 阶段。
 - 不通过门禁。
 - 不直接改依赖、配置、迁移或代码。
 - 技术栈不是固定模板，只列已采用或决策相关层。

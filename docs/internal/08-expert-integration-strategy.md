@@ -2,9 +2,9 @@
 
 ## 1. 结论
 
-v0.2 后续接入采用“显式增强 + 主流程建议”的方式，不默认自动调用专家。
+v0.2 后续接入采用“显式增强 + 当前阶段状态提示”的方式，不默认自动调用专家。
 
-这样设计是为了保持 `/solo` 的核心承诺：
+这样设计是为了保持 `solo-spec` 的核心承诺：
 
 - 用户只需要一个入口。
 - 主流程在未安装专家 Skill 时仍能独立运行。
@@ -16,17 +16,17 @@ v0.2 后续接入采用“显式增强 + 主流程建议”的方式，不默认
 | 等级 | 形态 | v0.2 采用 |
 |---|---|---|
 | L0 | 专家 Skill 独立可用，用户直接调用 `$solo-spec-*` | 是 |
-| L1 | `/solo` 在当前阶段建议用户调用某个专家 | 是 |
-| L2 | `/solo` 经用户确认后调用某个专家，并消费 expert packet | 是 |
-| L3 | `/solo` 默认自动调用专家 | 否 |
+| L1 | `$solo-spec` 在当前阶段门禁前报告专家增强状态 | 是 |
+| L2 | `$solo-spec` 经用户确认后调用某个专家，并消费 expert packet | 是 |
+| L3 | `$solo-spec` 默认自动调用专家 | 否 |
 
 ## 2. 调用原则
 
 ### 2.1 保持一个公共入口
 
-普通用户仍只需要使用 `/solo`。
+普通用户仍只需要调用 `$solo-spec`。
 
-专家 Skill 不成为新的公共流程入口。它们可以独立调用，但定位是增强能力，不是替代 `/solo`。
+专家 Skill 不成为新的公共流程入口。它们可以独立调用，但定位是增强能力，不是替代 `$solo-spec`。
 
 ### 2.2 当前阶段优先
 
@@ -34,7 +34,7 @@ v0.2 后续接入采用“显式增强 + 主流程建议”的方式，不默认
 
 示例：
 
-| 当前阶段 | 可建议专家 | 目的 |
+| 当前阶段 | 可用专家 | 目的 |
 |---|---|---|
 | `brainstorm` / `scope` | `solo-spec-product` | 收敛用户、痛点、MVP 边界 |
 | `ux` / `design` | `solo-spec-ux` | 审查 UX、状态、设计资产映射 |
@@ -47,19 +47,37 @@ v0.2 后续接入采用“显式增强 + 主流程建议”的方式，不默认
 
 ### 2.3 用户确认后调用
 
-当专家调用可能消耗明显时间、引入外部检索、生成资产、改变阶段结论或影响项目基线时，主流程必须先问用户。
+到达可增强阶段的用户门禁前，主流程必须先报告专家增强状态。主流程不枚举所有已安装 Skill，只提当前阶段对应的 SoloSpec 专家，以及用户明确指定的其他 Skill / 工具。
+
+如果当前阶段 SoloSpec 专家可用，用户可以选择调用对应专家做本阶段审查，也可以跳过专家直接确认当前阶段。如果未检测到对应专家，主流程说明未安装，并给出“跳过专家”或“指定其他 Skill / 工具”的选择。
+
+当专家调用可能消耗明显时间、引入外部检索、生成资产、改变阶段结论或影响项目基线时，主流程必须在选项中说明影响。
 
 低风险本地审查可以由用户显式请求触发，例如：
 
 ```text
-/solo 继续，用 UX 专家审查当前 design
-/solo 继续，让架构专家检查是否需要鉴权层
+$solo-spec 继续，用 UX 专家审查当前 design
+$solo-spec 继续，让架构专家检查是否需要鉴权层
 ```
 
-主流程可以建议：
+主流程提示示例：
 
 ```text
-当前 design 涉及移动端、空状态和高保真资产。建议调用 UX 专家审查后再进入门禁，是否继续？
+当前 design 涉及移动端、空状态和高保真资产。已检测到 `solo-spec-ux`，可以先调用 UX 专家审查，也可以跳过专家直接确认当前设计。
+
+请选择：
+1. 调用 UX 专家审查当前 design
+2. 跳过专家，直接确认当前 design
+```
+
+未检测到对应专家时：
+
+```text
+当前 design 可使用 UX 专家增强，但未检测到 `solo-spec-ux`。
+
+请选择：
+1. 跳过专家，直接确认当前 design
+2. 指定其他 Skill / 工具审查当前 design
 ```
 
 ## 3. Expert Packet 消费流程
@@ -144,7 +162,7 @@ v0.2 后续接入采用“显式增强 + 主流程建议”的方式，不默认
 
 ## 6. 失败降级
 
-专家调用失败时，`/solo` 不应中断主流程。
+专家调用失败时，`solo-spec` 不应中断主流程。
 
 | 失败类型 | 处理 |
 |---|---|
@@ -167,9 +185,10 @@ v0.2 接入专家不新增状态机阶段。
 ```text
 stage-start
   -> read current context
-  -> optional expert review
   -> artifact write
   -> validation
+  -> offer optional current-stage expert
+  -> consume expert packet if user accepts
   -> gate
 ```
 
@@ -184,20 +203,26 @@ stage-start
 - 不解释内部多 Skill 架构。
 - 不要求用户理解 expert packet。
 - 不要求用户记住多个专家命令。
-- 只说明“建议用某类专家做一次审查”的收益和影响。
+- 只说明当前阶段专家是否可用、收益和影响。
+- 不枚举全部 Skill。
+- 用户指定其他 Skill / 工具时，说明它会作为外部增强输入，由 `solo-spec` 审查后再写入当前阶段文档。
 
 示例：
 
 ```text
-这个阶段涉及认证、角色和会话过期，建议先做一次架构专家审查，确认鉴权层、数据模型和回滚风险。是否继续？
+这个阶段涉及认证、角色和会话过期。已检测到 `solo-spec-architecture`，可以先调用架构专家审查鉴权层、数据模型和回滚风险，也可以跳过专家直接确认当前架构。
+
+请选择：
+1. 调用架构专家审查当前 architecture
+2. 跳过专家，直接确认当前 architecture
 ```
 
 ## 9. 端到端验收
 
-已按 `docs/20-expert-integration-e2e-test-plan.md` 在全新目录执行一条完整 iteration：
+已按 `docs/verification/v0.2/09-expert-integration-e2e-test-plan.md` 在全新目录执行一条完整 iteration：
 
 ```text
-/solo 给现有 React 工具增加 CSV 导入功能，需要页面交互、错误状态、TDD 和 QA
+$solo-spec 给现有 React 工具增加 CSV 导入功能，需要页面交互、错误状态、TDD 和 QA
 ```
 
 验收覆盖：
@@ -211,14 +236,14 @@ stage-start
 - 每次专家输出都由主流程消费，不由专家直接写文件。
 - 专家缺失时，主流程能降级继续。
 
-端到端验收已完成，报告见 `docs/21-expert-integration-e2e-test-report.md`。`/solo` 主 Skill 已写入“建议调用专家”的正式流程说明，但仍不默认自动调用专家；主 Skill 降级烟测见 `docs/22-main-skill-expert-suggestion-smoke-test.md`。
+端到端验收已完成，报告见 `docs/verification/v0.2/10-expert-integration-e2e-test-report.md`。`solo-spec` 主 Skill 已写入“门禁前报告当前阶段专家状态”的正式流程说明，但仍不默认自动调用专家；主 Skill 降级烟测见 `docs/verification/v0.2/11-main-skill-expert-suggestion-smoke-test.md`。
 
 ## 10. 不做事项
 
 v0.2 不做：
 
 - 不默认自动调用专家。
-- 不新增 `/solo product`、`/solo ux`、`/solo qa` 等公共命令。
+- 不新增 `$solo-spec product`、`$solo-spec ux`、`$solo-spec qa` 等公共命令。
 - 不让专家写文件、改状态机或通过门禁。
 - 不把专家输出原文无审查地拼进文档。
 - 不把外部 Skill 的目录结构带入用户项目。

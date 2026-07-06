@@ -1,18 +1,18 @@
-# `/solo` Skill 执行规则
+# `solo-spec` Skill 执行规则
 
 ## 1. 入口
 
 公开入口只有一个：
 
 ```text
-/solo <自然语言请求>
+$solo-spec <自然语言请求>
 ```
 
 禁止要求用户直接调用内部阶段，如 `spec`、`tdd-plan`、`qa`。
 
 ## 2. 第一步必须复述
 
-每次收到 `/solo` 请求后，先用简洁中文复述用户要做什么，并列出关键假设。
+每次收到 `$solo-spec` 请求后，先用简洁中文复述用户要做什么，并列出关键假设。
 
 如果存在多种高风险解读，先问一个问题。不要在不清楚的情况下写文件或改代码。
 
@@ -84,7 +84,7 @@ solo/config.json
 
 不要在 intake 阶段复制整棵模板树。先创建目录和状态文件，进入哪个阶段才实例化对应 Markdown 模板，避免未确认的占位内容污染事实源。
 
-`solo/state.json` 是 `/solo 继续` 的恢复入口，必须用 JSON 解析器或序列化工具写入，禁止手写拼接 JSON 字符串。每次更新状态后，必须立刻用真实 JSON 解析器验证可解析；验证失败时先修复 `state.json`，不得进入下一阶段。
+`solo/state.json` 是 `$solo-spec 继续` 的恢复入口，必须用 JSON 解析器或序列化工具写入，禁止手写拼接 JSON 字符串。每次更新状态后，必须立刻用真实 JSON 解析器验证可解析；验证失败时先修复 `state.json`，不得进入下一阶段。
 
 长说明写入 Markdown 文档，`state.json` 只保存短流程状态、门禁摘要和产物路径，避免把大段用户可见内容塞进 JSON。`gate.requires` 优先使用 ASCII 短码，例如 `confirm_branch_and_goal`、`confirm_architecture`、`confirm_qa_result`；中文解释写在阶段产物和完成消息中。
 
@@ -148,7 +148,7 @@ solo/config.json
 
 `solo/specs/001-mvp/` 在项目级 `architecture` 通过后创建。进入 `specs/001-mvp/` 后，`spec.md`、`design.md`、`plan.md`、`tasks.md`、`qa.md`、`archive.md` 使用和迭代相同的 SDD/TDD 模板。
 
-调研不是独立前置阶段。`brainstorm` 只做产品方向所需的轻量调研判断；UX、架构、实现阶段如果依赖外部事实，再按 `docs/05-state-machine.md` 的调研触发规则执行阶段化调研。
+调研不是独立前置阶段。`brainstorm` 只做产品方向所需的轻量调研判断；UX、架构、实现阶段如果依赖外部事实，再按 `docs/internal/03-state-machine.md` 的调研触发规则执行阶段化调研。
 
 `brainstorm` 必须给出多个可选方向，等待用户选择、组合或否定；新项目不保存 brainstorm 过程文档。用户确认方向后，产品依据和边界在 `scope` 阶段沉淀到 `project/brief.md`，不要创建独立调研文档。
 
@@ -298,7 +298,7 @@ QA 发现 Bug 时，不切换到新分支。先在当前规格内处理：
 用户输入：
 
 ```text
-/solo 继续
+$solo-spec 继续
 ```
 
 执行：

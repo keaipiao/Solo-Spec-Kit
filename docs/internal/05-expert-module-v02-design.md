@@ -2,9 +2,9 @@
 
 ## 1. 阶段目标
 
-v0.2 定义专家模块契约，并以“显式增强 + 主流程建议”的方式接入 `/solo`；仍不默认自动调用专家。
+v0.2 定义专家模块契约，并以“显式增强 + 主流程建议”的方式接入 `solo-spec`；仍不默认自动调用专家。
 
-专家模块的实体形态应是独立 Skill，而不是塞进 `solo-spec` 主 Skill。专家 Skill 架构见 `docs/09-expert-skills-architecture.md`。
+专家模块的实体形态应是独立 Skill，而不是塞进 `solo-spec` 主 Skill。专家 Skill 架构见 `docs/internal/06-expert-skills-architecture.md`。
 
 目标：
 
@@ -214,16 +214,16 @@ v0.2 设计完成的判定标准：
 
 ## 9. 后续实施顺序
 
-1. 先完成权威调研并固化专家 Skill 原则，见 `docs/10-expert-skill-research.md`。
+1. 先完成权威调研并固化专家 Skill 原则，见 `docs/internal/07-expert-skill-research.md`。
 2. 完成契约文档和 `references/experts.md` 精简同步。
-3. 用黑盒样例验证专家输出；`solo-spec-ux` 首轮测试见 `docs/11-solo-spec-ux-blackbox-test.md`，`solo-spec-product` 首轮测试见 `docs/12-solo-spec-product-blackbox-test.md`，`solo-spec-architecture` 首轮测试见 `docs/13-solo-spec-architecture-blackbox-test.md`，`solo-spec-tdd` 首轮测试见 `docs/14-solo-spec-tdd-blackbox-test.md`，`solo-spec-qa` 首轮测试见 `docs/15-solo-spec-qa-blackbox-test.md`，`solo-spec-release` 首轮测试见 `docs/16-solo-spec-release-blackbox-test.md`。
-4. 完成专家 Skill 集成烟测，见 `docs/17-expert-skills-integration-smoke-test.md`。
-5. 完成真实子代理黑盒调用测试，见 `docs/18-expert-skills-forward-test.md`。
+3. 用黑盒样例验证专家输出；`solo-spec-ux` 首轮测试见 `docs/verification/v0.2/01-solo-spec-ux-blackbox-test.md`，`solo-spec-product` 首轮测试见 `docs/verification/v0.2/02-solo-spec-product-blackbox-test.md`，`solo-spec-architecture` 首轮测试见 `docs/verification/v0.2/03-solo-spec-architecture-blackbox-test.md`，`solo-spec-tdd` 首轮测试见 `docs/verification/v0.2/04-solo-spec-tdd-blackbox-test.md`，`solo-spec-qa` 首轮测试见 `docs/verification/v0.2/05-solo-spec-qa-blackbox-test.md`，`solo-spec-release` 首轮测试见 `docs/verification/v0.2/06-solo-spec-release-blackbox-test.md`。
+4. 完成专家 Skill 集成烟测，见 `docs/verification/v0.2/07-expert-skills-integration-smoke-test.md`。
+5. 完成真实子代理黑盒调用测试，见 `docs/verification/v0.2/08-expert-skills-forward-test.md`。
 6. 根据黑盒结果补充丢弃规则和写入目标。
 7. 基于调研结论重写并校准 `solo-spec-ux` 独立专家 Skill，验证复杂设计能力的分发形态。
-8. 先完成专家接入策略，见 `docs/19-expert-integration-strategy.md`。
-9. 按 `docs/20-expert-integration-e2e-test-plan.md` 执行端到端验收，报告见 `docs/21-expert-integration-e2e-test-report.md`。
-10. 已把专家模块作为显式增强能力接入 `/solo` 主 Skill：主流程可在当前阶段建议专家审查，经用户确认后消费 expert packet；仍不默认自动调用专家。
-11. 已验证主 Skill 在未安装专家 sibling 时仍可降级运行，见 `docs/22-main-skill-expert-suggestion-smoke-test.md`。
-12. 已用独立子代理执行盲测前向测试，见 `docs/23-blind-forward-expert-suggestion-test.md`。
-13. 已完成 v0.2 项目级增强安装验收，见 `docs/24-v02-distribution-installation-test.md`。
+8. 先完成专家接入策略，见 `docs/internal/08-expert-integration-strategy.md`。
+9. 按 `docs/verification/v0.2/09-expert-integration-e2e-test-plan.md` 执行端到端验收，报告见 `docs/verification/v0.2/10-expert-integration-e2e-test-report.md`。
+10. 已把专家模块作为显式增强能力接入 `solo-spec` 主 Skill：主流程必须在可增强阶段的门禁前报告当前阶段专家状态，经用户确认后消费 expert packet；仍不默认自动调用专家，也不枚举全部 Skill。
+11. 已验证主 Skill 在未安装专家 sibling 时仍可降级运行，见 `docs/verification/v0.2/11-main-skill-expert-suggestion-smoke-test.md`。
+12. 已用独立子代理执行盲测前向测试，见 `docs/verification/v0.2/12-blind-forward-expert-suggestion-test.md`。
+13. 已完成 v0.2 项目级增强安装验收，见 `docs/verification/v0.2/13-v02-distribution-installation-test.md`。

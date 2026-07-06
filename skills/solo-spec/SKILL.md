@@ -1,6 +1,6 @@
 ---
 name: solo-spec
-description: End-to-end Chinese AI coding workflow for solo developers. Use when the user invokes /solo or asks to turn a product idea, project iteration, bug fix, or existing project adoption into gated documents, staged research, brainstorm options, scope, executable specs, TDD tasks, implementation, QA evidence, and archive records under a unified solo/ directory.
+description: End-to-end Chinese AI coding workflow for solo developers. Use when the user invokes $solo-spec, or compatible aliases /solo and /solo-spec, or asks to turn a product idea, project iteration, bug fix, or existing project adoption into gated documents, staged research, brainstorm options, scope, executable specs, TDD tasks, implementation, QA evidence, and archive records under a unified solo/ directory.
 ---
 
 # SoloSpec
@@ -13,7 +13,8 @@ Always respond in concise Chinese unless the user explicitly asks otherwise.
 
 Treat these as SoloSpec requests:
 
-- `/solo <自然语言请求>`
+- `$solo-spec <自然语言请求>`
+- Compatible aliases: `/solo <自然语言请求>` and `/solo-spec <自然语言请求>`.
 - 用户要求“新项目”“迭代”“Bug 修复”“老项目接入 SoloSpec”
 - 用户要求把想法沉淀为文档、规格、TDD 任务、QA 证据或归档
 
@@ -42,7 +43,7 @@ Load [references/workflow.md](references/workflow.md) after branch selection.
 
 ## Core Rules
 
-- Public entry is `/solo`; never require users to call internal stages directly.
+- Public entry is `$solo-spec`; `/solo` and `/solo-spec` are compatibility aliases only; never require users to call internal stages directly.
 - Complete facts live under `solo/`.
 - External files such as `AGENTS.md`, `CLAUDE.md`, `README.md`, and `CHANGELOG.md` may only contain managed blocks or summaries.
 - Use templates from [assets/templates/solo/](assets/templates/solo/) only when the matching stage starts.
@@ -53,7 +54,7 @@ Load [references/workflow.md](references/workflow.md) after branch selection.
 - Hard gates require explicit user confirmation: `通过`, `继续`, `按这个来`, or `确认`.
 - Silence, chatting, or answering a side question is not approval to advance.
 - After a gate is approved, rewrite the just-approved artifact's gate section from waiting language to confirmed language before starting the next stage. Also set `solo/state.json.gate.status` to `passed` or to the next active gate. If there is no next gate, set `solo/state.json.gate.requires` to `none`; never leave a stale confirmation slug after `passed`. Finished artifacts must not keep stale "waiting for confirmation" wording.
-- Write `solo/state.json` with a JSON serializer or parser-backed edit, never by manual string concatenation. After every state update, parse it successfully with a real JSON parser before reporting the stage complete; `/solo 继续` depends on this file.
+- Write `solo/state.json` with a JSON serializer or parser-backed edit, never by manual string concatenation. After every state update, parse it successfully with a real JSON parser before reporting the stage complete; `$solo-spec 继续` depends on this file.
 
 ## Brainstorm And Scope
 
@@ -135,9 +136,9 @@ Do not create parallel `docs/plans/`, `docs/features/`, or `specs/` directories 
 
 ## Expert Modules
 
-Do not depend on expert skills. The base `/solo` workflow must still run when no expert skill is installed.
+Do not depend on expert skills. The base `solo-spec` workflow must still run when no expert skill is installed.
 
-Load [references/experts.md](references/experts.md) when the user asks to use or evaluate expert roles, adapt external skill output, or when the current stage is complex enough to suggest a specialist review.
+Load [references/experts.md](references/experts.md) when the user asks to use or evaluate expert roles, adapt external skill output, or when the current stage maps to an optional expert below.
 
 Standalone expert skills such as `$solo-spec-product`, `$solo-spec-ux`, `$solo-spec-architecture`, `$solo-spec-tdd`, `$solo-spec-qa`, and `$solo-spec-release` may be installed as optional siblings of `$solo-spec`. They must return expert packets; they do not own the workflow, create directories, write files directly, or pass gates.
 
@@ -150,7 +151,22 @@ You may suggest an expert only for the current branch and stage:
 - `qa` / `verify`: QA expert.
 - `archive` / `write-managed-blocks`: release expert.
 
-Before using an expert, explain the benefit and ask for confirmation. Keep the wording simple; do not require the user to understand expert packets or remember expert commands. Never call experts automatically by default.
+Before a mapped stage reaches its user gate, always report the expert-enhancement status for the current stage. Do not list every installed skill. Only mention the current-stage SoloSpec expert, plus any other skill/tool explicitly named by the user.
+
+For mapped stages, `专家增强` must include all of these:
+
+- the mapped expert skill name, such as `$solo-spec-product`;
+- whether that expert was detected as installed;
+- whether it was offered, used, skipped, unavailable, or replaced by a user-named skill/tool;
+- the allowed next choices.
+
+Do not write only `按你的要求未调用任何专家`, `未调用专家`, or similar short summaries for mapped stages. Those are insufficient because they hide whether an expert was available.
+
+If the user explicitly says not to call experts, obey that request, but still report the mapped expert name and detection status. Treat the SoloSpec expert as `skipped`, then offer the normal gate action and, when the mapped expert is not installed, the option to name another skill/tool.
+
+If the current-stage SoloSpec expert is available, the `专家增强` block must explicitly show two choices: call that expert for a stage review, or skip the expert and confirm the current stage. Do not hide the skip option inside the normal gate choices. If the current-stage expert is not available, the `专家增强` block must explicitly show two choices: skip expert review and confirm the current stage, or let the user name another skill/tool for review.
+
+If the user chooses SoloSpec expert review, call only the current-stage expert, then consume the expert packet through the main `solo-spec` workflow before asking for the normal stage gate. If the user names another skill/tool, treat it as an external Reviewer, Advisor, or Generator under the same current-stage write rules. If the user skips expert review, continue to the normal stage gate.
 
 If an expert is unavailable, returns invalid output, or suggests content outside the current stage, continue with the base workflow and record only valid current-stage findings.
 
@@ -170,10 +186,12 @@ At the end of each stage, report:
 阶段：
 写入：
 验证：
+专家增强：
 门禁：
 等待用户确认：
 ```
 
 `验证` must include `solo/state.json` parse validation whenever the stage updates state.
+`专家增强` must say whether the current-stage expert was available, offered, used, skipped, unavailable, replaced by a user-named skill/tool, or not applicable. For mapped stages, it must name the mapped expert and the next choices; never summarize only that no expert was called.
 
 Do not move to the next gated stage until the user confirms.

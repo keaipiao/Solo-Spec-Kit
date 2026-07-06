@@ -2,7 +2,7 @@
 
 ## 1. 测试目标
 
-验证 `/solo` 主流程在不默认自动调用专家的前提下，能消费专家 expert packet，并把合规内容写入标准 SoloSpec 文档。
+验证 `solo-spec` 主流程在不默认自动调用专家的前提下，能消费专家 expert packet，并把合规内容写入标准 SoloSpec 文档。
 
 本测试只验证接入策略，不改变主 Skill 行为。
 
@@ -31,7 +31,7 @@ E:\test\solo-spec-expert-e2e\.agents\skills\solo-spec-release
 创建一个最小 React 工具项目。业务目标：
 
 ```text
-/solo 给现有 React 工具增加 CSV 导入功能，需要页面交互、错误状态、TDD 和 QA
+$solo-spec 给现有 React 工具增加 CSV 导入功能，需要页面交互、错误状态、TDD 和 QA
 ```
 
 项目只需要具备可测试的最小界面：
@@ -154,7 +154,7 @@ E:\test\solo-spec-expert-e2e\.agents\skills\solo-spec-release
 
 通过标准：
 
-- `/solo` 提示该专家为可选增强。
+- `$solo-spec` 提示该专家为可选增强。
 - 主流程用基础规则继续。
 - 不阻塞当前阶段。
 - 不创建替代目录。
@@ -171,10 +171,10 @@ E:\test\solo-spec-expert-e2e\.agents\skills\solo-spec-release
 测试结束后生成：
 
 ```text
-docs/21-expert-integration-e2e-test-report.md
+docs/verification/v0.2/10-expert-integration-e2e-test-report.md
 ```
 
-本轮执行报告见 `docs/21-expert-integration-e2e-test-report.md`。
+本轮执行报告见 `docs/verification/v0.2/10-expert-integration-e2e-test-report.md`。
 
 报告必须包含：
 
@@ -191,14 +191,14 @@ docs/21-expert-integration-e2e-test-report.md
 
 端到端验收通过需要同时满足：
 
-- `/solo` 从 intake 到 archive 完整跑通。
+- `solo-spec` 从 intake 到 archive 完整跑通。
 - 所有专家输出都经过主流程消费。
 - 没有专家直接写文件。
 - 没有专家推进状态机或通过门禁。
 - 所有写入目标都在 `solo/` 标准目录内。
 - 所有新增文档章节都来自模板或当前阶段规则允许。
 - 专家缺失时主流程可降级继续。
-- 用户只需要理解 `/solo` 和阶段确认，不需要理解专家内部结构。
+- 用户只需要理解 `$solo-spec` 和阶段确认，不需要理解专家内部结构。
 
 ## 10. 不通过条件
 
