@@ -5,6 +5,9 @@ param(
     [ValidateSet("basic", "enhanced")]
     [string]$Mode = "enhanced",
 
+    [ValidateSet("codex", "zcode")]
+    [string]$Tool = "codex",
+
     [switch]$Force
 )
 
@@ -18,7 +21,11 @@ if (-not (Test-Path -LiteralPath $ProjectPath -PathType Container)) {
 }
 
 $projectRoot = Resolve-Path -LiteralPath $ProjectPath
-$targetRoot = Join-Path $projectRoot ".agents\skills"
+$skillsRootByTool = @{
+    codex = ".agents\skills"
+    zcode = ".zcode\skills"
+}
+$targetRoot = Join-Path $projectRoot $skillsRootByTool[$Tool]
 New-Item -ItemType Directory -Path $targetRoot -Force | Out-Null
 $targetRootResolved = Resolve-Path -LiteralPath $targetRoot
 
@@ -65,6 +72,7 @@ foreach ($skillName in $skillNames) {
 [PSCustomObject]@{
     Project = $projectRoot.Path
     Mode = $Mode
+    Tool = $Tool
     SkillsPath = $targetRootResolved.Path
     Installed = ($installed -join ", ")
 }

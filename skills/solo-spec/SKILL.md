@@ -142,6 +142,14 @@ Load [references/experts.md](references/experts.md) when the user asks to use or
 
 Standalone expert skills such as `$solo-spec-product`, `$solo-spec-ux`, `$solo-spec-architecture`, `$solo-spec-tdd`, `$solo-spec-qa`, and `$solo-spec-release` may be installed as optional siblings of `$solo-spec`. They must return expert packets; they do not own the workflow, create directories, write files directly, or pass gates.
 
+When checking whether the current-stage expert is installed, inspect host-specific project skill roots before reporting unavailable:
+
+- the parent directory of the running `solo-spec` skill, because experts are usually sibling directories;
+- `<project>/.agents/skills/` for Codex project skills;
+- `<project>/.zcode/skills/` for zcode project skills.
+
+Treat an expert as installed when `<skills-root>/<expert-name>/SKILL.md` exists in any known root. Do not report a mapped expert as unavailable until these roots have been checked or the host provides an equivalent skill registry that clearly excludes it.
+
 You may suggest an expert only for the current branch and stage:
 
 - `brainstorm` / `scope`: product expert.

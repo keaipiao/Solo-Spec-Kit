@@ -4,7 +4,7 @@
 
 通过。
 
-本轮新增并验证 `scripts/install-project-skills.ps1`，用于把 SoloSpec Skill 复制到目标项目的 `.agents/skills/`。
+本轮新增并验证 `scripts/install-project-skills.ps1`，用于把 SoloSpec Skill 复制到目标项目对应工具的项目级 Skill 目录。
 
 ## 2. 脚本能力
 
@@ -12,9 +12,11 @@
 |---|---|
 | 基础安装 `solo-spec` | 已支持 |
 | 增强安装 `solo-spec` 和六个专家 Skill | 已支持 |
+| Codex 安装目录 `.agents/skills/` | 已支持 |
+| zcode 安装目录 `.zcode/skills/` | 已支持 |
 | 默认不覆盖已有 Skill | 已支持 |
 | 显式 `-Force` 替换已有 SoloSpec Skill | 已支持 |
-| 只删除目标项目 `.agents/skills/` 下的目标 Skill | 已支持 |
+| 只删除目标工具 Skill 根目录下的目标 Skill | 已支持 |
 | 目标项目不存在时停止执行 | 已支持 |
 
 ## 3. 命令
@@ -79,7 +81,8 @@ ProjectPath does not exist or is not a directory: E:\test\solo-spec-missing-proj
 
 | 验证项 | 预期 |
 |---|---|
-| 基础安装目录 | 只存在 `.agents/skills/solo-spec/` |
+| 默认 Codex 基础安装目录 | 只存在 `.agents/skills/solo-spec/` |
+| zcode 增强安装目录 | 存在 `.zcode/skills/solo-spec/` 和 6 个 `.zcode/skills/solo-spec-*` 专家 Skill |
 | 增强安装目录 | 存在 7 个 `solo-spec*` Skill |
 | 重复安装且不加 `-Force` | 失败并提示目标已存在 |
 | 加 `-Force` | 替换目标 Skill 后成功 |
@@ -95,6 +98,7 @@ ProjectPath does not exist or is not a directory: E:\test\solo-spec-missing-proj
 |---|---|
 | `-Mode basic` | 通过，只安装 `solo-spec` |
 | `-Mode enhanced` | 通过，安装主 Skill 和六个专家 Skill |
+| `-Tool zcode -Mode enhanced` | 通过，安装到 `.zcode/skills/` |
 | 重复安装且不加 `-Force` | 通过，拒绝覆盖并提示目标已存在 |
 | 先基础安装再用 `-Mode enhanced -Force` 覆盖 | 通过，目标变为增强安装 |
 | 临时目录清理 | 通过 |
@@ -103,4 +107,4 @@ ProjectPath does not exist or is not a directory: E:\test\solo-spec-missing-proj
 
 ## 6. 用户文档同步
 
-`README.md` 和 `docs/public/01-user-guide.md` 已补充脚本安装方式，同时保留基础安装和增强安装说明。
+`README.md` 和 `docs/public/01-user-guide.md` 已补充 Codex / zcode 脚本安装方式，同时保留基础安装和增强安装说明。

@@ -8,6 +8,8 @@ For mapped stages, a short summary like `未调用专家` is not enough. The mai
 
 Expert modules should be standalone sibling skills when they become complex, for example `$solo-spec-product`, `$solo-spec-ux`, `$solo-spec-architecture`, `$solo-spec-tdd`, `$solo-spec-qa`, and `$solo-spec-release`. The base `$solo-spec` skill remains the orchestrator.
 
+Installed expert detection is host-aware. Check the running `solo-spec` skill's parent directory first, then project roots such as `.agents/skills` and `.zcode/skills`. A mapped expert is available when `<skills-root>/<expert-name>/SKILL.md` exists in any checked root.
+
 If the mapped SoloSpec expert is available, offer to run it or skip it. If it is not available, say so and offer to continue without expert review or let the user name another skill/tool. User-named tools are external outputs and still must be converted by the main SoloSpec flow before writing.
 
 Expert output must be converted by the main SoloSpec flow before writing:
