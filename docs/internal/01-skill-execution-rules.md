@@ -90,26 +90,28 @@ solo/config.json
 
 ## 6. 外部增强规则
 
-如果用户环境存在 gstack、superpowers、BMAD、taste 等能力，它们只能作为可选增强：
+如果用户环境存在 gstack、superpowers、BMAD、taste 等能力，它们只能作为当前阶段增强：
 
-- 可作为 Reviewer、Advisor 或 Generator 使用。
+- 内置 SoloSpec 专家可作为 `co-create`、`generate-assets` 或 `review` 使用。
+- 用户指定的外部 Skill / 工具作为 `external-adapter` 使用。
 - 只能读取 SoloSpec 上下文。
 - 输出必须转换成 SoloSpec 章节内容或 SoloSpec 资产记录。
 - 不得自行创建 `docs/plans/`、`docs/功能/`、`specs/` 等其他目录。
 - 不得自行提交代码。
 
-三类增强的边界：
+增强模式边界：
 
-| 类型 | 允许做什么 | 不允许做什么 |
+| 模式 | 允许做什么 | 不允许做什么 |
 |---|---|---|
-| Reviewer | 审查 SoloSpec 产物并输出问题 | 直接改文档或改代码 |
-| Advisor | 给出方案、取舍、风险建议 | 绕过 SoloSpec 阶段门禁 |
-| Generator | 生成线稿、HTML 高保真、截图、代码片段等原始产物 | 自行决定目录、章节、文件命名、事实源 |
+| `co-create` | 给出当前阶段方案、取舍、风险建议 | 写未来阶段结论或绕过门禁 |
+| `generate-assets` | 生成线稿、HTML 高保真、截图、日志等原始产物 | 自行决定目录、章节、文件命名、事实源 |
+| `review` | 审查 SoloSpec 产物并输出问题 | 直接改文档或改代码 |
+| `external-adapter` | 转换用户指定的外部 Skill / 工具输出 | 自动调用未知外部工具 |
 
-例如 taste 生成的页面稿可以作为 Generator 产物，但必须由 SoloSpec 接收后按阶段写入：
+例如 taste 生成的页面稿可以作为 `external-adapter` 或 `generate-assets` 产物，但必须由 SoloSpec 接收后按阶段写入：
 
 ```text
-solo/project/assets/global-mockups/
+solo/project/assets/references/
 solo/specs/NNN-iteration-name/assets/mockups/
 ```
 

@@ -42,3 +42,21 @@ flowchart TD
 
 - 
 
+## 6. 阶段研究与核验
+
+| 事实 / 假设 | 来源 / 证据 | 状态 | 影响 |
+|---|---|---|---|
+|  |  | confirmed / needs-check / rejected |  |
+
+## 7. 专家增强记录
+
+| 专家 / 工具 | 模式 | 状态 | 采纳内容 / 跳过原因 |
+|---|---|---|---|
+| solo-spec-ux | co-create / generate-assets / review | used / skipped / unavailable / external-adapter |  |
+
+## 8. UX 门禁确认
+
+- 需要用户确认的问题：
+- 是否覆盖关键路径和异常路径：
+- 是否明确无 UI / 有 UI 的适用范围：
+- 结论：

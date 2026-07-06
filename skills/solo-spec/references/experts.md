@@ -2,23 +2,24 @@
 
 Use these as internal thinking modes. They do not write files directly.
 
-Current status: v0.2 supports explicit enhancement. Do not call expert roles automatically from the base `solo-spec` workflow. Before a mapped stage reaches its user gate, the main flow must report the current-stage expert status. It must not enumerate every installed skill. Mention only the current-stage SoloSpec expert and any other skill/tool explicitly named by the user.
+Current status: v0.3 upgrades expert handling from optional gate review to stage-aware virtual team support. The main flow may use installed SoloSpec experts in the current stage as `co-create`, `generate-assets`, or `review` helpers. Before a mapped stage reaches its user gate, the main flow must report what the current-stage expert did or why it was skipped/unavailable. It must not enumerate every installed skill. Mention only the current-stage SoloSpec expert and any other skill/tool explicitly named by the user.
 
-For mapped stages, a short summary like `未调用专家` is not enough. The main flow must name the mapped expert skill, report whether it is installed, state whether it was offered, used, skipped, unavailable, or replaced by a user-named tool, and show the allowed next choices inside the `专家增强` block. If the expert is installed, the choices are: call the expert, or skip expert review and confirm the current stage. If the expert is not installed, the choices are: skip expert review and confirm the current stage, or name another skill/tool for review.
+For mapped stages, a short summary like `未调用专家` is not enough. The main flow must name the mapped expert skill, report whether it is installed, state whether it was used, skipped, unavailable, or replaced by a user-named tool, and show the allowed next choices inside the `专家增强` block.
 
 Expert modules should be standalone sibling skills when they become complex, for example `$solo-spec-product`, `$solo-spec-ux`, `$solo-spec-architecture`, `$solo-spec-tdd`, `$solo-spec-qa`, and `$solo-spec-release`. The base `$solo-spec` skill remains the orchestrator.
 
-Installed expert detection is host-aware. Check the running `solo-spec` skill's parent directory first, then project roots such as `.agents/skills` and `.zcode/skills`. A mapped expert is available when `<skills-root>/<expert-name>/SKILL.md` exists in any checked root.
+Installed expert detection is host-aware. Load `host-adapters.md` before reporting a mapped expert as unavailable. Check the running `solo-spec` skill's parent directory first, then the active host adapter roots. If the active host is unknown, check compatible project roots from `host-adapters.md`. A mapped expert is available when `<skills-root>/<expert-name>/SKILL.md` exists in any checked root.
 
-If the mapped SoloSpec expert is available, offer to run it or skip it. If it is not available, say so and offer to continue without expert review or let the user name another skill/tool. User-named tools are external outputs and still must be converted by the main SoloSpec flow before writing.
+If the mapped SoloSpec expert is available, use it only for the current stage and current mode. If it is not available, say so and continue with the base workflow while allowing the user to name another skill/tool. User-named tools are external outputs and still must be converted by the main SoloSpec flow before writing.
 
 Expert output must be converted by the main SoloSpec flow before writing:
 
-- Reviewer: critique an existing SoloSpec artifact and propose gate findings.
-- Advisor: suggest options, risks, tradeoffs, or section content for the current stage.
-- Generator: produce raw assets such as mockups, screenshots, logs, or test evidence.
+- `co-create`: suggest current-stage options, risks, tradeoffs, or section content before the artifact is finalized.
+- `generate-assets`: produce or register current-stage assets such as SVG wireframes, high-fidelity HTML, screenshots, logs, or test evidence.
+- `review`: critique an existing SoloSpec artifact and propose gate findings before confirmation.
+- `external-adapter`: convert a user-named external skill/tool output into the current SoloSpec stage.
 
-Use the packet shape defined in `docs/internal/04-expert-contract.md`: `expert`, `branch`, `stage`, `mode`, `summary`, `findings`, `recommendation`, `writeTargets`, `assets`, `discarded`, `gate`, and `risks`.
+Use the packet shape defined in `docs/internal/04-expert-contract.md`: Chinese-readable fields plus `machine.expert`, `machine.branch`, `machine.stage`, `machine.mode`, `machine.summary`, `machine.findings`, `machine.recommendation`, `machine.writeTargets`, `machine.assets`, `machine.discarded`, `machine.gate`, and `machine.risks`.
 
 Discard any expert or external-skill output that creates its own directory structure, targets a future stage, bypasses a gate, or cannot be mapped to an existing SoloSpec file, section, or asset directory.
 
@@ -42,23 +43,25 @@ Allowed targets are current-stage files only:
 - Bugfix stages: current bugfix `proposal.md`, `plan.md`, `tasks.md`, `qa.md`, `archive.md`, and current bugfix assets.
 - Managed blocks: only after the workflow reaches the confirmed managed-block stage.
 
-If a specialist review may take time, use external research, generate assets, change the stage conclusion, or affect a project baseline, explain that impact in the offer before using it.
+If a specialist action may take time, use external research, generate assets, change the stage conclusion, or affect a project baseline, explain that impact before doing that action.
 
 Suggested stage mapping:
 
-| Stage | Optional expert | Use for |
-|---|---|---|
-| `brainstorm` / `scope` | `solo-spec-product` | options, pain points, MVP boundary |
-| `ux` / `design` | `solo-spec-ux` | flows, states, visual assets, design risks |
-| `architecture` / `plan` / `root-cause` | `solo-spec-architecture` | triggered layers, ADRs, data flow, rollback |
-| `tdd-plan` / `regression-test` | `solo-spec-tdd` | red tests, task sequence, regression checks |
-| `qa` / `verify` | `solo-spec-qa` | evidence, screenshots, logs, real verification |
-| `archive` / `write-managed-blocks` | `solo-spec-release` | archive summary, baseline promotion, managed blocks |
+| Stage | Optional expert | Modes | Use for |
+|---|---|---|---|
+| `brainstorm` / `scope` | `solo-spec-product` | `co-create`, `review` | options, pain points, MVP boundary |
+| `research` / fact-check inside any stage | `solo-spec-product` or stage expert | `co-create`, `external-adapter` | staged facts, sources, assumptions |
+| `ux` / `design` | `solo-spec-ux` | `co-create`, `generate-assets`, `review` | flows, states, SVG wireframes, high-fidelity HTML, design risks |
+| `architecture` / `plan` / `root-cause` | `solo-spec-architecture` | `co-create`, `review` | triggered layers, ADRs, data flow, rollback |
+| `tdd-plan` / `regression-test` | `solo-spec-tdd` | `co-create`, `review` | red tests, task sequence, regression checks |
+| `implementation` / `fix` | `solo-spec-tdd` and `solo-spec-architecture` | `review` | red-green alignment, minimal implementation, architecture drift |
+| `qa` / `verify` | `solo-spec-qa` | `generate-assets`, `review` | evidence, screenshots, logs, real verification |
+| `archive` / `write-managed-blocks` | `solo-spec-release` | `review` | archive summary, baseline promotion, managed blocks |
 
 Mapping rules:
 
 - Unconfirmed product pivots never update project baselines. In new-project brainstorm, keep them in conversation only; in iteration brainstorm, write only to the current `brainstorm.md`.
-- External assets must be copied into SoloSpec assets before use. Use kebab-case names like `taste-dashboard-overview-01.png`, then register the source, purpose, page or state, and batch in `design-system.md`, `design.md`, or `qa.md`.
+- External assets must be copied into SoloSpec assets before use. Use kebab-case names like `main-flow-wireframe-01.svg`, `dashboard-high-fidelity-01.html`, or `qa-login-error-01.png`, then register the source, purpose, page or state, and batch in `design-system.md`, `design.md`, or `qa.md`.
 - Cross-stage suggestions stay advisory. In bugfix `regression-test`, keep regression tests and minimal fix candidates in `tasks.md` or `qa.md`, but discard framework migrations, full rewrites, and `.specify/` or other self-owned directories unless the user changes the branch to an iteration or architecture decision.
 
 ## router
@@ -119,7 +122,7 @@ Responsibilities:
 - Define user flow, information architecture, pages and components.
 - Decide wireframe, high-fidelity, or generated reference route.
 - Cover loading, empty, error, unauthorized, and mobile states.
-- Register generator artifacts.
+- Register generated assets from `generate-assets` mode.
 - Review for generic AI-looking UI.
 
 ## architecture

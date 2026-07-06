@@ -23,8 +23,8 @@ flowchart TD
 
 | 类型 | 路径 | 适用页面 / 状态 | 说明 |
 |---|---|---|---|
-| 线稿 | assets/wireframes/ |  |  |
-| 高保真 | assets/mockups/ |  |  |
+| SVG 线稿 | assets/wireframes/ |  |  |
+| 高保真 HTML | assets/mockups/ |  |  |
 | 参考 | assets/references/ |  |  |
 
 ## 5. 状态规划
@@ -54,4 +54,18 @@ flowchart TD
 
 - 是否需要用户确认：
 - 确认内容：
+- 是否已避免默认 emoji、蓝紫渐变、呼吸灯、三列卡片和过度圆角：
+- 是否高保真 HTML 已确认或明确不需要：
 - 结论：
+
+## 9. 阶段研究与核验
+
+| 事实 / 假设 | 来源 / 证据 | 状态 | 影响 |
+|---|---|---|---|
+|  |  | confirmed / needs-check / rejected |  |
+
+## 10. 专家增强记录
+
+| 专家 / 工具 | 模式 | 状态 | 采纳内容 / 跳过原因 |
+|---|---|---|---|
+| solo-spec-ux | co-create / generate-assets / review | used / skipped / unavailable / external-adapter |  |

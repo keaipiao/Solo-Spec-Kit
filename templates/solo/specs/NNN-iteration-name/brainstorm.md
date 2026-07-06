@@ -80,3 +80,15 @@
 - 下一阶段要收敛的方向：
 - 需要先补的调研：
 - 门禁结论：
+
+## 10. 阶段研究与核验
+
+| 事实 / 假设 | 来源 / 证据 | 状态 | 影响 |
+|---|---|---|---|
+|  |  | confirmed / needs-check / rejected |  |
+
+## 11. 专家增强记录
+
+| 专家 / 工具 | 模式 | 状态 | 采纳内容 / 跳过原因 |
+|---|---|---|---|
+| solo-spec-product | co-create / review | used / skipped / unavailable / external-adapter |  |

@@ -30,8 +30,7 @@ SoloSpec 的最终分发形态是接入用户已有或新建项目。
 │   │   ├── pitfalls.md
 │   │   └── assets/
 │   │       ├── brand/
-│   │       ├── references/
-│   │       └── global-mockups/
+│   │       └── references/
 │   ├── specs/
 │   │   ├── 001-iteration-name/
 │   │   │   ├── brainstorm.md  # 仅迭代前置阶段按需生成
@@ -44,7 +43,7 @@ SoloSpec 的最终分发形态是接入用户已有或新建项目。
 │   │   │   ├── archive.md
 │   │   │   └── assets/
 │   │   │       ├── wireframes/
-│   │   │       ├── mockups/
+│   │   │       ├── mockups/     # 高保真 HTML 源稿
 │   │   │       ├── screenshots/
 │   │   │       └── references/
 │   │   └── NNN-bugfix-title/

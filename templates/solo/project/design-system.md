@@ -45,3 +45,21 @@
 - 键盘操作：
 - 减少动画：
 
+## 8. 阶段研究与核验
+
+| 事实 / 假设 | 来源 / 证据 | 状态 | 影响 |
+|---|---|---|---|
+|  |  | confirmed / needs-check / rejected |  |
+
+## 9. 专家增强记录
+
+| 专家 / 工具 | 模式 | 状态 | 采纳内容 / 跳过原因 |
+|---|---|---|---|
+| solo-spec-ux | co-create / generate-assets / review | used / skipped / unavailable / external-adapter |  |
+
+## 10. 设计系统门禁确认
+
+- 是否需要高保真 HTML 或明确不需要：
+- 是否已避免默认 emoji、蓝紫渐变、呼吸灯、三列卡片和过度圆角：
+- 是否明确组件库 / 图标 / 动效边界：
+- 结论：

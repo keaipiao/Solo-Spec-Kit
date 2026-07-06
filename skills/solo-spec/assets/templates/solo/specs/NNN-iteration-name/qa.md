@@ -55,3 +55,15 @@
 - 是否通过：
 - 未通过项：
 - 用户确认：
+
+## 7. 阶段研究与核验
+
+| 事实 / 假设 | 来源 / 证据 | 状态 | 影响 |
+|---|---|---|---|
+|  |  | confirmed / needs-check / rejected |  |
+
+## 8. 专家增强记录
+
+| 专家 / 工具 | 模式 | 状态 | 采纳内容 / 跳过原因 |
+|---|---|---|---|
+| solo-spec-qa | generate-assets / review | used / skipped / unavailable / external-adapter |  |

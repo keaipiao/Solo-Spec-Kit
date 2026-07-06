@@ -35,7 +35,7 @@ SoloSpec 不硬依赖 BMAD、Spec Kit、OpenSpec、Superpowers、gstack、taste 
 
 这些顶级 Skill 的方法论可被吸收为内部专家模块，但最终流程、目录、章节、门禁、写入规则由 SoloSpec 统一控制。
 
-外部 Skill 未来可以作为 Reviewer、Advisor 或 Generator，但不能绕过 SoloSpec 写入规则。具体边界见 `docs/internal/01-skill-execution-rules.md` 和 `docs/internal/02-template-contract.md`。
+外部 Skill 可以作为用户指定的 `external-adapter`，内置专家可以作为 `co-create`、`generate-assets` 或 `review` 参与当前阶段，但都不能绕过 SoloSpec 写入规则。具体边界见 `docs/internal/01-skill-execution-rules.md` 和 `docs/internal/02-template-contract.md`。
 
 ### 3.4 先确认，后推进
 
@@ -101,14 +101,14 @@ SoloSpec 自动路由到四类分支：
 | intake | 意图复述、假设、分支判断 | 是 |
 | brainstorm | 问题重述、发散问题、候选方案池、可组合点、不建议方向 | 是 |
 | scope | 用户采纳方案、目标、范围、非目标、成功标准 | 是 |
-| staged-research | 当前阶段所需调研、事实核实、来源 | 是 |
+| research | 当前阶段所需调研、事实核实、来源 | 是 |
 | prd | 目标、范围、非目标、成功指标 | 是 |
-| ux | 用户流、信息架构、线稿或高保真策略 | 有 UI 时是 |
-| architecture | 技术架构、数据模型、接口、ADR、风险 | 是 |
+| ux | 用户流、信息架构、SVG 线稿和高保真 HTML 策略 | 有 UI 时是 |
+| architecture | 技术架构、数据模型、接口、组件库、部署、回滚、ADR、风险 | 是 |
 | spec | 可执行规格：用户故事、验收标准、场景 | 是 |
 | tdd-plan | 红灯测试、最小实现、验证命令 | 是 |
-| implementation | 按 TDD 执行、最小修改 | 否 |
-| qa | 单测、集成、浏览器或 API QA、证据 | 是 |
+| implementation | 按 TDD 执行、最小修改、实现偏差记录 | 否 |
+| qa | 单测、集成、浏览器、API、日志、截图或命令证据 | 是 |
 | ship | 发布、变更摘要、回滚、托管块同步 | 是 |
 | archive | 归档、踩坑、遗留项、状态收尾 | 是 |
 
@@ -139,6 +139,10 @@ SoloSpec 第一版成功，应满足：
 - 所有项目级和迭代级产物都落在 `solo/` 统一结构内。
 - 所有关键阶段都有明确门禁和用户确认。
 - 迭代级开发计划必须包含 TDD 红灯测试、最小实现和验证命令。
-- UI 相关功能必须包含线稿或高保真稿、状态规划和验收标准。
+- UI 相关功能必须包含 SVG 线稿或高保真 HTML、状态规划和验收标准。
+- 架构阶段必须明确技术栈、组件库、部署/回滚和已有能力复用。
+- TDD 阶段必须包含失败测试、最小实现、验证命令和实现偏差记录。
+- QA 阶段必须有可复核证据；UI、后端、CLI、迁移和集成任务按对应方式验证。
+- 发布阶段必须完成归档、变更摘要、项目基线晋升判断和后续维护线索。
 - 老项目接入不默认重构、不移动原有业务代码。
 - 删除 `solo/` 和托管块后，项目可以回到接入前状态。

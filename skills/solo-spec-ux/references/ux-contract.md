@@ -51,11 +51,11 @@ If the exact section is missing, use the closest existing section and explain th
 
 ## 3. Asset Rules
 
-External generator output is not adopted until it is mapped to a SoloSpec asset path and registration target.
+External generated output is not adopted until it is mapped to a SoloSpec asset path and registration target.
 
 | Asset | Target directory | Register in |
 |---|---|---|
-| project-level visual reference | `project/assets/global-mockups/` | `project/design-system.md` |
+| project-level visual reference | `project/assets/references/` | `project/design-system.md` |
 | project-level brand asset | `project/assets/brand/` | `project/design-system.md` |
 | spec wireframe | current spec `assets/wireframes/` | current spec `design.md` |
 | spec high-fidelity mockup | current spec `assets/mockups/` | current spec `design.md` |
@@ -71,8 +71,8 @@ source-purpose-variant-01.ext
 
 Examples:
 
-- `taste-dashboard-overview-01.png`
-- `stitch-onboarding-empty-state-01.png`
+- `taste-dashboard-reference-01.html`
+- `stitch-onboarding-empty-state-01.html`
 - `gstack-mobile-overlap-regression-01.png`
 
 Each asset registration must include:
@@ -105,13 +105,13 @@ Do not accept “looks good” as a finding. Convert it into specific adopted it
 
 Treat external design tools as sources, not owners of SoloSpec structure.
 
-| Source type | Role | Handling |
+| Source type | Mode | Handling |
 |---|---|---|
-| taste-style generated mockup | Generator | Map images to `project/assets/global-mockups/` or current spec `assets/mockups/`; register them in `design-system.md` or `design.md`. |
-| design review report | Reviewer | Convert issues into `findings`, `recommendation`, and possible `gate` question. |
-| wireframe or screenshot | Generator | Map to current spec assets and register in `design.md` or `qa.md`. |
-| UI implementation instructions | Advisor only | Keep as design intent unless the current `solo-spec` stage is implementation. |
-| broad rebrand suggestion | Advisor only | Requires explicit user confirmation; usually belongs to project `design-system.md`, not one spec. |
+| taste-style generated mockup | `external-adapter` -> `generate-assets` | Map HTML to `project/assets/references/` or current spec `assets/mockups/`; register it in `design-system.md` or `design.md`. |
+| design review report | `external-adapter` -> `review` | Convert issues into `machine.findings`, `machine.recommendation`, and possible `machine.gate` question. |
+| wireframe or screenshot | `external-adapter` -> `generate-assets` | Map to current spec assets and register in `design.md` or `qa.md`. |
+| UI implementation instructions | `external-adapter` -> `co-create` | Keep as design intent unless the current `solo-spec` stage is implementation. |
+| broad rebrand suggestion | `external-adapter` -> `co-create` | Requires explicit user confirmation; usually belongs to project `design-system.md`, not one spec. |
 
 ## 6. Discard Rules
 

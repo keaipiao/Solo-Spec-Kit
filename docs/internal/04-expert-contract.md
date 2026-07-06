@@ -1,12 +1,12 @@
 # 专家模块契约
 
-v0.2 定义专家模块契约，并以“显式增强 + 主流程建议”的方式接入 `solo-spec`；仍不默认自动调用专家。设计方案见 `docs/internal/05-expert-module-v02-design.md`，独立专家 Skill 架构见 `docs/internal/06-expert-skills-architecture.md`，接入策略见 `docs/internal/08-expert-integration-strategy.md`。
+v0.3 定义专家模块契约，并以“阶段前置共创 + 过程生成 + 后置审查”的方式接入 `solo-spec`。设计方案见 `docs/internal/05-expert-module-v02-design.md`，独立专家 Skill 架构见 `docs/internal/06-expert-skills-architecture.md`，接入策略见 `docs/internal/08-expert-integration-strategy.md`。
 
 ## 1. 契约目标
 
 专家模块用于吸收 BMAD、Spec Kit、OpenSpec、Superpowers、gstack、taste 等顶级 Skill 的方法论，但所有输出必须服从 SoloSpec 的目录、章节、状态机和门禁。
 
-专家模块不直接拥有写文件权。所有写入由 artifact-writer 统一执行。
+专家模块不直接拥有主流程写文件权。所有标准 `solo/` 写入由 artifact-writer 统一执行；生成类专家可以建议资产目标，只有在主流程确认当前阶段允许后才写入或登记。
 
 本文档中的写入目标默认是相对 `solo/` 的路径。例：`project/brief.md` 表示用户项目中的 `solo/project/brief.md`。
 
@@ -27,32 +27,55 @@ v0.2 定义专家模块契约，并以“显式增强 + 主流程建议”的方
 
 ## 3. 通用输出
 
-专家模块必须输出结构化结果：
+专家模块必须输出中文可读结果，并保留机器可读 `machine` 结构。用户默认阅读中文层，主流程消费 `machine` 层。
 
-```text
-expert:
-branch:
-stage:
-mode: reviewer | advisor | generator
-summary:
-findings:
-recommendation:
-writeTargets:
-  - file:
-    section:
-    content:
-assets:
-  - source:
-    target:
-    registerIn:
-    description:
-discarded:
-  - item:
-    reason:
-gate:
-  required:
-  question:
-risks:
+```yaml
+专家: solo-spec-product
+阶段: brainstorm
+模式: co-create
+结论摘要:
+  - ...
+主要发现:
+  - ...
+建议:
+  - ...
+写入建议:
+  - 目标: project/brief.md
+    章节: ...
+    原因: ...
+资产建议: []
+丢弃内容:
+  - 内容: ...
+    原因: ...
+门禁建议:
+  需要确认: true
+  问题: ...
+风险:
+  - ...
+machine:
+  expert: solo-spec-product
+  branch:
+  stage:
+  mode: co-create | generate-assets | review | external-adapter
+  summary:
+  findings:
+  recommendation:
+  writeTargets:
+    - file:
+      section:
+      content:
+  assets:
+    - source:
+      target:
+      registerIn:
+      description:
+  discarded:
+    - item:
+      reason:
+  gate:
+    required:
+    question:
+  risks:
 ```
 
 字段说明：
@@ -61,7 +84,7 @@ risks:
 |---|---|
 | branch | 当前分支：`new-project`、`iteration`、`bugfix` 或 `adopt-existing` |
 | stage | 当前阶段 |
-| mode | 专家角色：`reviewer`、`advisor` 或 `generator` |
+| mode | 专家模式：`co-create`、`generate-assets`、`review` 或 `external-adapter` |
 | summary | 本模块结论 |
 | findings | 调研、审查、分析发现 |
 | recommendation | 推荐方案和理由 |
@@ -70,6 +93,15 @@ risks:
 | discarded | 不适合当前阶段、目录或门禁的内容及丢弃原因 |
 | gate | 是否需要用户确认 |
 | risks | 风险、假设和未确认项 |
+
+模式说明：
+
+| 模式 | 触发时机 | 作用 | 写入边界 |
+|---|---|---|---|
+| `co-create` | 阶段开始或阶段中 | 生成候选方向、问题、结构化草案和取舍 | 只建议当前阶段内容 |
+| `generate-assets` | UX、QA 或需要证据资产时 | 生成或登记 SVG、HTML、截图、日志等资产 | 只进入当前项目或当前 spec 的 assets |
+| `review` | 阶段门禁前 | 查漏补缺、审查风险、提出门禁问题 | 不直接通过门禁 |
+| `external-adapter` | 用户指定外部 Skill / 工具时 | 把外部输出转成 SoloSpec 当前阶段结构 | 必须丢弃跨阶段或无目标内容 |
 
 ## 4. 禁止事项
 
@@ -81,6 +113,9 @@ risks:
 - 跳过当前门禁。
 - 把不确定内容写成已确认结论。
 - 在没有来源时断言版本、API、模型、平台能力。
+- 只输出英文机器字段而没有中文摘要。
+- 输出超出当前阶段且没有放入 `discarded` 的内容。
+- 建议无消费方的文档、目录或资产。
 
 ## 5. 专家模块列表
 
@@ -184,7 +219,7 @@ risks:
 - 设计用户流、信息架构、页面/组件清单。
 - 选择 UI 出图路线：直接高保真、线稿先行、生成图参考。
 - 管理状态：加载、空、错误、无权限、移动端。
-- 接收 Generator 产物并登记。
+- 接收 `generate-assets` 或 `external-adapter` 产物并登记。
 - 反 AI 味审查：避免模板化、无状态、不可实现的 UI。
 
 **借鉴来源**：taste、gstack design-review。
@@ -340,15 +375,15 @@ risks:
 
 ## 6. 外部增强适配
 
-外部增强不直接写入 SoloSpec 产物。用户指定其他 Skill 或工具时，主流程必须把输出按 Reviewer、Advisor 或 Generator 适配为当前阶段的专家契约结果，再决定是否写入。
+外部增强不直接写入 SoloSpec 产物。用户指定其他 Skill 或工具时，主流程必须把输出按 `external-adapter` 适配为当前阶段的专家契约结果，再决定是否写入。
 
 示例：
 
 | 外部能力 | 适配为 | 输出处理 |
 |---|---|---|
-| taste 生成项目级视觉参考 | ux-design Generator | 放入 `project/assets/global-mockups/`，登记 `project/design-system.md` |
-| taste 生成具体页面高保真 | ux-design Generator | 放入当前规格 `assets/mockups/`，登记 `design.md` |
-| gstack QA 截图 | qa Generator | 放入当前规格 `assets/screenshots/`，登记 `qa.md` |
-| superpowers TDD 建议 | tdd Advisor | 转成 `tasks.md` |
-| gstack design-review | ux-design Reviewer | 写入 `design.md` 门禁结论 |
-| OpenSpec 归档建议 | archive Advisor | 转成当前 `archive.md`、`project/release.md`、`project/quality.md` 或 `project/pitfalls.md` |
+| taste 生成项目级视觉参考 | `external-adapter` -> ux-design `generate-assets` | 放入 `project/assets/references/`，登记 `project/design-system.md` |
+| taste 生成具体页面高保真 HTML | `external-adapter` -> ux-design `generate-assets` | 放入当前规格 `assets/mockups/`，登记 `design.md` |
+| gstack QA 截图 | `external-adapter` -> qa `generate-assets` | 放入当前规格 `assets/screenshots/`，登记 `qa.md` |
+| superpowers TDD 建议 | `external-adapter` -> tdd `co-create` | 转成 `tasks.md` |
+| gstack design-review | `external-adapter` -> ux-design `review` | 写入 `design.md` 门禁结论 |
+| OpenSpec 归档建议 | `external-adapter` -> archive `review` | 转成当前 `archive.md`、`project/release.md`、`project/quality.md` 或 `project/pitfalls.md` |

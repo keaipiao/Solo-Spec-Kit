@@ -1,0 +1,51 @@
+{
+  "codex": {
+    "label": "Codex",
+    "status": "confirmed",
+    "skillRoots": [".agents/skills", ".codex/skills"],
+    "agentRoots": [".agents/agents", ".codex/agents"],
+    "ruleFiles": ["AGENTS.md"]
+  },
+  "cursor": {
+    "label": "Cursor",
+    "status": "confirmed",
+    "skillRoots": [".cursor/skills", ".agents/skills", ".claude/skills", ".codex/skills"],
+    "agentRoots": [".cursor/agents", ".claude/agents", ".codex/agents"],
+    "ruleFiles": ["AGENTS.md", ".cursor/rules/solo-spec.mdc"]
+  },
+  "claude-code": {
+    "label": "Claude Code",
+    "status": "confirmed",
+    "skillRoots": [".claude/skills", ".agents/skills"],
+    "agentRoots": [".claude/agents"],
+    "ruleFiles": ["CLAUDE.md", "AGENTS.md"]
+  },
+  "opencode": {
+    "label": "OpenCode",
+    "status": "confirmed",
+    "skillRoots": [".opencode/skills", ".agents/skills", ".claude/skills"],
+    "agentRoots": [".opencode/agents"],
+    "ruleFiles": ["AGENTS.md", "CLAUDE.md"]
+  },
+  "trae": {
+    "label": "Trae",
+    "status": "needs-real-ide-verification",
+    "skillRoots": [".trae/skills", ".agents/skills"],
+    "agentRoots": [".trae/agents"],
+    "ruleFiles": ["AGENTS.md"]
+  },
+  "zcode": {
+    "label": "zcode",
+    "status": "locally-observed",
+    "skillRoots": [".zcode/skills", ".agents/skills"],
+    "agentRoots": [".zcode/agents"],
+    "ruleFiles": ["AGENTS.md"]
+  },
+  "generic": {
+    "label": "Generic Agent Skills",
+    "status": "confirmed",
+    "skillRoots": [".agents/skills"],
+    "agentRoots": [".agents/agents"],
+    "ruleFiles": ["AGENTS.md"]
+  }
+}

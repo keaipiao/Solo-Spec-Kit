@@ -9,9 +9,10 @@
   },
   "externalEnhancements": {
     "enabled": false,
-    "allowReviewer": true,
-    "allowAdvisor": true,
-    "allowGenerator": true
+    "allowCoCreate": true,
+    "allowGenerateAssets": true,
+    "allowReview": true,
+    "allowExternalAdapter": true
   },
   "project": {
     "type": "unknown",

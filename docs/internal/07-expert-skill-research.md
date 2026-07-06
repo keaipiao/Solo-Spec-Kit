@@ -1,4 +1,6 @@
-# 专家 Skill 权威调研
+# 专家 Skill v0.2 历史调研
+
+> v0.3 已升级专家契约与阶段协作模型。当前实现以 `docs/internal/04-expert-contract.md`、`docs/internal/08-expert-integration-strategy.md`、`docs/internal/09-v03-virtual-team-research.md` 和 `skills/solo-spec/references/experts.md` 为准。本文保留 v0.2 调研背景，不再作为当前实现规范。
 
 调研日期：2026-07-03
 

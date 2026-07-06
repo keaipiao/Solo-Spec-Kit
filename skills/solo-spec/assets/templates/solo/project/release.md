@@ -34,3 +34,21 @@
 | README.md | 项目状态摘要 |  |
 | CHANGELOG.md | 发布摘要 |  |
 
+## 6. 阶段研究与核验
+
+| 事实 / 假设 | 来源 / 证据 | 状态 | 影响 |
+|---|---|---|---|
+|  |  | confirmed / needs-check / rejected |  |
+
+## 7. 专家增强记录
+
+| 专家 / 工具 | 模式 | 状态 | 采纳内容 / 跳过原因 |
+|---|---|---|---|
+| solo-spec-release | co-create / review | used / skipped / unavailable / external-adapter |  |
+
+## 8. 发布策略门禁确认
+
+- 是否明确发布方式：
+- 是否明确回滚点：
+- 是否明确托管块同步范围：
+- 结论：

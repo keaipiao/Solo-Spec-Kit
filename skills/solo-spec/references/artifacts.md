@@ -72,8 +72,8 @@ Bugfix specs use `proposal.md`, `plan.md`, `tasks.md`, `qa.md`, and `archive.md`
 
 - Project-level assets go under `solo/project/assets/`.
 - Iteration-specific wireframes, mockups, screenshots, and references go under `solo/specs/NNN-name/assets/`.
-- Project-level UI generator output goes under `project/assets/global-mockups/` and is registered in `project/design-system.md`.
-- Spec-level UI generator output goes under current spec `assets/mockups/` and is registered in `design.md`.
+- Project-level visual reference output goes under `project/assets/references/` and is registered in `project/design-system.md`.
+- Spec-level high-fidelity HTML output goes under current spec `assets/mockups/` and is registered in `design.md`.
 - QA screenshots must be stored under current spec `assets/screenshots/` and registered in `qa.md`.
 
 ## Architecture Artifacts

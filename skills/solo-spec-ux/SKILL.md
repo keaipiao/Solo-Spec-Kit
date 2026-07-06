@@ -52,32 +52,59 @@ Infer these when obvious; otherwise ask one blocking question:
 
 ## Expert Packet
 
-In SoloSpec integration mode, return this shape:
+In SoloSpec integration mode, return Chinese-readable output plus a machine-readable packet:
 
-```text
-expert: solo-spec-ux
-branch:
-stage:
-mode: reviewer | advisor | generator
-summary:
-findings:
-recommendation:
-writeTargets:
-  - file:
-    section:
-    content:
-assets:
-  - source:
-    target:
-    registerIn:
-    description:
-discarded:
-  - item:
-    reason:
-gate:
-  required:
-  question:
-risks:
+```yaml
+专家: solo-spec-ux
+阶段:
+模式: co-create
+结论摘要:
+  - ...
+主要发现:
+  - ...
+建议:
+  - ...
+写入建议:
+  - 目标:
+    章节:
+    原因:
+资产建议:
+  - 来源:
+    目标:
+    登记到:
+    说明:
+丢弃内容:
+  - 内容:
+    原因:
+门禁建议:
+  需要确认:
+  问题:
+风险:
+  - ...
+machine:
+  expert: solo-spec-ux
+  branch:
+  stage:
+  mode: co-create | generate-assets | review | external-adapter
+  summary:
+  findings:
+  recommendation:
+  writeTargets:
+    - file:
+      section:
+      content:
+  assets:
+    - source:
+      target:
+      registerIn:
+      description:
+  discarded:
+    - item:
+      reason:
+  gate:
+    required:
+    question:
+  risks:
 ```
 
 Rules:

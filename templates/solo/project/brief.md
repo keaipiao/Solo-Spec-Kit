@@ -46,3 +46,22 @@
 | 指标 | 判断方式 | 当前目标 |
 |---|---|---|
 |  |  |  |
+
+## 7. 阶段研究与核验
+
+| 事实 / 假设 | 来源 / 证据 | 状态 | 影响 |
+|---|---|---|---|
+|  |  | confirmed / needs-check / rejected |  |
+
+## 8. 专家增强记录
+
+| 专家 / 工具 | 模式 | 状态 | 采纳内容 / 跳过原因 |
+|---|---|---|---|
+| solo-spec-product | co-create / review | used / skipped / unavailable / external-adapter |  |
+
+## 9. Scope 门禁确认
+
+- 需要用户确认的问题：
+- 未解决的研究项：
+- 是否明确 MVP 边界：
+- 结论：

@@ -55,35 +55,58 @@ Infer these when obvious; otherwise ask one blocking question:
 
 ## Expert Packet
 
-In SoloSpec integration mode, return this shape:
+In SoloSpec integration mode, return Chinese-readable output plus a machine-readable packet:
 
-```text
-expert: solo-spec-architecture
-branch:
-stage:
-mode: reviewer | advisor | generator
-summary:
-findings:
-recommendation:
-writeTargets:
-  - file:
-    section:
-    content:
-assets: []
-discarded:
-  - item:
-    reason:
-gate:
-  required:
-  question:
-risks:
+```yaml
+专家: solo-spec-architecture
+阶段:
+模式: co-create
+结论摘要:
+  - ...
+主要发现:
+  - ...
+建议:
+  - ...
+写入建议:
+  - 目标:
+    章节:
+    原因:
+资产建议: []
+丢弃内容:
+  - 内容:
+    原因:
+门禁建议:
+  需要确认:
+  问题:
+风险:
+  - ...
+machine:
+  expert: solo-spec-architecture
+  branch:
+  stage:
+  mode: co-create | generate-assets | review | external-adapter
+  summary:
+  findings:
+  recommendation:
+  writeTargets:
+    - file:
+      section:
+      content:
+  assets: []
+  discarded:
+    - item:
+      reason:
+  gate:
+    required:
+    question:
+  risks:
 ```
 
 Rules:
 
 - `file` is relative to `solo/`, for example `project/architecture.md`, `specs/003-auth/plan.md`, or `decisions/ADR-0002-auth-layer.md`.
 - `section` must match an existing SoloSpec template section where possible.
-- Architecture expert normally has no assets; use `assets: []` unless the input includes concrete evidence that should be registered by another expert.
+- Architecture expert normally has no assets; use `machine.assets: []` unless the input includes concrete evidence that should be registered by another expert.
 - `gate.required` is advisory only; the main `solo-spec` workflow decides whether to stop.
 - Do not label a dependency, framework, API, security behavior, or platform claim as officially verified unless the current run actually checked an official source. If verification has not happened in this run, put the need in `risks`, `discarded`, or `gate.question`.
 

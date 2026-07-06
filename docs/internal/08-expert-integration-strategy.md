@@ -2,23 +2,23 @@
 
 ## 1. 结论
 
-v0.2 后续接入采用“显式增强 + 当前阶段状态提示”的方式，不默认自动调用专家。
+v0.3 接入采用“阶段前置共创 + 过程生成 + 后置审查”的方式。内置 SoloSpec 专家是当前阶段的虚拟团队成员，不再只是文档写完后的可选审查器。
 
 这样设计是为了保持 `solo-spec` 的核心承诺：
 
 - 用户只需要一个入口。
 - 主流程在未安装专家 Skill 时仍能独立运行。
 - 专家不能绕过状态机、目录规则、Artifact Writer 和用户门禁。
-- 专家输出只作为结构化建议，由主流程消费。
+- 专家输出只作为结构化建议和资产建议，由主流程消费。
 
 因此，专家模块的接入等级定义为：
 
-| 等级 | 形态 | v0.2 采用 |
+| 等级 | 形态 | v0.3 采用 |
 |---|---|---|
 | L0 | 专家 Skill 独立可用，用户直接调用 `$solo-spec-*` | 是 |
-| L1 | `$solo-spec` 在当前阶段门禁前报告专家增强状态 | 是 |
-| L2 | `$solo-spec` 经用户确认后调用某个专家，并消费 expert packet | 是 |
-| L3 | `$solo-spec` 默认自动调用专家 | 否 |
+| L1 | `$solo-spec` 在当前阶段报告专家增强状态 | 是 |
+| L2 | `$solo-spec` 在阶段开始或阶段中使用内置专家，并消费 expert packet | 是 |
+| L3 | `$solo-spec` 对外部未知 Skill 默认自动调用 | 否 |
 
 ## 2. 调用原则
 
@@ -40,34 +40,35 @@ v0.2 后续接入采用“显式增强 + 当前阶段状态提示”的方式，
 | `ux` / `design` | `solo-spec-ux` | 审查 UX、状态、设计资产映射 |
 | `architecture` / `plan` / `root-cause` | `solo-spec-architecture` | 判断触发架构层、ADR、风险和回滚 |
 | `tdd-plan` / `regression-test` | `solo-spec-tdd` | 拆红绿任务和回归测试 |
+| `implementation` / `fix` | `solo-spec-tdd` + `solo-spec-architecture` | 审查红绿实现范围、实现偏差和结构性风险 |
 | `qa` / `verify` | `solo-spec-qa` | 登记真实 QA 证据 |
 | `archive` / `write-managed-blocks` | `solo-spec-release` | 归档、基线晋升、托管块建议 |
 
 主流程不能因为专家存在而提前创建未来阶段文档。
 
-### 2.3 用户确认后调用
+### 2.3 阶段内专家参与
 
-到达可增强阶段的用户门禁前，主流程必须先报告专家增强状态。主流程不枚举所有已安装 Skill，只提当前阶段对应的 SoloSpec 专家，以及用户明确指定的其他 Skill / 工具。
+主流程必须在当前阶段内使用或评估映射专家。主流程不枚举所有已安装 Skill，只提当前阶段对应的 SoloSpec 专家，以及用户明确指定的其他 Skill / 工具。
 
-如果当前阶段 SoloSpec 专家可用，用户可以选择调用对应专家做本阶段审查，也可以跳过专家直接确认当前阶段。如果未检测到对应专家，主流程说明未安装，并给出“跳过专家”或“指定其他 Skill / 工具”的选择。
+如果当前阶段 SoloSpec 专家可用，主流程可以把它作为 `co-create`、`generate-assets` 或 `review` 专家使用。内置专家仍不能写标准 `solo/` 文件、通过门禁或越过当前阶段。如果未检测到对应专家，主流程说明未安装，并给出“继续基础流程”或“指定其他 Skill / 工具”的选择。
 
-当专家调用可能消耗明显时间、引入外部检索、生成资产、改变阶段结论或影响项目基线时，主流程必须在选项中说明影响。
+当专家动作可能消耗明显时间、引入外部检索、生成资产、改变阶段结论或影响项目基线时，主流程必须先说明影响。
 
 低风险本地审查可以由用户显式请求触发，例如：
 
 ```text
-$solo-spec 继续，用 UX 专家审查当前 design
+$solo-spec 继续，用 UX 专家生成当前 design 的高保真 HTML
 $solo-spec 继续，让架构专家检查是否需要鉴权层
 ```
 
 主流程提示示例：
 
 ```text
-当前 design 涉及移动端、空状态和高保真资产。已检测到 `solo-spec-ux`，可以先调用 UX 专家审查，也可以跳过专家直接确认当前设计。
+当前 design 涉及移动端、空状态和高保真 HTML。已检测到 `solo-spec-ux`，本阶段已用 UX 专家做体验方案共创，下一步可以生成高保真 HTML，也可以先确认当前设计方向。
 
 请选择：
-1. 调用 UX 专家审查当前 design
-2. 跳过专家，直接确认当前 design
+1. 生成高保真 HTML
+2. 先确认当前 design
 ```
 
 未检测到对应专家时：
@@ -76,19 +77,19 @@ $solo-spec 继续，让架构专家检查是否需要鉴权层
 当前 design 可使用 UX 专家增强，但未检测到 `solo-spec-ux`。
 
 请选择：
-1. 跳过专家，直接确认当前 design
-2. 指定其他 Skill / 工具审查当前 design
+1. 继续基础流程并确认当前 design
+2. 指定其他 Skill / 工具处理当前 design
 ```
 
 ## 3. Expert Packet 消费流程
 
 主流程消费专家输出时必须按固定顺序处理：
 
-1. 校验 packet 形状。
-2. 校验 `branch` 和 `stage` 是否匹配当前状态。
-3. 校验 `writeTargets.file` 是否位于 `solo/` 允许目标。
-4. 校验 `writeTargets.section` 是否存在于目标模板。
-5. 校验 `assets.target` 是否位于当前允许资产目录。
+1. 校验 packet 形状，必须包含中文摘要和 `machine`。
+2. 校验 `machine.branch` 和 `machine.stage` 是否匹配当前状态。
+3. 校验 `machine.writeTargets.file` 是否位于 `solo/` 允许目标。
+4. 校验 `machine.writeTargets.section` 是否存在于目标模板。
+5. 校验 `machine.assets.target` 是否位于当前允许资产目录。
 6. 把不合规内容放入 `discarded` 或主流程审查记录。
 7. 只把合规建议交给 Artifact Writer。
 8. 根据 `gate` 和主流程规则决定是否停在门禁。
@@ -121,10 +122,10 @@ $solo-spec 继续，让架构专家检查是否需要鉴权层
 
 外部资产必须复制到 SoloSpec 标准目录后再登记：
 
-- 项目级视觉参考：`project/assets/global-mockups/`
+- 项目级视觉参考：`project/assets/references/`
 - 项目级品牌资产：`project/assets/brand/`
 - 规格级线稿：当前 spec `assets/wireframes/`
-- 规格级高保真：当前 spec `assets/mockups/`
+- 规格级高保真 HTML：当前 spec `assets/mockups/`
 - QA 截图：当前 spec `assets/screenshots/`
 - QA 日志和 API 样本：当前 spec `assets/logs/`
 
@@ -178,17 +179,19 @@ $solo-spec 继续，让架构专家检查是否需要鉴权层
 
 ## 7. 对状态机的影响
 
-v0.2 接入专家不新增状态机阶段。
+v0.3 接入专家不新增状态机阶段。
 
-专家调用只发生在当前阶段内部，可视为阶段内审查动作：
+专家协作只发生在当前阶段内部，可视为阶段内共创、资产生成或评审动作：
 
 ```text
 stage-start
   -> read current context
+  -> evaluate mapped current-stage expert
+  -> co-create or generate-assets when useful for this stage
   -> artifact write
   -> validation
-  -> offer optional current-stage expert
-  -> consume expert packet if user accepts
+  -> review with current-stage expert when risk justifies it
+  -> consume expert packet
   -> gate
 ```
 
@@ -236,14 +239,14 @@ $solo-spec 给现有 React 工具增加 CSV 导入功能，需要页面交互、
 - 每次专家输出都由主流程消费，不由专家直接写文件。
 - 专家缺失时，主流程能降级继续。
 
-端到端验收已完成，报告见 `docs/verification/v0.2/10-expert-integration-e2e-test-report.md`。`solo-spec` 主 Skill 已写入“门禁前报告当前阶段专家状态”的正式流程说明，但仍不默认自动调用专家；主 Skill 降级烟测见 `docs/verification/v0.2/11-main-skill-expert-suggestion-smoke-test.md`。
+v0.2 端到端验收已完成，报告见 `docs/verification/v0.2/10-expert-integration-e2e-test-report.md`。这些报告是历史基线，用于证明专家 packet 可被消费；v0.3 当前实现以本文前述“阶段前置共创 + 过程生成 + 后置审查”为准。
 
 ## 10. 不做事项
 
-v0.2 不做：
+v0.3 不做：
 
-- 不默认自动调用专家。
 - 不新增 `$solo-spec product`、`$solo-spec ux`、`$solo-spec qa` 等公共命令。
 - 不让专家写文件、改状态机或通过门禁。
 - 不把专家输出原文无审查地拼进文档。
 - 不把外部 Skill 的目录结构带入用户项目。
+- 不默认自动调用用户未指定的外部未知 Skill / 工具。

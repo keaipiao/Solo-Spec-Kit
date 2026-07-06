@@ -1,5 +1,7 @@
 # 专家模块 v0.2 设计方案
 
+> v0.3 已升级专家模型：当前契约以 `docs/internal/04-expert-contract.md`、`docs/internal/08-expert-integration-strategy.md` 和 `skills/solo-spec/references/experts.md` 为准。本文保留 v0.2 的历史设计背景，不再作为当前实现规范。
+
 ## 1. 阶段目标
 
 v0.2 定义专家模块契约，并以“显式增强 + 主流程建议”的方式接入 `solo-spec`；仍不默认自动调用专家。

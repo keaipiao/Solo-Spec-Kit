@@ -113,18 +113,19 @@ solo/project/pitfalls.md
 
 ## 5. 外部增强产物
 
-外部增强分为三类：
+外部增强分为四类：
 
-| 类型 | 结果如何处理 |
+| 模式 | 结果如何处理 |
 |---|---|
-| Reviewer | 写入对应文档的门禁或评审结论段落 |
-| Advisor | 写入当前阶段文档；只有功能迭代的发散建议才写入 `brainstorm.md` |
-| Generator | 作为资产放入当前阶段所属的 `assets/`，并在文档登记 |
+| `co-create` | 写入当前阶段文档；只有功能迭代的发散建议才写入 `brainstorm.md` |
+| `generate-assets` | 作为资产放入当前阶段所属的 `assets/`，并在文档登记 |
+| `review` | 写入对应文档的门禁或评审结论段落 |
+| `external-adapter` | 把用户指定的外部 Skill / 工具输出转换成当前阶段内容或资产 |
 
 示例：
 
-- taste 生成项目级视觉参考：放 `project/assets/global-mockups/`，登记到 `project/design-system.md`。
-- taste 生成具体页面高保真：放当前规格 `assets/mockups/`，登记到 `design.md`。
+- taste 生成项目级视觉参考：放 `project/assets/references/`，登记到 `project/design-system.md`。
+- taste 生成具体页面高保真 HTML：放当前规格 `assets/mockups/`，登记到 `design.md`。
 - 浏览器 QA 截图：放当前规格 `assets/screenshots/`，登记到 `qa.md`。
 - 竞品截图或参考资料：放 `assets/references/`，新项目登记到当前阶段文档，迭代登记到 `brainstorm.md`、`proposal.md` 或 `design.md`。
 

@@ -8,7 +8,7 @@
 
 - `solo-spec`：主编排 Skill，负责入口、分支、状态机、目录、门禁、写入规则。
 - `solo-spec-*`：独立专家 Skill，负责某一类专业判断，输出 expert packet。
-- 外部顶级 Skill：可作为专家 Skill 的参考、Reviewer、Advisor 或 Generator，但输出必须被转换成 SoloSpec 结构。
+- 外部顶级 Skill：可作为用户指定的 `external-adapter`，内置专家可按 `co-create`、`generate-assets`、`review` 三种模式参与当前阶段，但输出必须被转换成 SoloSpec 结构。
 
 ## 2. 目录形态
 
@@ -23,7 +23,7 @@ skills/
 └── solo-spec-release/
 ```
 
-v0.2 先以 `solo-spec-product`、`solo-spec-ux`、`solo-spec-architecture`、`solo-spec-tdd`、`solo-spec-qa` 和 `solo-spec-release` 作为验证方向，用于验证前置产品发现能力、复杂设计类能力、架构决策能力、TDD 任务拆分能力、QA 证据登记能力和归档发布收口能力如何独立成 Skill；正式落地前必须按 `docs/internal/07-expert-skill-research.md` 重写校准。
+v0.3 以 `solo-spec-product`、`solo-spec-ux`、`solo-spec-architecture`、`solo-spec-tdd`、`solo-spec-qa` 和 `solo-spec-release` 作为内置专家团队。它们覆盖产品发现、研究收敛、体验设计、架构决策、TDD 任务拆分、QA 证据登记和归档发布收口，但都不取代 `solo-spec` 的状态机、目录和门禁。
 
 ## 3. 主 Skill 和专家 Skill 边界
 
@@ -33,7 +33,7 @@ v0.2 先以 `solo-spec-product`、`solo-spec-ux`、`solo-spec-architecture`、`s
 | 推进状态机 | 是 | 否 |
 | 写入文件 | 是 | 否 |
 | 通过门禁 | 是，且必须由用户确认 | 否 |
-| 专业评审 | 只调度或接收结果 | 是 |
+| 专业共创/生成/评审 | 调度、接收和裁决结果 | 是 |
 | 外部 Skill 适配 | 只接收转换后的 expert packet | 是 |
 | 目录约束 | 定义和执行 | 遵守 |
 
@@ -41,32 +41,44 @@ v0.2 先以 `solo-spec-product`、`solo-spec-ux`、`solo-spec-architecture`、`s
 
 ## 4. Expert Packet
 
-所有专家 Skill 必须输出统一结构：
+所有专家 Skill 必须输出中文可读层和统一 `machine` 结构：
 
-```text
-expert:
-branch:
-stage:
-mode: reviewer | advisor | generator
-summary:
-findings:
-recommendation:
-writeTargets:
-  - file:
-    section:
-    content:
-assets:
-  - source:
-    target:
-    registerIn:
-    description:
-discarded:
-  - item:
-    reason:
-gate:
-  required:
-  question:
-risks:
+```yaml
+专家:
+阶段:
+模式:
+结论摘要:
+主要发现:
+建议:
+写入建议:
+资产建议:
+丢弃内容:
+门禁建议:
+风险:
+machine:
+  expert:
+  branch:
+  stage:
+  mode: co-create | generate-assets | review | external-adapter
+  summary:
+  findings:
+  recommendation:
+  writeTargets:
+    - file:
+      section:
+      content:
+  assets:
+    - source:
+      target:
+      registerIn:
+      description:
+  discarded:
+    - item:
+      reason:
+  gate:
+    required:
+    question:
+  risks:
 ```
 
 ## 5. 独立专家 Skill 规划
@@ -80,9 +92,9 @@ risks:
 | `solo-spec-qa` | QA 策略、浏览器/API 验证、证据登记 | gstack QA |
 | `solo-spec-release` | 归档、发布、项目基线晋升、托管块建议 | OpenSpec、piao-workflow |
 
-## 6. 首批专家原型
+## 6. 内置专家边界
 
-`solo-spec-product`、`solo-spec-ux`、`solo-spec-architecture`、`solo-spec-tdd`、`solo-spec-qa` 和 `solo-spec-release` 是首批独立专家 Skill 原型。正式版本必须先按 `docs/internal/07-expert-skill-research.md` 的调研结论重写校准。
+`solo-spec-product`、`solo-spec-ux`、`solo-spec-architecture`、`solo-spec-tdd`、`solo-spec-qa` 和 `solo-spec-release` 是 v0.3 内置专家 Skill。它们可以在当前阶段以 `co-create`、`generate-assets` 或 `review` 模式参与；用户显式指定的外部 Skill 或工具只能作为 `external-adapter` 输入，由主流程转换后消费。
 
 `solo-spec-product` 只做：
 
@@ -168,13 +180,13 @@ risks:
 
 ## 7. 分发策略
 
-v0.2 基础安装只要求安装：
+基础安装只要求安装：
 
 ```text
 skills/solo-spec/
 ```
 
-v0.2 增强安装可以选择安装：
+增强安装可以选择安装：
 
 ```text
 skills/solo-spec/

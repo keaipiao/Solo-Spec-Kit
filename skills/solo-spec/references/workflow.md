@@ -6,6 +6,7 @@
 intake
 → brainstorm
 → scope
+→ research
 → prd
 → ux
 → architecture
@@ -23,6 +24,7 @@ Rules:
 
 - `brainstorm` produces options in the conversation and writes no process file for new projects.
 - `scope` writes `solo/project/brief.md`.
+- `research` writes stage-specific verified facts into `brief.md`, `prd.md`, `ux.md`, `design-system.md`, `architecture.md`, or ADRs. Do not create a standalone research directory.
 - `prd` writes `solo/project/prd.md`.
 - `ux` writes `solo/project/ux.md` and `solo/project/design-system.md`.
 - `architecture` writes `solo/project/architecture.md` and ADRs when needed.
@@ -42,6 +44,7 @@ intake
 → read-context
 → brainstorm
 → scope
+→ research
 → spec
 → design
 → architecture
@@ -57,6 +60,7 @@ Rules:
 - Create `solo/specs/NNN-kebab-case-name/`.
 - `brainstorm` writes `brainstorm.md`.
 - `scope` writes `proposal.md`.
+- `research` writes only facts needed by the current iteration into the current stage artifact.
 - `spec` writes `spec.md`.
 - `design` writes `design.md` and iteration assets when UI exists.
 - `architecture` writes `plan.md` and ADRs when needed.
@@ -88,9 +92,24 @@ Rules:
 ## Implementation And QA Rules
 
 - Do not skip tests in implementation. If no test tool exists, create the smallest test runner compatible with the accepted architecture.
+- Implementation follows red-green tasks, records actual commands, and updates the current spec when implementation deviates from the accepted plan.
 - For time-dependent behavior, use controllable time or explicit state-advance functions in tests; use real waiting only as supplemental QA.
 - QA-discovered bugs stay in the current spec: update `qa.md`, add regression coverage, fix minimally, rerun tests, then update `tasks.md`.
+- QA evidence is not only UI evidence. Backend, CLI, data migration, and integration work must record the matching command, API result, log, or artifact.
 - Archive promotes only reusable lessons or changed baselines to `project/pitfalls.md`, `project/quality.md`, or `project/release.md`.
+
+## All-Stage First-Class Rules
+
+Every stage is a first-class stage. Do not over-invest in UX while treating product, research, architecture, TDD, implementation, QA, or release as checklist items.
+
+Each stage must include:
+
+- current-stage expert status when mapped;
+- explicit artifact target;
+- non-goals or current-stage exclusions;
+- evidence or source discipline for factual claims;
+- a gate question the user can answer;
+- how the next stage will verify this stage's conclusion.
 
 ## Adopt Existing
 

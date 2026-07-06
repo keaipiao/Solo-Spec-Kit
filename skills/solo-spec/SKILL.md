@@ -139,14 +139,15 @@ Do not create parallel `docs/plans/`, `docs/features/`, or `specs/` directories 
 Do not depend on expert skills. The base `solo-spec` workflow must still run when no expert skill is installed.
 
 Load [references/experts.md](references/experts.md) when the user asks to use or evaluate expert roles, adapt external skill output, or when the current stage maps to an optional expert below.
+Load [references/host-adapters.md](references/host-adapters.md) before reporting that a mapped expert is unavailable.
 
-Standalone expert skills such as `$solo-spec-product`, `$solo-spec-ux`, `$solo-spec-architecture`, `$solo-spec-tdd`, `$solo-spec-qa`, and `$solo-spec-release` may be installed as optional siblings of `$solo-spec`. They must return expert packets; they do not own the workflow, create directories, write files directly, or pass gates.
+Standalone expert skills such as `$solo-spec-product`, `$solo-spec-ux`, `$solo-spec-architecture`, `$solo-spec-tdd`, `$solo-spec-qa`, and `$solo-spec-release` may be installed as siblings of `$solo-spec`. In v0.3 they are current-stage virtual team members, not separate public workflow entries. They must return expert packets; they do not own the workflow, create directories, write standard `solo/` files directly, or pass gates.
 
 When checking whether the current-stage expert is installed, inspect host-specific project skill roots before reporting unavailable:
 
 - the parent directory of the running `solo-spec` skill, because experts are usually sibling directories;
-- `<project>/.agents/skills/` for Codex project skills;
-- `<project>/.zcode/skills/` for zcode project skills.
+- the active host adapter roots from [references/host-adapters.md](references/host-adapters.md);
+- compatible project roots from [references/host-adapters.md](references/host-adapters.md) when the active host is unknown.
 
 Treat an expert as installed when `<skills-root>/<expert-name>/SKILL.md` exists in any known root. Do not report a mapped expert as unavailable until these roots have been checked or the host provides an equivalent skill registry that clearly excludes it.
 
@@ -156,33 +157,35 @@ You may suggest an expert only for the current branch and stage:
 - `ux` / `design`: UX expert.
 - `architecture` / `plan` / `root-cause`: architecture expert.
 - `tdd-plan` / `regression-test`: TDD expert.
+- `implementation` / `fix`: TDD expert for red-green scope plus architecture expert for structural risk review.
 - `qa` / `verify`: QA expert.
 - `archive` / `write-managed-blocks`: release expert.
 
-Before a mapped stage reaches its user gate, always report the expert-enhancement status for the current stage. Do not list every installed skill. Only mention the current-stage SoloSpec expert, plus any other skill/tool explicitly named by the user.
+Before a mapped stage reaches its user gate, always report the expert-enhancement status for the current stage. Do not list every installed skill. Only mention the current-stage SoloSpec expert, what it did or why it was skipped/unavailable, plus any other skill/tool explicitly named by the user.
 
 For mapped stages, `专家增强` must include all of these:
 
 - the mapped expert skill name, such as `$solo-spec-product`;
 - whether that expert was detected as installed;
-- whether it was offered, used, skipped, unavailable, or replaced by a user-named skill/tool;
+- whether it was used, skipped, unavailable, or replaced by a user-named skill/tool;
 - the allowed next choices.
 
 Do not write only `按你的要求未调用任何专家`, `未调用专家`, or similar short summaries for mapped stages. Those are insufficient because they hide whether an expert was available.
 
 If the user explicitly says not to call experts, obey that request, but still report the mapped expert name and detection status. Treat the SoloSpec expert as `skipped`, then offer the normal gate action and, when the mapped expert is not installed, the option to name another skill/tool.
 
-If the current-stage SoloSpec expert is available, the `专家增强` block must explicitly show two choices: call that expert for a stage review, or skip the expert and confirm the current stage. Do not hide the skip option inside the normal gate choices. If the current-stage expert is not available, the `专家增强` block must explicitly show two choices: skip expert review and confirm the current stage, or let the user name another skill/tool for review.
+If the current-stage SoloSpec expert is available, use it only for the current stage and current mode: `co-create`, `generate-assets`, or `review`. If expert action may take time, perform external research, generate assets, change the stage conclusion, or affect a project baseline, explain the impact before doing it. If the current-stage expert is not available, the `专家增强` block must explicitly say the base workflow continues and allow the user to name another skill/tool.
 
-If the user chooses SoloSpec expert review, call only the current-stage expert, then consume the expert packet through the main `solo-spec` workflow before asking for the normal stage gate. If the user names another skill/tool, treat it as an external Reviewer, Advisor, or Generator under the same current-stage write rules. If the user skips expert review, continue to the normal stage gate.
+When a SoloSpec expert returns output, consume the expert packet through the main `solo-spec` workflow before asking for the normal stage gate. If the user names another skill/tool, treat it as `external-adapter` output under the same current-stage write rules. If the user skips expert use, continue to the normal stage gate.
 
 If an expert is unavailable, returns invalid output, or suggests content outside the current stage, continue with the base workflow and record only valid current-stage findings.
 
-External skills may be used only as:
+Expert modes are:
 
-- Reviewer: critique SoloSpec artifacts.
-- Advisor: suggest options, risks, tradeoffs.
-- Generator: create raw assets such as mockups or screenshots.
+- `co-create`: current-stage options, risks, tradeoffs, section content, and decision framing.
+- `generate-assets`: current-stage assets such as SVG wireframes, high-fidelity HTML, screenshots, logs, or test evidence.
+- `review`: gate-stage critique and risk review.
+- `external-adapter`: user-named external Skill / tool output converted to SoloSpec's current-stage structure.
 
 All external outputs must be converted into SoloSpec sections or assets under `solo/`.
 
@@ -200,6 +203,6 @@ At the end of each stage, report:
 ```
 
 `验证` must include `solo/state.json` parse validation whenever the stage updates state.
-`专家增强` must say whether the current-stage expert was available, offered, used, skipped, unavailable, replaced by a user-named skill/tool, or not applicable. For mapped stages, it must name the mapped expert and the next choices; never summarize only that no expert was called.
+`专家增强` must say whether the current-stage expert was available, used, skipped, unavailable, replaced by a user-named skill/tool, or not applicable. For mapped stages, it must name the mapped expert, the mode used when applicable, and the next choices; never summarize only that no expert was called.
 
 Do not move to the next gated stage until the user confirms.
