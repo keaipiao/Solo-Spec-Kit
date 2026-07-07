@@ -94,6 +94,7 @@ Rules:
 - Do not skip tests in implementation. If no test tool exists, create the smallest test runner compatible with the accepted architecture.
 - Implementation follows red-green tasks, records actual commands, and updates the current spec when implementation deviates from the accepted plan.
 - For time-dependent behavior, use controllable time or explicit state-advance functions in tests; use real waiting only as supplemental QA.
+- Third-party service QA cannot be skipped without an availability check. Record the attempted check, result or error, blocking reason, and affected risk before marking that part untested.
 - QA-discovered bugs stay in the current spec: update `qa.md`, add regression coverage, fix minimally, rerun tests, then update `tasks.md`.
 - QA evidence is not only UI evidence. Backend, CLI, data migration, and integration work must record the matching command, API result, log, or artifact.
 - Archive promotes only reusable lessons or changed baselines to `project/pitfalls.md`, `project/quality.md`, or `project/release.md`.

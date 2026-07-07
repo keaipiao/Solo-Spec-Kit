@@ -22,9 +22,35 @@ When checking whether a mapped expert is installed:
 
 1. Check the parent directory of the running `solo-spec` skill first. Enhanced installs usually place experts as siblings.
 2. Check project skill roots from the active host adapter.
-3. Check compatible project roots listed above when the active host is unknown.
+3. If the expert is not found there, check all compatible project skill roots from the registry, not only the currently guessed host.
 4. Treat an expert as installed only when `<skills-root>/<expert-name>/SKILL.md` exists.
 5. Do not report a mapped expert as missing until the relevant roots have been checked.
+6. When reporting unavailable, include the checked roots in the `专家增强` block so false negatives can be diagnosed.
+
+Minimum fallback roots for unknown or partially supported hosts:
+
+```text
+.agents/skills
+.codex/skills
+.cursor/skills
+.claude/skills
+.opencode/skills
+.trae/skills
+.zcode/skills
+```
+
+Host-specific notes:
+
+- Trae: check `.trae/skills` and `.agents/skills`. Keep Trae status as `needs-real-ide-verification` until confirmed in the real IDE, but filesystem presence is enough to use an installed expert.
+- zcode: check `.zcode/skills` and `.agents/skills`. Do this even if the host registry does not expose those experts.
+
+When filesystem access is available, use filesystem checks instead of guessing from the host UI. For example, in a Windows project:
+
+```powershell
+Test-Path .trae\skills\solo-spec-qa\SKILL.md
+Test-Path .zcode\skills\solo-spec-qa\SKILL.md
+Test-Path .agents\skills\solo-spec-qa\SKILL.md
+```
 
 Do not enumerate every installed skill in user-facing output. Report only the current-stage mapped SoloSpec expert and any user-named external skill or tool.
 

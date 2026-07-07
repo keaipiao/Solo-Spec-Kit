@@ -44,6 +44,8 @@ Load [references/workflow.md](references/workflow.md) after branch selection.
 ## Core Rules
 
 - Public entry is `$solo-spec`; `/solo` and `/solo-spec` are compatibility aliases only; never require users to call internal stages directly.
+- Do not skip to implementation just because the user phrases the request as coding work, such as "现在接入接口", "直接实现", or "把这个功能加上". Unless `solo/state.json.currentStage` is already `implementation` or `fix` and all required upstream gates have passed, treat it as intake or the current gated stage first.
+- If no valid `solo/state.json` exists, the first SoloSpec response must stay in `intake`: classify the branch, state assumptions, create or update only SoloSpec state/artifacts allowed by intake, and wait for the required gate. Do not edit business code.
 - Complete facts live under `solo/`.
 - External files such as `AGENTS.md`, `CLAUDE.md`, `README.md`, and `CHANGELOG.md` may only contain managed blocks or summaries.
 - Use templates from [assets/templates/solo/](assets/templates/solo/) only when the matching stage starts.
@@ -114,6 +116,8 @@ For time-based behavior such as timers, polling, retries, expiry, queues, or lon
 
 During QA, verify the product rather than restating the plan. Write execution records, screenshot/log paths, discovered bugs, fixes, and regression tests into `qa.md`.
 
+For third-party services, QA must first verify service availability before skipping related tests. Use the cheapest real check that matches the integration, such as an authenticated health/status request, a sandbox API call, a documented ping endpoint, or the product's actual integration path with test credentials. If the service cannot be reached because credentials, network, quota, sandbox access, or provider outage blocks testing, record the exact attempted command/method, timestamp, result/error, and why it blocks only that QA item. Do not mark QA passed when an in-scope third-party dependency is untested without evidence.
+
 If QA discovers a bug in the current implementation, keep it in the current spec: update `qa.md`, add or update regression coverage, fix minimally, rerun verification, and update `tasks.md`. Do not create a new bugfix spec unless the user raises a separate bug in a new session or it cannot be attached to the current spec.
 
 ## Artifacts
@@ -174,7 +178,7 @@ Do not write only `按你的要求未调用任何专家`, `未调用专家`, or 
 
 If the user explicitly says not to call experts, obey that request, but still report the mapped expert name and detection status. Treat the SoloSpec expert as `skipped`, then offer the normal gate action and, when the mapped expert is not installed, the option to name another skill/tool.
 
-If the current-stage SoloSpec expert is available, use it only for the current stage and current mode: `co-create`, `generate-assets`, or `review`. If expert action may take time, perform external research, generate assets, change the stage conclusion, or affect a project baseline, explain the impact before doing it. If the current-stage expert is not available, the `专家增强` block must explicitly say the base workflow continues and allow the user to name another skill/tool.
+If the current-stage SoloSpec expert is available, use it by default for the current stage and current mode: `co-create`, `generate-assets`, or `review`. Do not wait for the user to ask for that expert. The only reasons to skip an available mapped expert are: the user explicitly said to skip experts, the stage is not mapped, the expert output would require a separate user-approved side effect such as broad web research or asset generation, or the expert returns invalid/out-of-stage output. If expert action may take time, perform external research, generate assets, change the stage conclusion, or affect a project baseline, explain the impact before doing it and ask only for that side effect when required. If the current-stage expert is not available, the `专家增强` block must explicitly say the base workflow continues and allow the user to name another skill/tool.
 
 When a SoloSpec expert returns output, consume the expert packet through the main `solo-spec` workflow before asking for the normal stage gate. If the user names another skill/tool, treat it as `external-adapter` output under the same current-stage write rules. If the user skips expert use, continue to the normal stage gate.
 

@@ -39,11 +39,13 @@
 
 | 当前状态 | 触发 | 下一状态 | 规则 |
 |---|---|---|---|
-| 无 `solo/state.json` | `$solo-spec <请求>` | `intake` | 先判断分支，不直接写业务代码 |
+| 无 `solo/state.json` | `$solo-spec <请求>` | `intake` | 先判断分支，不直接写业务代码；即使请求写着“现在实现 / 接入接口”也不能跳到 implementation |
 | `waiting_user` | 用户明确“通过 / 继续 / 按这个来 / 确认” | 下一阶段 | 先把当前阶段文档门禁区和 `state.json.gate` 回写为已通过，再推进 |
 | `waiting_user` | 用户提出修改意见 | 当前阶段 | 修改当前阶段产物，不跨阶段 |
 | `blocked` | 用户补齐阻塞信息 | 当前阶段 | 重新执行当前阶段 |
 | 任意 | `$solo-spec 继续` | 当前阶段 | 读取状态并复述门禁，不自动越过 |
+
+如果 `currentStage` 不是 `implementation` 或 `fix`，SoloSpec 不得修改业务代码。用户的实现型措辞只能作为需求输入，不能替代 `brainstorm`、`scope`、`spec`、`architecture`、`tdd-plan` 等上游门禁。
 
 ## 4. 分支路由
 

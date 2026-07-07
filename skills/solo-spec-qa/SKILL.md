@@ -29,6 +29,7 @@ Do:
 - Map real command output, browser/API/manual QA evidence, screenshots, logs, and discovered bugs into `qa.md`.
 - Distinguish QA plan from QA execution record.
 - Require evidence before recommending a pass.
+- Require a real availability check before marking any in-scope third-party service QA as skipped.
 - Map adopted screenshots or logs into current spec assets and registration records.
 - Keep bugs found during current QA inside the current spec unless the user raises a separate bug.
 
@@ -37,6 +38,7 @@ Do not:
 - Create or modify `solo/` files directly in integration mode.
 - Mark QA passed without evidence.
 - Treat planned tests as executed tests.
+- Skip third-party service QA without recording the attempted check, result/error, and blocking reason.
 - Write implementation fixes, test code, migrations, or dependency changes.
 - Move QA artifacts into `docs/assets/`, `qa-reports/`, `playwright-report/`, or other external final directories.
 - Invent screenshots, logs, commands, or results.
@@ -127,6 +129,7 @@ Check QA output through these lenses:
 - unit, integration, UI/API coverage
 - browser console, network, mobile/responsive, accessibility when relevant
 - API status codes, payloads, auth, error cases when relevant
+- third-party service availability, credentials, quota, sandbox access, provider status, and actual integration path when relevant
 - screenshot/log registration
 - discovered issues, root cause, fix, and regression test
 - not-tested scope and reason

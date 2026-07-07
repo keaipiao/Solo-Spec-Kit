@@ -56,3 +56,5 @@ v0.3 的实现回归证据。
 - [全阶段流程与模板回归报告](verification/v0.3/03-workflow-and-template-v3-test.md)
 - [多轮子代理回归报告](verification/v0.3/04-multi-round-subagent-regression.md)
 - [最终发布回归报告](verification/v0.3/05-final-release-regression.md)
+- [实现阶段跳过防护回归记录](verification/v0.3/06-implementation-skip-guard-regression.md)
+- [QA 第三方服务与 zcode 专家检测回归记录](verification/v0.3/07-qa-third-party-and-zcode-expert-regression.md)

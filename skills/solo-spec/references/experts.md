@@ -2,15 +2,15 @@
 
 Use these as internal thinking modes. They do not write files directly.
 
-Current status: v0.3 upgrades expert handling from optional gate review to stage-aware virtual team support. The main flow may use installed SoloSpec experts in the current stage as `co-create`, `generate-assets`, or `review` helpers. Before a mapped stage reaches its user gate, the main flow must report what the current-stage expert did or why it was skipped/unavailable. It must not enumerate every installed skill. Mention only the current-stage SoloSpec expert and any other skill/tool explicitly named by the user.
+Current status: v0.3 upgrades expert handling from optional gate review to stage-aware virtual team support. The main flow must use installed SoloSpec experts in the current stage as `co-create`, `generate-assets`, or `review` helpers unless the user explicitly skips experts, the expert is unavailable after filesystem detection, or the expert action requires a separate user-approved side effect such as broad web research or asset generation. Before a mapped stage reaches its user gate, the main flow must report what the current-stage expert did or why it was skipped/unavailable. It must not enumerate every installed skill. Mention only the current-stage SoloSpec expert and any other skill/tool explicitly named by the user.
 
 For mapped stages, a short summary like `未调用专家` is not enough. The main flow must name the mapped expert skill, report whether it is installed, state whether it was used, skipped, unavailable, or replaced by a user-named tool, and show the allowed next choices inside the `专家增强` block.
 
 Expert modules should be standalone sibling skills when they become complex, for example `$solo-spec-product`, `$solo-spec-ux`, `$solo-spec-architecture`, `$solo-spec-tdd`, `$solo-spec-qa`, and `$solo-spec-release`. The base `$solo-spec` skill remains the orchestrator.
 
-Installed expert detection is host-aware. Load `host-adapters.md` before reporting a mapped expert as unavailable. Check the running `solo-spec` skill's parent directory first, then the active host adapter roots. If the active host is unknown, check compatible project roots from `host-adapters.md`. A mapped expert is available when `<skills-root>/<expert-name>/SKILL.md` exists in any checked root.
+Installed expert detection is host-aware and filesystem-first. Load `host-adapters.md` before reporting a mapped expert as unavailable. Check the running `solo-spec` skill's parent directory first, then the active host adapter roots. If the expert is not found there or the active host is uncertain, check every compatible project skill root from `host-adapters.md`, including `.agents/skills`, `.codex/skills`, `.cursor/skills`, `.claude/skills`, `.opencode/skills`, `.trae/skills`, and `.zcode/skills`. Do not rely only on the host's visible skill registry when filesystem access is available. A mapped expert is available when `<skills-root>/<expert-name>/SKILL.md` exists in any checked root.
 
-If the mapped SoloSpec expert is available, use it only for the current stage and current mode. If it is not available, say so and continue with the base workflow while allowing the user to name another skill/tool. User-named tools are external outputs and still must be converted by the main SoloSpec flow before writing.
+If the mapped SoloSpec expert is available, use it for the current stage and current mode by default. If it is not available, say which paths were checked, continue with the base workflow, and allow the user to name another skill/tool. User-named tools are external outputs and still must be converted by the main SoloSpec flow before writing.
 
 Expert output must be converted by the main SoloSpec flow before writing:
 
